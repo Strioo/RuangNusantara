@@ -1,0 +1,62 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans&family=Playfair+Display&display=swap");
+@import "tailwindcss";
+@plugin "daisyui" {
+  themes: light --default;
+}
+
+body {
+  margin: 20px;
+  color: #ffff;
+  font-family: "DM Sans", sans-serif;
+}
+
+h1,
+h2,
+h3,
+.playfair {
+  font-family: "Playfair Display", serif;
+}
+
+@utility btn-primary {
+  @apply bg-[#264653]
+  shadow-none
+  border-[#264653]
+  font-normal
+  text-white;
+}
+
+@utility btn-outline {
+  @apply border-gray-200
+  text-black
+  font-normal;
+}
+
+@layer components {
+  .card-primary {
+    background-color: transparent;
+    transition: All 1s;
+  }
+
+  .card-primary:hover {
+    background-color: white;
+  }
+
+  .circle-image {
+    background-color: white;
+    transition: All 0.5s;
+  }
+
+  .card-primary:hover .circle-image {
+    background-color: #11214b;
+  }
+
+  .card-primary:hover img {
+    filter: invert(100%);
+    transition: All 0.5s;
+  }
+
+  .card-primary:hover p:first-of-type {
+    color: black;
+    transition: All 0.5s;
+  }
+}
