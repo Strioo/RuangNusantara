@@ -5,9 +5,9 @@ export default function About() {
   return (
     <div>
       {/* Hero Section */}
-      <section class="relative flex flex-col p-5 items-center h-[965px] bg-[url('/src/assets/images/HeroSection_AboutPagee.png')] bg-cover rounded-3xl">
+      <section class="relative flex flex-col p-5 items-center h-[965px] bg-[url('/src/assets/images/HeroBackground_AboutPage.svg')] bg-cover rounded-3xl">
         <Navbar />
-        <h1 class="text-[120px] mt-16 font-bold text-center mb-7 drop-shadow-lg">
+        <h1 class="text-8xl mt-16 font-bold text-center mb-7 drop-shadow-lg">
           Menghubungkan
           <br />
           Tradisi dengan Generasi
@@ -15,6 +15,33 @@ export default function About() {
         <p class="text-xl text-gray-300 text-center max-w-4xl mx-auto mb-10">
           Kami percaya setiap budaya menyimpan cerita berharga—tentang identitas, kebersamaan, dan perjalanan panjang sebuah bangsa. Dan setiap cerita itu pantas diteruskan, agar generasi hari ini dan esok tetap bisa merasakan, memahami, serta bangga akan warisan Nusantara.
         </p>
+
+        {/* Kategori */}
+        {/* <div class="flex gap-2 mb-8 bg-white/20 border border-gray-100 p-1 rounded-full">
+          <span class="px-4 py-2 rounded-full bg-white text-gray-900 font-semibold">
+            Kategori:
+          </span>
+
+          <button class="btn btn-primary rounded-full">Seni & Musik</button>
+
+          <div class="w-px h-7 bg-white/40 mx-2"></div>
+
+          <button class="btn btn-ghost rounded-full font-normal hover:btn-primary">
+            Pakaian Adat
+          </button>
+
+          <div class="w-px h-7 bg-white/40 mx-2"></div>
+
+          <button class="btn btn-ghost rounded-full font-normal hover:btn-primary">
+            Tarian Tradisional
+          </button>
+
+          <div class="w-px h-7 bg-white/40 mx-2"></div>
+
+          <button class="btn btn-ghost rounded-full font-normal hover:btn-primary">
+            Rumah Adat
+          </button>
+        </div> */}
       </section>
 
       {/* Vision Section */}

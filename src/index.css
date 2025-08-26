@@ -26,12 +26,21 @@ h3,
 }
 
 @utility btn-outline {
-  @apply border-gray-200
+  @apply 
+  border-gray-200
   text-black
   font-normal;
 }
 
+@utility btn-circle {
+  @apply 
+  shadow-none
+  
+}
+
 @layer components {
+
+  /* Card Primary */
   .card-primary {
     background-color: transparent;
     transition: All 1s;
@@ -59,4 +68,14 @@ h3,
     color: black;
     transition: All 0.5s;
   }
+
+  /* Long Card */
+  .long-card .arrow-img {
+    filter: brightness(0) saturate(100%) invert(48%) sepia(0%) saturate(682%) hue-rotate(272deg) brightness(95%) contrast(80%);
+  }
+
+  .long-card:hover .arrow-img {
+    filter: brightness(0) saturate(100%) invert(97%) sepia(79%) saturate(12%) hue-rotate(184deg) brightness(103%) contrast(103%);
+  }
+  
 }
