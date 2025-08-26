@@ -1,4 +1,6 @@
 import CardPrimary from "../components/CardPrimary";
+import Footer from "../components/Footer";
+import LongCard from "../components/LongCard";
 import Navbar from "../components/Navbar";
 
 export default function Home() {
@@ -6,7 +8,7 @@ export default function Home() {
     <div>
       <section class="relative flex flex-col p-5 items-center h-[965px] bg-[url('/src/assets/images/hero-bg.png')] bg-cover rounded-3xl">
         <Navbar />
-        <h1 class="text-[120px] mt-16 font-bold text-center mb-7 drop-shadow-lg">
+        <h1 class="text-8xl mt-16 font-bold text-center mb-7 drop-shadow-lg">
           Budaya Indonesia,
           <br />
           Hidup di Era Digital
@@ -17,7 +19,7 @@ export default function Home() {
         </p>
 
         {/* Kategori */}
-        <div class="flex gap-2 mb-8 bg-white/20 border border-gray-100 p-1 rounded-full">
+        {/* <div class="flex gap-2 mb-8 bg-white/20 border border-gray-100 p-1 rounded-full">
           <span class="px-4 py-2 rounded-full bg-white text-gray-900 font-semibold">
             Kategori:
           </span>
@@ -41,7 +43,7 @@ export default function Home() {
           <button class="btn btn-ghost rounded-full font-normal hover:btn-primary">
             Rumah Adat
           </button>
-        </div>
+        </div> */}
       </section>
 
       <section class="flex min-h-[300px] mt-20">
@@ -176,6 +178,120 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <section class="mt-[160px]">
+        <span class="self-start px-5 py-2 mb-10 italic rounded-full border border-black text-black text-sm font-medium backdrop-blur bg-transparent">
+          Tradisi Lama, Gaya Baru.
+        </span>
+        <div class="w-full flex flex-col md:flex-row gap-8 items-start mt-5 bg-white">
+          {/* Kiri: Label dan Judul */}
+          <div class="md:w-[65%] w-full flex flex-col">
+            <h1 class="text-4xl md:text-5xl font-bold text-black leading-tight">
+              Jelajahi Warisan
+              <br />
+              Budaya Nusantara
+            </h1>
+          </div>
+          {/* Kanan: Deskripsi */}
+          <div class="md:w-[35%] w-full flex items-start">
+            <p class="text-base md:text-lg text-black max-w-md font-normal">
+              Kami menghadirkan cara baru untuk mengenal dan melestarikan budaya
+              Indonesia. Pilih tema yang ingin kamu eksplorasi, mulai dari
+              musik, pakaian adat, hingga kuliner khas daerah.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="w-full bg-white mt-20">
+        <div class="flex flex-col gap-10">
+          <LongCard
+            title="Mainan & Permainan Rakyat"
+            description="Dengarkan alat musik tradisional dan temukan cerita di baliknya."
+            imgSrc="/src/assets/images/permainantradisional.png"
+          />
+          <LongCard
+            title="Ritual & Tradisi Lokal"
+            description="Kenali upacara adat dari berbagai daerah, sarat makna dan filosofi hidup."
+            imgSrc="/src/assets/images/permainantradisional.png"
+          />
+          <LongCard
+            title="Warisan Sastra Nusantara"
+            description="Jelajahi naskah kuno, aksara daerah, hingga pantun dan syair klasik."
+            imgSrc="/src/assets/images/permainantradisional.png"
+          />
+          <LongCard
+            title="Nilai & Kearifan Lokal"
+            description="Pelajari kearifan tradisional dan filosofi hidup yang diwariskan turun-temurun."
+            imgSrc="/src/assets/images/permainantradisional.png"
+          />
+        </div>
+      </section>
+
+      <section class="bg-[#264653] min-h-screen px-8 py-12 rounded-[24px] mt-[160px] text-white">
+        <span class="self-start px-5 py-2 mb-10 italic rounded-full border border-white text-white text-sm font-medium backdrop-blur bg-transparent">
+          Budaya, Jembatan ke Depan
+        </span>
+        {/* Header baris row: Judul dan deskripsi */}
+        <div class="flex flex-row items-center justify-between gap-10 mt-6 mb-12">
+          <h1 class="text-5xl md:text-6xl font-normal leading-tight max-w-2xl">
+            Budaya, Warisan
+            <br />
+            untuk Masa Depan
+          </h1>
+          <p class="text-xl font-extralight max-w-2xl">
+            Melestarikan budaya berarti menjaga identitas, mempererat
+            kebersamaan, dan menjadikannya relevan di era modern.
+          </p>
+        </div>
+
+        <div class="w-full grid grid-cols-1 sm:grid-cols-3 gap-7">
+          <CardPrimary
+            imgSrc="/src/assets/images/globe.svg"
+            title="Eksplorasi Seni & Musik"
+            description="Dengarkan alat musik tradisional dan temukan cerita di baliknya."
+          />
+          <CardPrimary
+            imgSrc="/src/assets/images/hand-fist.svg"
+            title="Galeri Pakaian Adat"
+            description="Jelajahi filosofi dan makna di balik busana tradisional dari berbagai daerah."
+          />
+          <CardPrimary
+            imgSrc="/src/assets/images/rocket.svg"
+            title="Arsitektur Tradisional"
+            description="Jelajahi keunikan rumah adat Indonesia dan nilai filosofinya."
+          />
+        </div>
+        <img
+          src="/src/assets/images/budaya-warisan.png"
+          class="w-full mt-8 rounded-3xl"
+          alt=""
+        />
+      </section>
+
+      <section class="-mx-5 mt-[160px] px-15 bg-cover bg-[url('/src/assets/images/budaya-nusantara.png')] h-[690px] flex flex-col justify-end">
+        <span class="self-start px-5 py-2 mb-6 italic rounded-full border border-white text-white text-sm font-medium backdrop-blur bg-transparent">
+          Warisan Jadi Inspirasi
+        </span>
+        <div class="flex flex-row items-center justify-between gap-10 mb-12">
+          <h1 class="text-5xl md:text-6xl font-normal leading-tight max-w-2xl">
+            Selamatkan
+            <br />
+            Budaya Nusantara
+          </h1>
+          <div class="flex flex-col">
+            <p class="text-xl font-extralight max-w-[500px]">
+              Warisan leluhur adalah identitas bangsa. Saatnya kita melestarikan
+              dan memperkenalkannya kembali dengan inovasi digital.
+            </p>
+            <button class="btn btn-primary text-[16px] mt-6 px-7 py-5 w-max rounded-full">
+              Mulai Eksplorasi
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <Footer/>
     </div>
   );
 }
