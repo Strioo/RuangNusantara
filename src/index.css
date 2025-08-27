@@ -18,64 +18,24 @@ h3,
 }
 
 @utility btn-primary {
-  @apply bg-[#264653]
-  shadow-none
-  border-[#264653]
-  font-normal
-  text-white;
+  @apply bg-[#264653] shadow-none border-[#264653] font-normal text-white;
 }
-
 @utility btn-outline {
-  @apply 
-  border-gray-200
-  text-black
-  font-normal;
+  @apply border-gray-200 text-black font-normal;
 }
-
 @utility btn-circle {
-  @apply 
-  shadow-none
-  
+  @apply shadow-none;
 }
 
 @layer components {
-
-  /* Card Primary */
-  .card-primary {
-    background-color: transparent;
-    transition: All 1s;
-  }
-
-  .card-primary:hover {
-    background-color: white;
-  }
-
-  .circle-image {
-    background-color: white;
-    transition: All 0.5s;
-  }
-
-  .card-primary:hover .circle-image {
-    background-color: #11214b;
-  }
-
-  .card-primary:hover img {
-    filter: invert(100%);
-    transition: All 0.5s;
-  }
-
-  .card-primary:hover p:first-of-type {
-    color: black;
-    transition: All 0.5s;
-  }
-
   /* Long Card */
   .long-card .arrow-img {
-    filter: brightness(0) saturate(100%) invert(48%) sepia(0%) saturate(682%) hue-rotate(272deg) brightness(95%) contrast(80%);
+    filter: brightness(0) saturate(100%) invert(48%) sepia(0%) saturate(682%)
+      hue-rotate(272deg) brightness(95%) contrast(80%);
   }
 
   .long-card:hover .arrow-img {
-    filter: brightness(0) saturate(100%) invert(97%) sepia(79%) saturate(12%) hue-rotate(184deg) brightness(103%) contrast(103%);
+    filter: brightness(0) saturate(100%) invert(97%) sepia(79%) saturate(12%)
+      hue-rotate(184deg) brightness(103%) contrast(103%);
   }
-  
 }
