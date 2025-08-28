@@ -4,7 +4,7 @@ export default function Footer() {
       <div class="flex flex-col sm:flex-row md:items-start md:justify-start gap-35 md:gap-12">
         {/* Kiri: Info */}
         <div class="md:w-[35%] w-1/2 mb-12 z-10">
-          <p class="text-lg font-bold mb-2">RuangNusantara</p>
+          <p class="text-lg font-bold mb-2">Ruang Nusantara</p>
           <p class="text-[16px] leading-relaxed opacity-80">
             Menjaga warisan, merangkai masa
             <br />
