@@ -6,7 +6,7 @@ import Navbar from "../components/Navbar";
 export default function Home() {
   return (
     <div>
-      <section class="relative flex flex-col p-5 items-center h-auto min-h-[600px] bg-[url('/src/assets/images/hero-bg.png')] bg-cover rounded-3xl">
+      <section class="relative flex flex-col p-5 items-center h-auto min-h-[865px] bg-bottom bg-[url('/src/assets/images/hero-bg.png')] bg-cover rounded-3xl">
         <Navbar />
         <h1 class="text-4xl sm:text-6xl md:text-7xl lg:text-8xl mt-8 md:mt-16 font-bold text-center mb-5 md:mb-7 drop-shadow-lg">
           Budaya Indonesia,
@@ -17,26 +17,6 @@ export default function Home() {
           Temukan kekayaan seni, musik, pakaian adat, hingga kuliner Nusantara
           dalam satu platform digital yang mendukung interaksi edukatif!
         </p>
-
-        {/* Kategori */}
-        {/* <div class="flex flex-wrap gap-2 mb-8 bg-white/20 border border-gray-100 p-1 rounded-full justify-center w-full max-w-2xl mx-auto">
-          <span class="px-4 py-2 rounded-full bg-white text-gray-900 font-semibold">
-            Kategori:
-          </span>
-          <button class="btn btn-primary rounded-full">Seni & Musik</button>
-          <div class="w-px h-7 bg-white/40 mx-2 hidden md:block"></div>
-          <button class="btn btn-ghost rounded-full font-normal hover:btn-primary">
-            Pakaian Adat
-          </button>
-          <div class="w-px h-7 bg-white/40 mx-2 hidden md:block"></div>
-          <button class="btn btn-ghost rounded-full font-normal hover:btn-primary">
-            Tarian Tradisional
-          </button>
-          <div class="w-px h-7 bg-white/40 mx-2 hidden md:block"></div>
-          <button class="btn btn-ghost rounded-full font-normal hover:btn-primary">
-            Rumah Adat
-          </button>
-        </div> */}
       </section>
 
       <section class="flex flex-col lg:flex-row min-h-[300px] mt-10 lg:mt-20 gap-6 lg:gap-0">
@@ -207,17 +187,17 @@ export default function Home() {
           <LongCard
             title="Ritual & Tradisi Lokal"
             description="Kenali upacara adat dari berbagai daerah, sarat makna dan filosofi hidup."
-            imgSrc="/src/assets/images/permainantradisional.png"
+            imgSrc="/src/assets/images/ritual-tradisi.png"
           />
           <LongCard
             title="Warisan Sastra Nusantara"
             description="Jelajahi naskah kuno, aksara daerah, hingga pantun dan syair klasik."
-            imgSrc="/src/assets/images/permainantradisional.png"
+            imgSrc="/src/assets/images/warisan-nusantra.png"
           />
           <LongCard
             title="Nilai & Kearifan Lokal"
             description="Pelajari kearifan tradisional dan filosofi hidup yang diwariskan turun-temurun."
-            imgSrc="/src/assets/images/permainantradisional.png"
+            imgSrc="/src/assets/images/nilai-kearifan.png"
           />
         </div>
       </section>

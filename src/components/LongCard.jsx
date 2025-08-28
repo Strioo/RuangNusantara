@@ -16,15 +16,8 @@ export default function LongCard({ imgSrc, title, description }) {
         <img
           src={imgSrc}
           alt=""
-          class="hidden md:block absolute top-1/2 right-30 transform -translate-y-1/2 translate-x-8 opacity-0 w-96 object-cover rounded-2xl group-hover:opacity-100 transition duration-500"
+          class="hidden md:block absolute top-1/2 right-12 transform -translate-y-1/2 translate-x-8 opacity-0 w-96 h-[180px] object-cover rounded-2xl group-hover:opacity-100 transition duration-500"
         />
-        <button class="btn btn-circle bg-transparent border-white text-xl text-gray-400 group-hover:bg-white/20 group-hover:border-gray-100 transition">
-          <img
-            src="/src/assets/images/ArrowRight.png"
-            class="h-6 w-6 shadow-none arrow-img transition duration-500 group-hover:-rotate-45"
-            alt=""
-          />
-        </button>
       </div>
     </div>
   );
