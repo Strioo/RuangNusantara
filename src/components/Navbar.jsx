@@ -39,11 +39,11 @@ export default function Navbar() {
 
         {/* Tombol register/login desktop */}
         <div class="hidden lg:flex items-center gap-4">
-          <A href="/register" class="text-white font-medium hover:underline">
+          <A href="/signup" class="text-white font-medium hover:underline">
             register
           </A>
           <A
-            href="/login"
+            href="/signin"
             class="bg-[#264653] text-white px-6 py-2 rounded-full font-semibold hover:bg-[#516B75] transition"
           >
             Login
