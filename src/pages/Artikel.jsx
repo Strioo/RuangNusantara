@@ -7,7 +7,7 @@ import NavKategori from "../components/NavKategori";
 export default function Artikel() {
   return (
     <div>
-      <section class="relative flex flex-col p-5 items-center justify-between h-auto min-h-[865px] bg-[url('/src/assets/images/hero-bg-artikel.png')] bg-cover rounded-3xl">
+      <section class="relative flex flex-col p-5 items-center justify-between h-auto min-h-[865px] bg-[url('/src/assets/images/hero-bg-artikel.png')] bg-cover bg-center rounded-3xl">
         <Navbar />
         <div>
           <h1 class="text-4xl sm:text-6xl md:text-7xl lg:text-8xl mt-8 md:mt-16 font-bold text-center mb-5 md:mb-5 drop-shadow-lg">
@@ -31,7 +31,7 @@ export default function Artikel() {
         <div class="w-full flex flex-col md:flex-row gap-6 md:gap-8 mt-5 bg-white rounded-lg">
           {/* Kiri: Label dan Judul */}
           <div class="md:w-[65%] w-full flex flex-col">
-            <h1 class="text-center md:text-left text-3xl sm:text-4xl md:text-5xl font-bold text-black leading-tight mb-4 md:mb-0">
+            <h1 class="text-center md:text-left text-3xl sm:text-4xl md:text-5xl font-medium text-black leading-tight mb-4 md:mb-0">
               Artikel Pilihan
               <br />
               Seni & Music
@@ -39,7 +39,7 @@ export default function Artikel() {
           </div>
           {/* Kanan: Deskripsi */}
           <div class="md:w-[35%] w-full flex justify-center md:justify-normal">
-            <p class="text-center md:text-left sm:text-lg text-black max-w-md font-normal">
+            <p class="text-center md:text-left sm:text-lg text-gray-500 max-w-md font-normal">
               Temukan kisah-kisah menarik tentang alat musik, ritme, dan seni
               pertunjukan Nusantara yang terus hidup, berkembang, dan
               menginspirasi generasi baru.
@@ -88,7 +88,7 @@ export default function Artikel() {
         <div class="w-full flex flex-col md:flex-row gap-6 md:gap-8 mt-5 bg-white rounded-lg">
           {/* Kiri: Label dan Judul */}
           <div class="md:w-[65%] w-full flex flex-col">
-            <h1 class="text-center md:text-left text-3xl sm:text-4xl md:text-5xl font-bold text-black leading-tight mb-4 md:mb-0">
+            <h1 class="text-center md:text-left text-3xl sm:text-4xl md:text-5xl font-medium text-black leading-tight mb-4 md:mb-0">
               Cerita dalam
               <br />
               Irama Nusantara
@@ -96,7 +96,7 @@ export default function Artikel() {
           </div>
           {/* Kanan: Deskripsi */}
           <div class="md:w-[35%] w-full flex justify-center md:justify-normal">
-            <p class="text-center md:text-left sm:text-lg text-black max-w-md font-normal">
+            <p class="text-center md:text-left sm:text-lg text-gray-500 max-w-md font-normal">
               Gamelan, kolintang, hingga angklung bukan sekadar alat musik, tapi
               warisan penuh harmoni yang terus hidup dari masa lalu hingga kini.
             </p>
@@ -144,7 +144,7 @@ export default function Artikel() {
         <div class="w-full flex flex-col md:flex-row gap-6 md:gap-8 mt-5 bg-white rounded-lg">
           {/* Kiri: Label dan Judul */}
           <div class="md:w-[65%] w-full flex flex-col">
-            <h1 class="text-center md:text-left text-3xl sm:text-4xl md:text-5xl font-bold text-black leading-tight mb-4 md:mb-0">
+            <h1 class="text-center md:text-left text-3xl sm:text-4xl md:text-5xl font-medium text-black leading-tight mb-4 md:mb-0">
               Seni & Musik
               <br />
               Nusantara
@@ -152,7 +152,7 @@ export default function Artikel() {
           </div>
           {/* Kanan: Deskripsi */}
           <div class="md:w-[35%] w-full flex justify-center md:justify-normal">
-            <p class="text-center md:text-left sm:text-lg text-black max-w-md font-normal">
+            <p class="text-center md:text-left sm:text-lg text-gray-500 max-w-md font-normal">
               Menghadirkan keindahan seni rupa dan musik tradisional Indonesia.
               Dari alunan gamelan, angklung, hingga karya seni modern yang
               terinspirasi budaya Nusantara.

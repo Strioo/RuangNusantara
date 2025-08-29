@@ -4,6 +4,7 @@ import AboutPage from "./pages/AboutPage";
 import Artikel from "./pages/Artikel";
 import SignUpPage from "./pages/SignUpPage";
 import SignInPage from "./pages/SignInPage";
+import Galery from "./pages/Galery";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/signin" component={SignInPage}/>
         <Route path="/about" component={AboutPage}/>
         <Route path="/artikel" component={Artikel}/>
+        <Route path="/galery" component={Galery}/>
       </Router>
     </div>
   );
