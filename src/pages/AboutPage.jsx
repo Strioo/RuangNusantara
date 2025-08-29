@@ -91,7 +91,7 @@ export default function About() {
         </div>
         {/* Deskripsi */}
         <div class="w-full md:w-1/2">
-          <p class="text-lg text-gray-800 text-xl leading-relaxed">
+          <p class="text-gray-800 text-xl leading-relaxed">
             Kami hadir karena percaya bahwa budaya bukan sekadar peninggalan,
             tapi bagian penting dari identitas dan masa depan kita. Dari alat
             musik yang bercerita, pakaian adat penuh makna, hingga kuliner yang
