@@ -5,7 +5,7 @@ import MainCardArtikel from "../../components/MainCardArtikel";
 export default function SeniMusik() {
   return (
     <div>
-      <section class="mt-[160px] px-4 sm:px-8">
+      <section class="mt-10 px-4 sm:px-8">
         <div class="w-full flex flex-col md:flex-row gap-6 md:gap-8 mt-5 bg-white rounded-lg">
           {/* Kiri: Label dan Judul */}
           <div class="md:w-[65%] w-full flex flex-col">
@@ -36,7 +36,7 @@ export default function SeniMusik() {
             description="Gamelan bukan hanya alat musik, tapi juga identitas budaya yang sudah dikenal hingga mancanegara. Dari panggung tradisional hingga konser internasional, gamelan terus hidup dan beradaptasi."
             author="Tim Nusantara"
             date="12 Maret 2025"
-            linkpage=""
+            linkpage="/artikel/gamelan-jawa"
           />
           {/* Kanan: List Berita */}
           <div class="flex flex-col gap-4 w-full lg:w-2/5">

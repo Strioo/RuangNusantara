@@ -17,7 +17,7 @@ export default function NavKategori({ activeCategory, setActiveCategory }) {
       </span>
       {categories.map((cat, idx) => {
         const slug = toSlug(cat);
-        const isActive = activeCategory === slug;
+        const isActive = activeCategory() === slug;  // Perubahan di sini!
         return (
           <div key={slug} class="flex items-center">
             <button
@@ -39,3 +39,4 @@ export default function NavKategori({ activeCategory, setActiveCategory }) {
     </div>
   );
 }
+
