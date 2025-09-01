@@ -1,4 +1,18 @@
+import CardPermainan from "../../components/CardPermainan";
+import { createResource } from "solid-js";
+import { useNavigate } from "@solidjs/router";
+
+const fetchPermainanList = async () => {
+  const res = await fetch("/data/data.json");
+  if (!res.ok) throw new Error("Failed to fetch data");
+  const data = await res.json();
+  return data.permainan;
+};
+
 export default function PermainanTradisional() {
+  const navigate = useNavigate();
+  const [permainanList] = createResource(fetchPermainanList);
+
   return (
     <div>
       <section class="w-full px-2 py-10">
@@ -54,74 +68,18 @@ export default function PermainanTradisional() {
 
         {/* Card Grid */}
         <div class="w-full grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-7 md:gap-8">
-          {/* Engklek Card */}
-          <div class="card rounded-4xl bg-white transition-all duration-500 group hover:bg-[#1B323B]">
-            <img
-              src="/src/assets/images/engklek.png"
-              alt="Engklek"
-              class="w-auto object-cover p-5 rounded-[42px]"
-            />
-            <div class="card-body pt-0">
-              <p class="card-title text-black text-2xl font-medium group-hover:text-white">
-                Engklek
-              </p>
-              <p class="text-gray-500 group-hover:text-white">
-                Permainan lompat kotak sederhana yang melatih keseimbangan,
-                fokus, dan konsentrasi.
-              </p>
-              <div class="card-actions mt-2">
-                <button class="btn btn-primary btn-sm p-5 text-sm rounded-full group-hover:bg-white group-hover:text-black">
-                  Pelajari Cara Main
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Congklak Card */}
-          <div class="card rounded-4xl bg-white transition-all duration-500 group hover:bg-[#1B323B]">
-            <img
-              src="/src/assets/images/congklak.png"
-              alt="congklak"
-              class="w-auto object-cover p-5 rounded-[42px]"
-            />
-            <div class="card-body pt-0">
-              <p class="card-title text-black text-2xl font-medium group-hover:text-white">
-                Congklak
-              </p>
-              <p class="text-gray-500 group-hover:text-white">
-                Permainan papan klasik dengan biji-bijian yang mengasah
-                strategi, kesabaran, dan ketelitian.
-              </p>
-              <div class="card-actions mt-2">
-                <button class="btn btn-primary btn-sm p-5 text-sm rounded-full group-hover:bg-white group-hover:text-black">
-                  Pelajari Cara Main
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Egrang Card */}
-          <div class="card rounded-4xl bg-white transition-all duration-500 group hover:bg-[#1B323B]">
-            <img
-              src="/src/assets/images/egrang.png"
-              alt="egrang"
-              class="w-auto object-cover p-5 rounded-[42px]"
-            />
-            <div class="card-body pt-0">
-              <p class="card-title text-black text-2xl font-medium group-hover:text-white">
-                Egrang
-              </p>
-              <p class="text-gray-500 group-hover:text-white">
-                Permainan bambu yang melatih keberanian, keseimbangan, dan
-                ketangkasan.
-              </p>
-              <div class="card-actions mt-2">
-                <button class="btn btn-primary btn-sm p-5 text-sm rounded-full group-hover:bg-white group-hover:text-black">
-                  Pelajari Cara Main
-                </button>
-              </div>
-            </div>
-          </div>
+          {permainanList.loading && <div>Loading...</div>}
+          {permainanList.error && <div>Error loading data</div>}
+          {permainanList() &&
+            permainanList().map((item) => (
+              <CardPermainan
+                key={item.id}
+                imgSrc={item.imgSrc}
+                title={item.title}
+                description={item.description}
+                onButtonClick={() => navigate(`/permainan/${item.id}`)}
+              />
+            ))}
         </div>
       </section>
 
