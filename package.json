@@ -17,7 +17,12 @@
   "dependencies": {
     "@solidjs/router": "^0.15.3",
     "@tailwindcss/vite": "^4.1.12",
+    "ag-grid-community": "^34.1.2",
+    "ag-grid-react": "^34.1.2",
+    "ag-grid-solid": "^31.1.1",
     "daisyui": "^5.0.51",
+    "solid-ag-grid": "^0.0.230",
+    "solid-icons": "^1.1.0",
     "solid-js": "^1.9.5",
     "tailwindcss": "^4.1.12"
   }

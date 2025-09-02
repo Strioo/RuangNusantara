@@ -1,4 +1,6 @@
 import { Router, Route } from "@solidjs/router";
+import "ag-grid-community/styles/ag-grid.css";
+import "ag-grid-community/styles/ag-theme-alpine.css";
 import Home from "./pages/Home";
 import AboutPage from "./pages/AboutPage";
 import Artikel from "./pages/Artikel";
@@ -6,6 +8,7 @@ import SignUpPage from "./pages/SignUpPage";
 import SignInPage from "./pages/SignInPage";
 import Galery from "./pages/Galery";
 import ArtikelDetailPage from "./pages/ArtikelDetailPage";
+import DashboardAdmin from "./pages/admin/DashboardPage";
 
 function App() {
   return (
@@ -18,6 +21,7 @@ function App() {
         <Route path="/artikel" component={Artikel} />
         <Route path="/artikel/:id" component={ArtikelDetailPage} />
         <Route path="/galery" component={Galery} />
+        <Route path="/dashboard" component={DashboardAdmin} />
       </Router>
     </div>
   );
