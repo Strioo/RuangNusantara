@@ -8,7 +8,11 @@ import SignUpPage from "./pages/SignUpPage";
 import SignInPage from "./pages/SignInPage";
 import Galery from "./pages/Galery";
 import ArtikelDetailPage from "./pages/ArtikelDetailPage";
+// import SlideLangkahPermainan from "./pages/SlideLangkahPermainan";
 import DashboardAdmin from "./pages/admin/DashboardPage";
+import UsersData from "./pages/admin/UsersData";
+import AddUsers from "./pages/admin/AddUsers";
+import EditUsers from "./pages/admin/EditUsers";
 
 function App() {
   return (
@@ -22,6 +26,11 @@ function App() {
         <Route path="/artikel/:id" component={ArtikelDetailPage} />
         <Route path="/galery" component={Galery} />
         <Route path="/dashboard" component={DashboardAdmin} />
+        {/* <Route path="/permainan/:id" component={SlideLangkahPermainan} /> */}
+        <Route path="/dashboard" component={DashboardAdmin} />
+        <Route path="/usersmanagement" component={UsersData} />
+        <Route path="/addusers" component={AddUsers} />
+        <Route path="/editusers/:email" component={EditUsers} />
       </Router>
     </div>
   );

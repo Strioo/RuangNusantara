@@ -1,5 +1,5 @@
 import { createSignal, onMount, onCleanup } from "solid-js";
-import { BiSolidBell, BiSolidSearch, BiSolidChevronDown } from "solid-icons/bi";
+import {BiSolidChevronDown} from "solid-icons/bi";
 
 export default function NavAdmin() {
   const [username, setUsername] = createSignal("Adhara Faliya");
@@ -24,33 +24,29 @@ export default function NavAdmin() {
       class="fixed top-0 left-64 right-0 bg-white border-l border-b border-[#EDEDED] px-6 z-40"
     >
       <div class="min-h-20 h-auto py-3 flex items-center justify-between">
-        {/* Left: Greeting like the reference */}
+        {/* Left: Greeting */}
         <div class="leading-tight">
           <p class="text-[22px] md:text-2xl font-semibold text-black">
-            Selamat Datang, {username().split(" ")[0]}!
+            Welcome, {username().split(" ")[0]}!
           </p>
-          <p class="text-sm text-[#5B6B8A]">
-            Berikut adalah rincian informasi tentang datamu
+          <p class="text-sm text-[#5B6B8A] mt-0.5">
+            Berikut adalah rincian informasi tentang RuangNusantara
           </p>
         </div>
 
-        {/* Right: Search, Bell, Avatar + Name + caret */}
+        {/* Right */}
         <div class="flex items-center gap-3 md:gap-4">
-          {/* Search icon */}
-          <button class="btn btn-ghost btn-circle">
-            <BiSolidSearch size={20} />
-          </button>
-
-          {/* Notification */}
-          <button class="relative btn btn-ghost btn-circle">
-            <BiSolidBell size={20} />
-            <span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full"></span>
-          </button>
-
           {/* Avatar + name */}
           <div class="flex items-center gap-2">
             <div class="avatar">
-              <div class="w-9 md:w-10 rounded-full ring ring-[#B477D9] ring-offset-2" />
+              <div class="w-9 md:w-10 rounded-full ring ring-[#B477D9] ring-offset-2 overflow-hidden">
+                <img
+                  src={`https://ui-avatars.com/api/?name=${encodeURIComponent(
+                    username()
+                  )}&background=264653&color=fff`}
+                  alt="User Avatar"
+                />
+              </div>
             </div>
             <span class="hidden sm:inline text-sm md:text-base text-black/80">
               {username()}
