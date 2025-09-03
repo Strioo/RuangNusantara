@@ -1,4 +1,4 @@
-import { createSignal, createResource, onMount } from "solid-js";
+import { createSignal, createResource, For, Show } from "solid-js";
 import CardArtikel from "../../components/CardArtikel";
 
 const fetchArticles = async () => {
@@ -7,62 +7,61 @@ const fetchArticles = async () => {
   return await res.json();
 };
 
-export default function All() {
+export default function Carousel3Cards() {
   const [articles] = createResource(fetchArticles);
   const [index, setIndex] = createSignal(0);
-  let containerRef;
 
-  const cardWidth = 340;        // Sesuaikan dengan lebar kartu
-  const gapWidth = 24;          // gap antara kartu (misal gap-6 = 1.5rem = 24px)
+  const cardWidth = 340;  // lebar kartu (w-[340px])
+  const gapWidth = 80;    // jarak antar kartu (80px)
   const stepWidth = cardWidth + gapWidth;
-  const maxVisible = 3;
+  const maxShow = 1;
 
-  // Total langkah maksimal yang bisa digeser
-  const maxIndex = () => Math.max(0, (articles()?.length ?? 0) - maxVisible);
+  const maxIndex = () => Math.max(0, (articles()?.length ?? 0) - maxShow);
 
-  // Scroll ke posisi index
-  const scrollToIndex = (i) => {
-    if (containerRef) {
-      containerRef.scrollTo({
-        left: i * stepWidth,
-        behavior: "smooth",
-      });
-    }
+  const prev = () => setIndex(i => Math.max(i - 1, 0));
+  const next = () => setIndex(i => Math.min(maxIndex(), i + 1));
+
+  // Hitung lebar wrapper berdasarkan seluruh jumlah artikel
+  const containerWidth = () => {
+    const count = articles()?.length ?? 0;
+    if (count === 0) return 0;
+    return count * cardWidth + (count - 1) * gapWidth;
   };
 
-  // Reaktif scroll saat index berubah
-  onMount(() => {
-    createResource(index, scrollToIndex);
-  });
-
-  // Navigasi panah
-  const prev = () => setIndex((i) => Math.max(0, i - 1));
-  const next = () => setIndex((i) => Math.min(maxIndex(), i + 1));
-
   return (
-    <div class="relative max-w-[1330px] mx-auto p-6">
+    <div class="max-w-full mx-auto overflow-hidden my-7">
       <div
-        ref={containerRef}
-        class="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide gap-6 py-6 pl-6"
-        style={{ scrollSnapType: "x mandatory" }}
+        class="flex transition-transform duration-500 gap-20 ease-in-out"
+        style={{
+          width: `${containerWidth()}px`,
+          transform: `translateX(-${index() * stepWidth}px)`
+        }}
       >
-        <For each={articles()}>
-          {(article) => (
-            <div class="snap-center flex-shrink-0">
-              <CardArtikel
-                id={article.id}
-                imgSrc={article.imgSrc}
-                title={article.title}
-                description={article.description}
-                author={article.author}
-                date={article.date}
-              />
-            </div>
-          )}
-        </For>
+        <Show when={articles()} fallback={<div>Memuat artikel...</div>}>
+          <For each={articles()}>
+            {(artikel, idx) => (
+              <div
+                class="flex-shrink-0"
+                style={{
+                  width: `${cardWidth}px`,
+                  marginRight: idx() === (articles().length - 1) ? '0px' : `${gapWidth}px`
+                }}
+              >
+                <CardArtikel
+                  id={artikel.id}
+                  imgSrc={artikel.imgSrc}
+                  title={artikel.title}
+                  description={artikel.description}
+                  author={artikel.author}
+                  date={artikel.date}
+                />
+              </div>
+            )}
+          </For>
+        </Show>
       </div>
-      {/* Navigation arrows below carousel */}
-      <div class="flex justify-between mt-4 max-w-[1080px] mx-auto px-4">
+
+      <div class="flex justify-between mt-6 max-w-[1080px] mx-auto px-4">
         <button
           class="btn btn-circle btn-outline"
           onClick={prev}

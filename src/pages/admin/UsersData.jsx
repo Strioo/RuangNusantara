@@ -1,4 +1,3 @@
-// src/pages/admin/DashboardPage.jsx
 import { createSignal, onMount, onCleanup } from "solid-js";
 import { useNavigate } from "@solidjs/router";
 import AgGridSolid from "solid-ag-grid";
@@ -8,8 +7,9 @@ import Sidebar from "../../components/Sidebar";
 import NavAdmin from "../../components/NavAdmin";
 import { FiAlertCircle } from "solid-icons/fi";
 import { BiSolidSearch } from "solid-icons/bi";
+import { BiSolidPlusCircle } from "solid-icons/bi";
 
-export default function DashboardPage() {
+export default function UsersData() {
   const [rowData, setRowData] = createSignal([]);
   const [filteredData, setFilteredData] = createSignal([]);
   const [searchTerm, setSearchTerm] = createSignal("");
@@ -86,6 +86,33 @@ export default function DashboardPage() {
       cellRenderer: (p) =>
         p.value ? "•".repeat(Math.min(String(p.value).length, 8)) : "",
     },
+    {
+      headerName: "Actions",
+      cellRenderer: (params) => {
+        const container = document.createElement("div");
+        container.className = "flex items-center justify-start gap-2 h-full";
+
+        const updateButton = document.createElement("button");
+        updateButton.innerText = "Edit";
+        updateButton.className =
+          "px-3 py-1 rounded-lg bg-blue-500 text-white text-sm font-medium hover:bg-blue-600 transition";
+        updateButton.addEventListener("click", () =>
+          navigate(`/editusers/${params.data.email}`)
+        );
+
+        const deleteButton = document.createElement("button");
+        deleteButton.innerText = "Delete";
+        deleteButton.className =
+          "px-3 py-1 rounded-lg bg-red-500 text-white text-sm font-medium hover:bg-red-600 transition";
+        deleteButton.addEventListener("click", () =>
+          confirmDeleteUser(params.data)
+        );
+
+        container.appendChild(updateButton);
+        container.appendChild(deleteButton);
+        return container;
+      },
+    },
   ];
 
   const defaultColDef = {
@@ -102,20 +129,31 @@ export default function DashboardPage() {
       <NavAdmin />
 
       <main class="ml-64 pt-22 p-6">
-        <p class="text-[18px] font-bold mb-6 text-black">Dashboard</p>
+        <p class="text-[18px] font-bold mb-6 text-black">Users Management</p>
 
-        {/* Search Input */}
-        <div class="mb-4 relative w-full max-w-sm">
-          <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-            <BiSolidSearch size={20} class="text-gray-500" />
+        {/* Toolbar: Search + Add User */}
+        <div class="mb-4 flex items-center justify-between">
+          {/* Search Input */}
+          <div class="relative w-full max-w-sm">
+            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+              <BiSolidSearch size={20} class="text-gray-500" />
+            </div>
+            <input
+              type="text"
+              placeholder="Search..."
+              bind:value={searchTerm}
+              onInput={handleSearch}
+              class="pl-10 pr-4 py-2 w-full border border-[#EDEDED] rounded-lg text-black placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-[#EDEDED]"
+            />
           </div>
-          <input
-            type="text"
-            placeholder="Search..."
-            bind:value={searchTerm}
-            onInput={handleSearch}
-            class="pl-10 pr-4 py-2 w-full border border-[#EDEDED] rounded-lg text-black placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-[#EDEDED]"
-          />
+          {/* Add User Button */}
+          <button
+            onClick={() => navigate("/addusers")}
+            class="flex items-center gap-2 px-4 py-2 bg-[#264653] text-white rounded-lg hover:bg-[#1B323B] transition ml-4"
+          >
+            <BiSolidPlusCircle size={20} />
+            <span class="hidden sm:inline">Add User</span>
+          </button>
         </div>
 
         {/* Data Grid */}
@@ -134,7 +172,7 @@ export default function DashboardPage() {
               columnDefs={columnDefs}
               rowData={filteredData()}
               defaultColDef={defaultColDef}
-              rowHeight={40}
+              rowHeight={40} // baris lebih tinggi supaya tombol pas di tengah
               headerHeight={48}
             />
           ) : (
@@ -149,12 +187,14 @@ export default function DashboardPage() {
           <div class="bg-white rounded-lg shadow-xl p-6 w-96">
             <div class="flex flex-col items-center text-center">
               <FiAlertCircle size={60} class="text-red-500 mb-3" />
+
               <h2 class="text-lg font-semibold text-gray-800 mb-2">
                 Konfirmasi Hapus
               </h2>
               <p class="text-sm text-gray-600 mb-6">
                 Apakah kamu yakin ingin menghapus user ini?
               </p>
+
               <div class="flex gap-4">
                 <button
                   onClick={deleteUser}
