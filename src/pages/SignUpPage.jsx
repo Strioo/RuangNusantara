@@ -2,6 +2,35 @@ import { createSignal } from "solid-js";
 
 export default function SignUpPage() {
   const [showPassword, setShowPassword] = createSignal(false);
+  const [username, setUsername] = createSignal("");
+  const [email, setEmail] = createSignal("");
+  const [password, setPassword] = createSignal("");
+
+  const handleSignUp = (e) => {
+    e.preventDefault();
+
+    // ambil data user dari localStorage
+    let users = JSON.parse(localStorage.getItem("users")) || [];
+
+    // cek apakah email sudah dipakai
+    const existingUser = users.find((u) => u.email === email());
+    if (existingUser) {
+      alert("Email sudah terdaftar. Silakan login.");
+      return;
+    }
+
+    // tambah user baru
+    users.push({
+      username: username(),
+      email: email(),
+      password: password(),
+    });
+
+    // simpan ke localStorage
+    localStorage.setItem("users", JSON.stringify(users));
+    alert("Registrasi berhasil! Silakan login.");
+    window.location.href = "/signin"; // redirect ke login
+  };
 
   return (
     <section class="flex flex-col lg:flex-row min-h-screen bg-white rounded-3xl overflow-hidden">
@@ -25,8 +54,7 @@ export default function SignUpPage() {
             budaya Nusantara.
           </p>
 
-          <form class="space-y-4">
-            
+          <form class="space-y-4" onSubmit={handleSignUp}>
             {/* Username */}
             <div class="form-control w-full">
               <label class="label">
@@ -45,6 +73,9 @@ export default function SignUpPage() {
                   type="text"
                   placeholder="Enter your username"
                   class="grow outline-none bg-transparent text-black"
+                  required
+                  value={username()}
+                  onInput={(e) => setUsername(e.target.value)}
                 />
               </div>
             </div>
@@ -54,7 +85,7 @@ export default function SignUpPage() {
               <label class="label">
                 <span class="label-text text-black">Email</span>
               </label>
-              <div 
+              <div
                 class="flex items-center gap-2 w-full rounded-lg px-3 py-2 bg-white"
                 style="border: 1px solid #DFE1E6; box-shadow: 0px 1px 2px rgba(13, 13, 18, 0.06);"
               >
@@ -67,6 +98,9 @@ export default function SignUpPage() {
                   type="email"
                   placeholder="Enter your email"
                   class="grow outline-none bg-transparent text-black"
+                  required
+                  value={email()}
+                  onInput={(e) => setEmail(e.target.value)}
                 />
               </div>
             </div>
@@ -76,9 +110,9 @@ export default function SignUpPage() {
               <label class="label">
                 <span class="label-text text-black">Password</span>
               </label>
-              <div 
+              <div
                 class="flex items-center gap-2 w-full rounded-lg px-3 py-2 bg-white"
-                style="border: 1px solid #DFE1E6; box-shadow: 0px 1px 2px rgba(13, 13, 18, 0.06);"  
+                style="border: 1px solid #DFE1E6; box-shadow: 0px 1px 2px rgba(13, 13, 18, 0.06);"
               >
                 <img
                   src="/src/assets/images/LockIcon.svg"
@@ -89,6 +123,9 @@ export default function SignUpPage() {
                   type={showPassword() ? "text" : "password"}
                   placeholder="Enter your password"
                   class="grow outline-none bg-transparent text-black"
+                  required
+                  value={password()}
+                  onInput={(e) => setPassword(e.target.value)}
                 />
                 <img
                   src={
@@ -120,9 +157,16 @@ export default function SignUpPage() {
             </button>
           </form>
 
-          <p class="text-center text-sm mt-6" style="color: #959595; font-weight: 500">
+          <p
+            class="text-center text-sm mt-6"
+            style="color: #959595; font-weight: 500"
+          >
             Sudah Punya Akun?{" "}
-            <a href="/login" class="font-medium" style="color: #264653; font-weight: 600;">
+            <a
+              href="/signin"
+              class="font-medium"
+              style="color: #264653; font-weight: 600;"
+            >
               Masuk Sekarang!
             </a>
           </p>

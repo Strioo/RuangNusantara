@@ -7,7 +7,7 @@ export default function ListCardArtikel({
   return (
     <a
       href={linkpage}
-      class="flex flex-col sm:flex-row gap-3 bg-white rounded-xl items-center p-2 md:p-4 transition hover:shadow-lg"
+      class="flex flex-row gap-3 bg-white rounded-xl items-center p-2 md:p-4 transition hover:shadow-lg"
     >
       <img
         src={imgSrc}

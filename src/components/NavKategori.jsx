@@ -1,4 +1,5 @@
 const categories = [
+  "All",
   "Permainan Tradisional",
   "Seni & Musik",
   "Pakaian Adat",
