@@ -13,6 +13,9 @@ import DashboardAdmin from "./pages/admin/DashboardPage";
 import UsersData from "./pages/admin/UsersData";
 import AddUsers from "./pages/admin/AddUsers";
 import EditUsers from "./pages/admin/EditUsers";
+import ArticlePage from "./pages/admin/ArticlePage";
+import AddArticle from "./pages/admin/AddArticles";
+import EditArticle from "./pages/admin/EditArticle";
 
 function App() {
   return (
@@ -31,6 +34,9 @@ function App() {
         <Route path="/usersmanagement" component={UsersData} />
         <Route path="/addusers" component={AddUsers} />
         <Route path="/editusers/:email" component={EditUsers} />
+        <Route path="/articlemanagement" component={ArticlePage} />
+        <Route path="/addarticles" component={AddArticle} />
+        <Route path="/editarticle/:id" component={EditArticle} />
       </Router>
     </div>
   );

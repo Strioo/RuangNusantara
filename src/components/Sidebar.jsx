@@ -25,7 +25,7 @@ export default function Sidebar() {
       icon: BiSolidUser,
       path: "/usersmanagement",
     },
-    { key: "article", label: "Article", icon: BiSolidBook, path: "/article" },
+    { key: "article", label: "Article", icon: BiSolidBook, path: "/articlemanagement" },
     {
       key: "slideshow",
       label: "Gallery",
