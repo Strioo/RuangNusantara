@@ -32,20 +32,17 @@ export default function SignUpPage() {
   return (
     <section class="flex flex-col lg:flex-row min-h-screen bg-white rounded-3xl overflow-hidden">
       {/* Left - Form */}
-      <div class="w-full lg:w-1/2 flex flex-col justify-between p-6 lg:p-12">
+      <div class="w-full lg:w-1/2 flex flex-col justify-between px-2 lg:px-8">
         {/* Logo / Back Home */}
-        <div>
-          <a href="/" class="flex items-center gap-2">
-            <img src="/logo.svg" alt="Logo" class="h-8" />
-            <span class="font-bold text-xl text-black">Ruang Nusantara</span>
+          <a href="/" class="flex items-center justify-center lg:justify-start">
+            <h1 class="font-semibold text-2xl text-black">RuangNusantara</h1>
           </a>
-        </div>
 
         {/* Form Section */}
-        <div class="flex-1 flex flex-col justify-center max-w-md mx-auto w-full">
-          <h1 class="text-3xl font-bold text-center mb-3 text-black">
-            Selamat Datang Kembali di <br /> Ruang Nusantara
-          </h1>
+        <div class="flex-1 flex flex-col justify-center max-w-md mx-auto w-full mt-20 lg:mt-0">
+          <p class="text-3xl font-bold text-center mb-3 text-black">
+            Selamat Datang Kembali di <br /> RuangNusantara
+          </p>
           <p class="text-gray-500 text-center mb-8">
             Masuk untuk melanjutkan perjalananmu menjelajahi seni, musik, dan
             budaya Nusantara.
@@ -68,7 +65,7 @@ export default function SignUpPage() {
                 />
                 <input
                   type="email"
-                  placeholder="Enter your email"
+                  placeholder="Masukkan email"
                   class="grow outline-none bg-transparent text-black"
                   required
                   value={email()}
@@ -93,7 +90,7 @@ export default function SignUpPage() {
                 />
                 <input
                   type={showPassword() ? "text" : "password"}
-                  placeholder="Enter your password"
+                  placeholder="Masukkan Password"
                   class="grow outline-none bg-transparent text-black"
                   required
                   value={password()}
@@ -146,7 +143,7 @@ export default function SignUpPage() {
 
         {/* Footer */}
         <footer class="text-center text-gray-500 text-sm mt-10">
-          © 2025 <span class="font-semibold">Ruang Nusantara</span>
+          © 2025 <span class="font-semibold text-black">Ruang Nusantara</span>
         </footer>
       </div>
 

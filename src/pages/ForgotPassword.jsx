@@ -8,9 +8,8 @@ const securityQuestions = [
   "Siapa nama hewan peliharaan Anda?",
 ];
 
-export default function SignUpPage() {
+export default function ForgotPassword() {
   const [showPassword, setShowPassword] = createSignal(false);
-  const [username, setUsername] = createSignal("");
   const [email, setEmail] = createSignal("");
   const [password, setPassword] = createSignal("");
   const [securityQuestion, setSecurityQuestion] = createSignal("");
@@ -27,7 +26,6 @@ export default function SignUpPage() {
     }
 
     users.push({
-      username: username(),
       email: email(),
       password: password(),
       securityQuestion: securityQuestion(),
@@ -49,38 +47,13 @@ export default function SignUpPage() {
 
         <div class="flex-1 flex flex-col justify-center max-w-md mx-auto w-full mt-20 lg:mt-0">
           <p class="text-3xl font-bold text-center mb-3 text-black">
-            Selamat Datang di <br /> Nusantara
+            Reset Password
           </p>
           <p class="text-gray-500 text-center mb-8">
-            Masuk untuk melanjutkan perjalananmu menjelajahi seni, musik, dan
-            budaya Nusantara.
+            Masukkan email, pilih pertanyaan keamanan, dan masukkan password baru anda.
           </p>
 
           <form class="space-y-4" onSubmit={handleSignUp}>
-            {/* Username */}
-            <div class="form-control w-full">
-              <label class="label">
-                <span class="label-text text-black">Username</span>
-              </label>
-              <div
-                class="flex items-center gap-2 w-full rounded-lg px-3 py-2 bg-white"
-                style="border: 1px solid #DFE1E6; box-shadow: 0px 1px 2px rgba(13, 13, 18, 0.06);"
-              >
-                <img
-                  src="/src/assets/images/UserCircle.svg"
-                  alt="user icon"
-                  class="w-5 h-5"
-                />
-                <input
-                  type="text"
-                  class="grow outline-none bg-transparent text-black"
-                  required
-                  placeholder="Masukkan Username"
-                  value={username()}
-                  onInput={(e) => setUsername(e.target.value)}
-                />
-              </div>
-            </div>
             {/* Email */}
             <div class="form-control w-full">
               <label class="label">
@@ -102,41 +75,6 @@ export default function SignUpPage() {
                   placeholder="Masukkan email"
                   value={email()}
                   onInput={(e) => setEmail(e.target.value)}
-                />
-              </div>
-            </div>
-
-            {/* Password */}
-            <div class="form-control w-full">
-              <label class="label">
-                <span class="label-text text-black">Password</span>
-              </label>
-              <div
-                class="flex items-center gap-2 w-full rounded-lg px-3 py-2 bg-white"
-                style="border: 1px solid #DFE1E6; box-shadow: 0px 1px 2px rgba(13, 13, 18, 0.06);"
-              >
-                <img
-                  src="/src/assets/images/LockIcon.svg"
-                  alt="lock icon"
-                  class="w-5 h-5"
-                />
-                <input
-                  type={showPassword() ? "text" : "password"}
-                  class="grow outline-none bg-transparent text-black"
-                  required
-                  placeholder="Masukkan Password baru"
-                  value={password()}
-                  onInput={(e) => setPassword(e.target.value)}
-                />
-                <img
-                  src={
-                    showPassword()
-                      ? "/src/assets/images/EyeIcon.svg"
-                      : "/src/assets/images/EyeSlashIcon.svg"
-                  }
-                  alt="toggle password"
-                  class="w-5 h-5 cursor-pointer"
-                  onclick={() => setShowPassword(!showPassword())}
                 />
               </div>
             </div>
@@ -177,7 +115,9 @@ export default function SignUpPage() {
             {/* Jawab Keamanan */}
             <div class="form-control w-full">
               <label class="label">
-                <span class="label-text text-black">Jawab Pertanyaan Keamanan</span>
+                <span class="label-text text-black">
+                  Jawab Pertanyaan Keamanan
+                </span>
               </label>
               <div
                 class="flex items-center gap-2 w-full rounded-lg px-3 py-2 bg-white"
@@ -194,35 +134,46 @@ export default function SignUpPage() {
               </div>
             </div>
 
-            {/* Ingatkan Saya & Lupa Password */}
-            <label class="label flex justify-between mt-3">
-              <div class="flex items-center gap-2">
-                <input type="checkbox" class="checkbox checkbox-sm" />
-                <span class="label-text text-[#959595]">Ingatkan Saya</span>
+            {/* Password Baru */}
+            <div class="form-control w-full">
+              <label class="label">
+                <span class="label-text text-black">Password Baru</span>
+              </label>
+              <div
+                class="flex items-center gap-2 w-full rounded-lg px-3 py-2 bg-white"
+                style="border: 1px solid #DFE1E6; box-shadow: 0px 1px 2px rgba(13, 13, 18, 0.06);"
+              >
+                <img
+                  src="/src/assets/images/LockIcon.svg"
+                  alt="lock icon"
+                  class="w-5 h-5"
+                />
+                <input
+                  type={showPassword() ? "text" : "password"}
+                  class="grow outline-none bg-transparent text-black"
+                  required
+                  placeholder="Masukkan Password baru"
+                  value={password()}
+                  onInput={(e) => setPassword(e.target.value)}
+                />
+                <img
+                  src={
+                    showPassword()
+                      ? "/src/assets/images/EyeIcon.svg"
+                      : "/src/assets/images/EyeSlashIcon.svg"
+                  }
+                  alt="toggle password"
+                  class="w-5 h-5 cursor-pointer"
+                  onclick={() => setShowPassword(!showPassword())}
+                />
               </div>
-              <a href="/forgot-password" class="text-sm text-red-500">
-                Lupa Password?
-              </a>
-            </label>
+            </div>
 
             {/* Button */}
             <button class="btn w-full bg-[#1E3A40] hover:bg-[#25484f] text-white rounded-xl">
-              Registrasi
+              Simpan
             </button>
           </form>
-          <p
-            class="text-center text-sm mt-6"
-            style="color: #959595; font-weight: 500"
-          >
-            Sudah Punya Akun?{" "}
-            <a
-              href="/signin"
-              class="font-medium"
-              style="color: #264653; font-weight: 600;"
-            >
-              Masuk Sekarang!
-            </a>
-          </p>
         </div>
         <footer class="text-center text-gray-500 text-sm mt-10">
           © 2025 <span class="font-semibold text-black">Ruang Nusantara</span>

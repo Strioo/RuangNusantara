@@ -17,6 +17,8 @@ import ArticlePage from "./pages/admin/ArticlePage";
 import AddArticle from "./pages/admin/AddArticles";
 import EditArticle from "./pages/admin/EditArticle";
 import SlideLangkahPermainan from "./pages/SlideLangkahPermainan";
+import VerifikasiOTP from "./pages/VerifikasiOTP";
+import ForgotPassword from "./pages/ForgotPassword";
 
 function App() {
   return (
@@ -25,12 +27,13 @@ function App() {
         <Route path="/" component={Home} />
         <Route path="/signup" component={SignUpPage} />
         <Route path="/signin" component={SignInPage} />
+        <Route path="/verifikasi" component={VerifikasiOTP} />
+        <Route path="/forgot-password" component={ForgotPassword} />
         <Route path="/about" component={AboutPage} />
         <Route path="/artikel" component={Artikel} />
         <Route path="/artikel/:id" component={ArtikelDetailPage} />
         <Route path="/galery" component={Galery} />
         <Route path="/dashboard" component={DashboardAdmin} />
-        {/* <Route path="/permainan/:id" component={SlideLangkahPermainan} /> */}
         <Route path="/dashboard" component={DashboardAdmin} />
         <Route path="/usersmanagement" component={UsersData} />
         <Route path="/addusers" component={AddUsers} />
