@@ -28,7 +28,7 @@ export default function ArtikelDetailPage() {
           {(a) =>
             a ? (
               <>
-                <NavBack/>
+                <NavBack />
 
                 <h1 class="text-3xl md:text-5xl font-bold mb-2 text-black">
                   {artikel().title}
@@ -45,17 +45,11 @@ export default function ArtikelDetailPage() {
                   alt={artikel().title}
                   class="w-full h-[220px] md:h-[350px] object-cover rounded-2xl mb-8"
                 />
-
-                <section>
-                  {artikel().content.map((section, idx) => (
-                    <div class="mb-6" key={idx}>
-                      <h2 class="text-xl font-semibold mb-2 text-black">
-                        {section.heading}
-                      </h2>
-                      <p class="text-gray-800 text-base">{section.paragraph}</p>
-                    </div>
-                  ))}
-                </section>
+                
+                <section
+                  class="text-black prose prose-lg max-w-none"
+                  innerHTML={artikel().content}
+                ></section>
 
                 <div class="bg-[#264653] text-white mt-10 rounded-xl p-6">
                   <div class="flex max-w-fit justify-center items-center rounded-full px-4 py-2 bg-white gap-2 mb-2 font-semibold">

@@ -7,19 +7,19 @@ const fetchArticles = async () => {
   return await res.json();
 };
 
-export default function Carousel3Cards() {
+export default function All() {
   const [articles] = createResource(fetchArticles);
   const [index, setIndex] = createSignal(0);
 
-  const cardWidth = 340;  // lebar kartu (w-[340px])
-  const gapWidth = 80;    // jarak antar kartu (80px)
+  const cardWidth = 340; // lebar kartu (w-[340px])
+  const gapWidth = 80; // jarak antar kartu (80px)
   const stepWidth = cardWidth + gapWidth;
   const maxShow = 1;
 
   const maxIndex = () => Math.max(0, (articles()?.length ?? 0) - maxShow);
 
-  const prev = () => setIndex(i => Math.max(i - 1, 0));
-  const next = () => setIndex(i => Math.min(maxIndex(), i + 1));
+  const prev = () => setIndex((i) => Math.max(i - 1, 0));
+  const next = () => setIndex((i) => Math.min(maxIndex(), i + 1));
 
   // Hitung lebar wrapper berdasarkan seluruh jumlah artikel
   const containerWidth = () => {
@@ -34,7 +34,7 @@ export default function Carousel3Cards() {
         class="flex transition-transform duration-500 gap-20 ease-in-out"
         style={{
           width: `${containerWidth()}px`,
-          transform: `translateX(-${index() * stepWidth}px)`
+          transform: `translateX(-${index() * stepWidth}px)`,
         }}
       >
         <Show when={articles()} fallback={<div>Memuat artikel...</div>}>
@@ -44,7 +44,8 @@ export default function Carousel3Cards() {
                 class="flex-shrink-0"
                 style={{
                   width: `${cardWidth}px`,
-                  marginRight: idx() === (articles().length - 1) ? '0px' : `${gapWidth}px`
+                  marginRight:
+                    idx() === articles().length - 1 ? "0px" : `${gapWidth}px`,
                 }}
               >
                 <CardArtikel
@@ -68,7 +69,11 @@ export default function Carousel3Cards() {
           disabled={index() === 0}
           aria-label="Previous"
         >
-          &#8592;
+          <img
+            src="/src/assets/images/ArrowRight.png"
+            class="rotate-180 w-6 h-6"
+            alt=""
+          />
         </button>
         <button
           class="btn btn-circle btn-outline"
@@ -76,7 +81,7 @@ export default function Carousel3Cards() {
           disabled={index() === maxIndex()}
           aria-label="Next"
         >
-          &#8594;
+          <img src="/src/assets/images/ArrowRight.png" class="w-6 h-6" alt="" />
         </button>
       </div>
     </div>

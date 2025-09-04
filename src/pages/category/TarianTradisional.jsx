@@ -1,7 +1,33 @@
+import { createResource, Show, For } from "solid-js";
 import ListCardArtikel from "../../components/ListCardArtikel";
 import MainCardArtikel from "../../components/MainCardArtikel";
 
+const fetchData = async () => {
+  const res = await fetch("http://localhost:4000/artikel/");
+  if (!res.ok) throw new Error("Gagal memuat data");
+  const jsonData = await res.json();
+  return jsonData;
+};
+
 export default function TarianTradisional() {
+  const [artikel] = createResource(fetchData);
+
+  // Filter kategori "Tarian Tradisional"
+  const tarianList = () =>
+    artikel()
+      ? artikel().filter((a) => a.category === "Tarian Tradisional")
+      : [];
+
+  // Section pertama: main card + list cards slice 1..3 (3 item max)
+  const firstMainArticle = () =>
+    tarianList().length > 0 ? tarianList()[0] : null;
+  const firstListArticles = () =>
+    tarianList().length > 1 ? tarianList().slice(1, 4) : [];
+
+  // Section kedua: list cards dari index 4..6 (maksimal 3)
+  const secondSectionArticles = () =>
+    tarianList().length > 4 ? tarianList().slice(4, 7) : [];
+
   return (
     <div>
       <section class="mt-10 px-4 sm:px-8">
@@ -29,34 +55,28 @@ export default function TarianTradisional() {
 
       <section class="mx-auto mt-10">
         <div class="flex flex-col lg:flex-row gap-6">
-          <MainCardArtikel
-            imgSrc="/src/assets/images/gamelan-jawa.png"
-            title="Gamelan: Irama Abadi dari Jawa yang Mendunia"
-            description="Gamelan bukan hanya alat musik, tapi juga identitas budaya yang sudah dikenal hingga mancanegara. Dari panggung tradisional hingga konser internasional, gamelan terus hidup dan beradaptasi."
-            author="Tim Nusantara"
-            date="12 Maret 2025"
-            linkpage="/artikel/gamelan-jawa"
-          />
-          {/* Kanan: List Berita */}
+          <Show when={firstMainArticle()}>
+            <MainCardArtikel
+              imgSrc={firstMainArticle().imgSrc}
+              title={firstMainArticle().title}
+              description={firstMainArticle().description}
+              author={firstMainArticle().author}
+              date={firstMainArticle().date}
+              linkpage={`/artikel/${firstMainArticle().id}`}
+            />
+          </Show>
+
           <div class="flex flex-col gap-4 w-full lg:w-2/5">
-            <ListCardArtikel
-              imgSrc="/src/assets/images/kolintang-minahasa.png"
-              title="Ritme Kolintang dari Minahasa"
-              description="Kolintang jadi simbol kebersamaan masyarakat Sulawesi Utara yang terus dimainkan lintas generasi."
-              linkpage=""
-            />
-            <ListCardArtikel
-              imgSrc="/src/assets/images/musik-tradisional.png"
-              title="Musisi Muda & Musik Tradisional"
-              description="Kisah anak muda yang menghadirkan instrumen klasik ke dalam musik modern."
-              linkpage=""
-            />
-            <ListCardArtikel
-              imgSrc="/src/assets/images/tarian-tradisional.png"
-              title="Tarian & Musik: Harmoni Nusantara"
-              description="Bagaimana tarian tradisional tak bisa lepas dari alunan musik yang mengiringinya."
-              linkpage=""
-            />
+            <For each={firstListArticles()}>
+              {(artikel) => (
+                <ListCardArtikel
+                  imgSrc={artikel.imgSrc}
+                  title={artikel.title}
+                  description={artikel.description}
+                  linkpage={`/artikel/${artikel.id}`}
+                />
+              )}
+            </For>
           </div>
         </div>
       </section>
@@ -83,37 +103,31 @@ export default function TarianTradisional() {
 
       <hr class="text-gray-400 mt-10" />
 
-      <section class=" mx-auto mt-10 p-4">
+      <section class="mx-auto mt-10 p-4">
         <div class="flex flex-col lg:flex-row gap-6">
           <div class="flex flex-col gap-4 w-full lg:w-2/5">
-            <ListCardArtikel
-              imgSrc="/src/assets/images/irama-abadi.png"
-              title="Irama Abadi"
-              description="Dari Jawa ke dunia, gamelan jadi identitas budaya sekaligus bahasa universal dalam musik tradisional."
-              linkpage=""
-            />
-            <ListCardArtikel
-              imgSrc="/src/assets/images/kolintang2-minahasa.png"
-              title="Kolintang Minahasa"
-              description="Alunan kayu bergetar ini menjadi simbol kebersamaan masyarakat Sulawesi Utara lintas generasi."
-              linkpage=""
-            />
-            <ListCardArtikel
-              imgSrc="/src/assets/images/musik-tradisional.png"
-              title="asando dari NTT"
-              description="Instrumen berdawai unik dengan suara merdu yang membawa cerita tanah Rote ke panggung global."
-              linkpage=""
-            />
+            <For each={secondSectionArticles()}>
+              {(artikel) => (
+                <ListCardArtikel
+                  imgSrc={artikel.imgSrc}
+                  title={artikel.title}
+                  description={artikel.description}
+                  linkpage={`/artikel/${artikel.id}`}
+                />
+              )}
+            </For>
           </div>
 
-          <MainCardArtikel
-            imgSrc="/src/assets/images/gendang-jawa.png"
-            title="Gamelan: Irama Abadi dari Jawa yang Mendunia"
-            description="Gamelan bukan hanya alat musik, tapi juga identitas budaya yang sudah dikenal hingga mancanegara. Dari panggung tradisional hingga konser internasional, gamelan terus hidup dan beradaptasi."
-            author="Tim Nusantara"
-            date="12 Maret 2025"
-            linkpage=""
-          />
+          {secondSectionArticles().length > 0 && (
+            <MainCardArtikel
+              imgSrc={secondSectionArticles()[0].imgSrc}
+              title={secondSectionArticles()[0].title}
+              description={secondSectionArticles()[0].description}
+              author={secondSectionArticles()[0].author}
+              date={secondSectionArticles()[0].date}
+              linkpage={`/artikel/${secondSectionArticles()[0].id}`}
+            />
+          )}
         </div>
       </section>
 

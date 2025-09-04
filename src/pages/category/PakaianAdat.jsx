@@ -1,7 +1,27 @@
+import { createResource, Show, For } from "solid-js";
 import ListCardArtikel from "../../components/ListCardArtikel";
 import MainCardArtikel from "../../components/MainCardArtikel";
 
+const fetchData = async () => {
+  const res = await fetch("http://localhost:4000/artikel/");
+  if (!res.ok) throw new Error("Gagal memuat data");
+  const jsonData = await res.json(); // pastikan response format array artikel langsung
+  return jsonData;
+};
+
 export default function PakaianAdat() {
+  const [artikel] = createResource(fetchData);
+  const pakaianAdatList = () =>
+    artikel() ? artikel().filter((a) => a.category === "Pakaian Adat") : [];
+
+  const firstMainArticle = () =>
+    pakaianAdatList().length > 0 ? pakaianAdatList()[0] : null;
+  const firstListArticles = () =>
+    pakaianAdatList().length > 1 ? pakaianAdatList().slice(1, 4) : []; // limit 3
+
+  const secondSectionArticles = () =>
+    pakaianAdatList().length > 4 ? pakaianAdatList().slice(4, 7) : []; // limit 3
+
   return (
     <div>
       <section class="mt-10 px-4 sm:px-8">
@@ -30,34 +50,28 @@ export default function PakaianAdat() {
 
       <section class="mx-auto mt-10">
         <div class="flex flex-col lg:flex-row gap-6">
-          <MainCardArtikel
-            imgSrc="/src/assets/images/gamelan-jawa.png"
-            title="Gamelan: Irama Abadi dari Jawa yang Mendunia"
-            description="Gamelan bukan hanya alat musik, tapi juga identitas budaya yang sudah dikenal hingga mancanegara. Dari panggung tradisional hingga konser internasional, gamelan terus hidup dan beradaptasi."
-            author="Tim Nusantara"
-            date="12 Maret 2025"
-            linkpage="/artikel/gamelan-jawa"
-          />
-          {/* Kanan: List Berita */}
+          <Show when={firstMainArticle()}>
+            <MainCardArtikel
+              imgSrc={firstMainArticle().imgSrc}
+              title={firstMainArticle().title}
+              description={firstMainArticle().description}
+              author={firstMainArticle().author}
+              date={firstMainArticle().date}
+              linkpage={`/artikel/${firstMainArticle().id}`}
+            />
+          </Show>
+
           <div class="flex flex-col gap-4 w-full lg:w-2/5">
-            <ListCardArtikel
-              imgSrc="/src/assets/images/kolintang-minahasa.png"
-              title="Ritme Kolintang dari Minahasa"
-              description="Kolintang jadi simbol kebersamaan masyarakat Sulawesi Utara yang terus dimainkan lintas generasi."
-              linkpage=""
-            />
-            <ListCardArtikel
-              imgSrc="/src/assets/images/musik-tradisional.png"
-              title="Musisi Muda & Musik Tradisional"
-              description="Kisah anak muda yang menghadirkan instrumen klasik ke dalam musik modern."
-              linkpage=""
-            />
-            <ListCardArtikel
-              imgSrc="/src/assets/images/tarian-tradisional.png"
-              title="Tarian & Musik: Harmoni Nusantara"
-              description="Bagaimana tarian tradisional tak bisa lepas dari alunan musik yang mengiringinya."
-              linkpage=""
-            />
+            <For each={firstListArticles()}>
+              {(artikel) => (
+                <ListCardArtikel
+                  imgSrc={artikel.imgSrc}
+                  title={artikel.title}
+                  description={artikel.description}
+                  linkpage={`/artikel/${artikel.id}`}
+                />
+              )}
+            </For>
           </div>
         </div>
       </section>
@@ -85,37 +99,31 @@ export default function PakaianAdat() {
 
       <hr class="text-gray-400 mt-10" />
 
-      <section class=" mx-auto mt-10 p-4">
+      <section class="mx-auto mt-10 p-4">
         <div class="flex flex-col lg:flex-row gap-6">
           <div class="flex flex-col gap-4 w-full lg:w-2/5">
-            <ListCardArtikel
-              imgSrc="/src/assets/images/irama-abadi.png"
-              title="Irama Abadi"
-              description="Dari Jawa ke dunia, gamelan jadi identitas budaya sekaligus bahasa universal dalam musik tradisional."
-              linkpage=""
-            />
-            <ListCardArtikel
-              imgSrc="/src/assets/images/kolintang2-minahasa.png"
-              title="Kolintang Minahasa"
-              description="Alunan kayu bergetar ini menjadi simbol kebersamaan masyarakat Sulawesi Utara lintas generasi."
-              linkpage=""
-            />
-            <ListCardArtikel
-              imgSrc="/src/assets/images/musik-tradisional.png"
-              title="asando dari NTT"
-              description="Instrumen berdawai unik dengan suara merdu yang membawa cerita tanah Rote ke panggung global."
-              linkpage=""
-            />
+            <For each={secondSectionArticles()}>
+              {(artikel) => (
+                <ListCardArtikel
+                  imgSrc={artikel.imgSrc}
+                  title={artikel.title}
+                  description={artikel.description}
+                  linkpage={`/artikel/${artikel.id}`}
+                />
+              )}
+            </For>
           </div>
 
-          <MainCardArtikel
-            imgSrc="/src/assets/images/gendang-jawa.png"
-            title="Gamelan: Irama Abadi dari Jawa yang Mendunia"
-            description="Gamelan bukan hanya alat musik, tapi juga identitas budaya yang sudah dikenal hingga mancanegara. Dari panggung tradisional hingga konser internasional, gamelan terus hidup dan beradaptasi."
-            author="Tim Nusantara"
-            date="12 Maret 2025"
-            linkpage=""
-          />
+          {secondSectionArticles().length > 0 && (
+            <MainCardArtikel
+              imgSrc={secondSectionArticles()[0].imgSrc}
+              title={secondSectionArticles()[0].title}
+              description={secondSectionArticles()[0].description}
+              author={secondSectionArticles()[0].author}
+              date={secondSectionArticles()[0].date}
+              linkpage={`/artikel/${secondSectionArticles()[0].id}`}
+            />
+          )}
         </div>
       </section>
 
@@ -127,7 +135,7 @@ export default function PakaianAdat() {
               Pakaian Adat
               <br />
               Nusantara
-            </h1> 
+            </h1>
           </div>
           {/* Kanan: Deskripsi */}
           <div class="md:w-[35%] w-full flex justify-center md:justify-normal">
