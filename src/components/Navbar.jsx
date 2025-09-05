@@ -25,7 +25,7 @@ export default function Navbar() {
     localStorage.removeItem("currentUser");
     setCurrentUser(null);
     alert("Anda berhasil logout");
-    window.location.href = "/signin";
+    window.location.href = "/";
   };
 
   return (
