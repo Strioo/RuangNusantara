@@ -7,64 +7,59 @@ import {
   BiSolidUserCircle,
   BiSolidEnvelope,
   BiSolidLockAlt,
-  BiSolidShow,
-  BiSolidHide,
 } from "solid-icons/bi";
 import { FiCheckCircle } from "solid-icons/fi";
 
 export default function EditUsers() {
-  const { email } = useParams(); // email lama dari URL
+  const { id } = useParams(); // ambil ID dari URL
   const navigate = useNavigate();
 
   const [username, setUsername] = createSignal("");
-  const [newEmail, setNewEmail] = createSignal("");
+  const [email, setEmail] = createSignal("");
+  const [role, setRole] = createSignal("User");
+  const [status, setStatus] = createSignal("");
+  const [securityQ, setSecurityQ] = createSignal("");
+  const [securityA, setSecurityA] = createSignal("");
   const [password, setPassword] = createSignal("");
-  const [role, setRole] = createSignal("User"); // default
-  const [showPassword, setShowPassword] = createSignal(false);
   const [successOpen, setSuccessOpen] = createSignal(false);
 
-  // ambil user sesuai email
-  onMount(() => {
-    const savedData = localStorage.getItem("users");
-    if (savedData) {
-      const users = JSON.parse(savedData);
-      const user = users.find((u) => u.email === email);
-      if (user) {
-        setUsername(user.username);
-        setNewEmail(user.email);
-        setPassword(user.password);
-        setRole(user.role || "User");
-      }
+  // ✅ Fetch user dari backend
+  onMount(async () => {
+    try {
+      const res = await fetch(`http://127.0.0.1:8080/users/edit/${id}`);
+      if (!res.ok) throw new Error("Gagal fetch user");
+      const data = await res.json();
+
+      setUsername(data.username);
+      setEmail(data.email);
+      setRole(data.role);
+      setStatus(data.status || "");
+      setSecurityQ(data.security_question);
+      setSecurityA(data.security_answer);
+      setPassword(data.password); // hashed
+    } catch (err) {
+      console.error("Error fetch user:", err);
     }
   });
 
-  const handleSubmit = (e) => {
+  // ✅ Submit perubahan username & role
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const updatedUser = {
-      username: username(),
-      email: newEmail(),
-      password: password(),
-      role: role(),
-    };
+    try {
+      const res = await fetch(`http://127.0.0.1:8080/users/edit/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: username(),
+          role: role(),
+        }),
+      });
 
-    const savedData = localStorage.getItem("users");
-    if (savedData) {
-      let users = JSON.parse(savedData);
-
-      // replace data user
-      users = users.map((u) => (u.email === email ? updatedUser : u));
-
-      // kalau email diubah, hapus user lama
-      if (email !== newEmail()) {
-        users = users.filter((u) => u.email !== email);
-        users.push(updatedUser);
-      }
-
-      localStorage.setItem("users", JSON.stringify(users));
+      if (!res.ok) throw new Error("Gagal update user");
+      setSuccessOpen(true);
+    } catch (err) {
+      console.error("Error update user:", err);
     }
-
-    // tampilkan popup sukses
-    setSuccessOpen(true);
   };
 
   const closeSuccess = () => {
@@ -80,10 +75,7 @@ export default function EditUsers() {
       <main class="ml-64 pt-22 p-6">
         <p class="text-[20px] font-bold mb-6 text-black">Edit User</p>
 
-        <form
-          onSubmit={handleSubmit}
-          class="max-w-lg space-y-4 bg-white"
-        >
+        <form onSubmit={handleSubmit} class="max-w-lg space-y-4 bg-white">
           {/* Username */}
           <div class="relative">
             <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
@@ -91,53 +83,64 @@ export default function EditUsers() {
             </span>
             <input
               type="text"
-              placeholder="Username"
               value={username()}
               onInput={(e) => setUsername(e.target.value)}
-              class="pl-10 w-full border border-[#EDEDED] rounded-lg px-3 py-2 text-black focus:outline-none focus:ring-1 focus:ring-[#EDEDED]"
+              class="pl-10 w-full border border-[#EDEDED] rounded-lg px-3 py-2 text-black"
               required
             />
           </div>
 
-          {/* Email */}
+          {/* Email (read-only) */}
           <div class="relative">
             <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
               <BiSolidEnvelope size={20} />
             </span>
             <input
               type="email"
-              placeholder="Email"
-              value={newEmail()}
-              onInput={(e) => setNewEmail(e.target.value)}
-              class="pl-10 w-full border border-[#EDEDED] rounded-lg px-3 py-2 text-black focus:outline-none focus:ring-1 focus:ring-[#EDEDED]"
-              required
+              value={email()}
+              disabled
+              class="pl-10 w-full border border-[#EDEDED] bg-gray-100 rounded-lg px-3 py-2 text-black"
             />
           </div>
 
-          {/* Password */}
+          {/* Status (read-only) */}
+          <input
+            type="text"
+            value={status()}
+            disabled
+            class="w-full border border-[#EDEDED] bg-gray-100 rounded-lg px-3 py-2 text-black"
+            placeholder="Status"
+          />
+
+          {/* Security Question (read-only) */}
+          <input
+            type="text"
+            value={securityQ()}
+            disabled
+            class="w-full border border-[#EDEDED] bg-gray-100 rounded-lg px-3 py-2 text-black"
+            placeholder="Security Question"
+          />
+
+          {/* Security Answer (read-only) */}
+          <input
+            type="text"
+            value={securityA()}
+            disabled
+            class="w-full border border-[#EDEDED] bg-gray-100 rounded-lg px-3 py-2 text-black"
+            placeholder="Security Answer"
+          />
+
+          {/* Password (hashed, read-only) */}
           <div class="relative">
             <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
               <BiSolidLockAlt size={20} />
             </span>
             <input
-              type={showPassword() ? "text" : "password"}
-              placeholder="Password"
+              type="text"
               value={password()}
-              onInput={(e) => setPassword(e.target.value)}
-              class="pl-10 pr-10 w-full border border-[#EDEDED] rounded-lg px-3 py-2 text-black focus:outline-none focus:ring-1 focus:ring-[#EDEDED]"
-              required
+              disabled
+              class="pl-10 w-full border border-[#EDEDED] bg-gray-100 rounded-lg px-3 py-2 text-black"
             />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword())}
-              class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700"
-            >
-              {showPassword() ? (
-                <BiSolidHide size={20} />
-              ) : (
-                <BiSolidShow size={20} />
-              )}
-            </button>
           </div>
 
           {/* Role */}
@@ -148,7 +151,7 @@ export default function EditUsers() {
             <select
               value={role()}
               onChange={(e) => setRole(e.target.value)}
-              class="w-full border border-[#EDEDED] rounded-lg px-3 py-2 text-sm text-black focus:outline-none focus:ring-1 focus:ring-[#EDEDED]"
+              class="w-full border border-[#EDEDED] rounded-lg px-3 py-2 text-sm text-black"
             >
               <option value="User">User</option>
               <option value="Admin">Admin</option>
@@ -181,9 +184,6 @@ export default function EditUsers() {
             <FiCheckCircle size={56} class="text-green-500 mx-auto mb-3" />
             <p class="text-base font-semibold text-gray-800">
               User berhasil diperbarui!
-            </p>
-            <p class="text-sm text-gray-600 mb-5">
-              Data user telah disimpan ke database.
             </p>
             <button
               onClick={closeSuccess}

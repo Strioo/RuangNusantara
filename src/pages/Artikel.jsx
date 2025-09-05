@@ -7,6 +7,7 @@ import SeniMusik from "./category/SeniMusik";
 import PakaianAdat from "./category/PakaianAdat";
 import TarianTradisional from "./category/TarianTradisional";
 import PermainanTradisional from "./category/PermainanTradisional";
+import All from "./category/All";
 
 function toSlug(name) {
   return name.toLowerCase().replace(/\s+/g, "-").replace(/&/g, "dan");
@@ -14,11 +15,13 @@ function toSlug(name) {
 
 export default function Artikel() {
   const [activeCategory, setActiveCategory] = createSignal(
-    toSlug("Permainan Tradisional")
+    toSlug("All")
   );
 
   const renderCategoryContent = () => {
     switch (activeCategory()) {
+      case toSlug("All"):
+        return <All/>;
       case toSlug("Permainan Tradisional"):
         return <PermainanTradisional />;
       case toSlug("Seni & Musik"):

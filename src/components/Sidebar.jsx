@@ -1,7 +1,6 @@
 // src/components/Sidebar.jsx
 import { useLocation, useNavigate } from "@solidjs/router";
 import {
-  BiSolidDashboard,
   BiSolidUser,
   BiSolidBook,
   BiSolidImage,
@@ -13,12 +12,6 @@ export default function Sidebar() {
   const navigate = useNavigate();
 
   const mainMenu = [
-    {
-      key: "dashboard",
-      label: "Dashboard",
-      icon: BiSolidDashboard,
-      path: "/dashboard",
-    },
     {
       key: "users",
       label: "Users Data",

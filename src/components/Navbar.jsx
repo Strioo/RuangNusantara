@@ -13,35 +13,54 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = createSignal(false);
   const [currentUser, setCurrentUser] = createSignal(null);
 
-  // cek localStorage saat pertama kali load
+  // cek localStorage saat load
   onMount(() => {
-    const user = JSON.parse(localStorage.getItem("currentUser"));
+    const user = localStorage.getItem("currentUser");
     if (user) {
-      setCurrentUser(user);
+      setCurrentUser(JSON.parse(user));
     }
   });
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    const token = localStorage.getItem("authToken");
+
+    try {
+      const res = await fetch("http://127.0.0.1:8080/logout", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!res.ok) {
+        const msg = await res.text();
+        alert(msg || "Logout gagal");
+      } else {
+        alert("Anda berhasil logout");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error jaringan saat logout");
+    }
+
+    // clear localStorage
+    localStorage.removeItem("authToken");
     localStorage.removeItem("currentUser");
     setCurrentUser(null);
-    alert("Anda berhasil logout");
     window.location.href = "/";
   };
 
   return (
     <>
-      {/* Navbar utama */}
       <nav class="bg-white/30 backdrop-blur-lg border border-gray-100 rounded-3xl px-4 py-2 w-full flex items-center justify-between relative z-50 mt-4">
-        {/* Logo */}
         <A
           href="/"
           class="flex items-center gap-2 text-white font-medium text-lg"
         >
-          <img src="/src/assets/images/logo.svg" alt="Logo" class="w-7 h-7" />
           <span>RuangNusantara</span>
         </A>
 
-        {/* Navigasi desktop */}
+        {/* Menu desktop */}
         <div class="hidden lg:flex gap-8">
           {navItems.map((item) => (
             <A
@@ -58,7 +77,7 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* Desktop - kanan */}
+        {/* kanan desktop */}
         <div class="hidden lg:flex items-center gap-4">
           {currentUser() ? (
             <>
@@ -87,7 +106,7 @@ export default function Navbar() {
           )}
         </div>
 
-        {/* Burger icon mobile */}
+        {/* Burger mobile */}
         <button
           aria-label="Toggle menu"
           class="lg:hidden p-2 rounded-md flex items-center justify-center text-white hover:bg-gray-200"
@@ -148,7 +167,7 @@ export default function Navbar() {
           {currentUser() ? (
             <>
               <span class="px-4 py-2 text-gray-900 font-medium">
-                 👋{currentUser().username}
+                👋 {currentUser().username}
               </span>
               <button
                 onClick={() => {

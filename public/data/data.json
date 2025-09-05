@@ -1,0 +1,193 @@
+{
+  "artikel": [
+    {
+      "id": "gamelan-jawa",
+      "title": "Gamelan: Irama Abadi dari Jawa yang Mendunia",
+      "category": "Seni & Musik",
+      "description": "Gamelan bukan hanya alat musik, tapi juga identitas budaya yang sudah dikenal hingga mancanegara. Dari panggung tradisional hingga konser internasional, gamelan terus hidup dan beradaptasi.",
+      "author": "Tim Nusantara",
+      "date": "12 Maret 2025",
+      "imgSrc": "/src/assets/images/gamelan-jawa.png",
+      "content": "<h1>Gamelan, Lebih dari Sekadar Musik</h1><p>Gamelan adalah salah satu instrumen musik yang berasal dari Nusantara dan memiliki sejarah panjang.</p><h2>Keunikan Gamelan</h2><p>Gamelan menggabungkan berbagai alat musik yang harmonis, menciptakan irama yang khas.</p>",
+      "kesimpulan": "Gamelan adalah identitas, doa, sekaligus harmoni yang tidak lekang oleh waktu. Dari desa kecil di Jawa hingga panggung megah di New York, gamelan terus berkumandang, membawa pesan tentang kebersamaan, keseimbangan, dan kebanggaan akan budaya Nusantara."
+    },
+    {
+      "id": "kolintang-minahasa",
+      "title": "Kolintang Minahasa: Irama Kayu Pemersatu Generasi",
+      "category": "Seni & Musik",
+      "description": "Kolintang jadi simbol kebersamaan masyarakat Sulawesi Utara yang terus dimainkan lintas generasi.",
+      "author": "Tim Minahasa",
+      "date": "20 Mei 2025",
+      "imgSrc": "/src/assets/images/kolintang-minahasa.png",
+      "content": "<h1>Kolintang, Bunyi Harmoni Sulawesi</h1><p>Alat musik Kolintang terbuat dari kayu yang disusun harmonis, menjadi suara kearifan lokal.</p><h2>Lestarikan Tradisi</h2><p>Generasi muda terus melestarikan kolintang untuk menjaga budaya asli Minahasa.</p>",
+      "kesimpulan": "Kolintang Minahasa adalah suara kearifan lokal yang mempersatukan dan menjadi kebanggaan budaya Sulawesi Utara. Generasi muda mampu terus menjaga tradisi kolintang, memperkenalkannya ke dunia melalui kreativitas dan inovasi."
+    },
+    {
+      "id": "batik-jawa",
+      "title": "Batik Jawa: Warisan Pakaian Adat dengan Motif Kaya Makna",
+      "category": "Pakaian Adat",
+      "description": "Batik Jawa merupakan kain tradisional yang kaya akan motif dan filosofi mendalam yang diwariskan turun-temurun.",
+      "author": "Dewi Sartika",
+      "date": "5 April 2025",
+      "imgSrc": "/src/assets/images/batik-jawa.png",
+      "content": "<h1>Batik, Seni dan Filosofi dalam Kain</h1><p>Batik bukan sekedar kain, melainkan simbol identitas dan budaya Jawa.</p><h2>Motif dan Makna</h2><p>Setiap motif batik menghadirkan cerita dan filosofi tersendiri yang dipakai dalam berbagai acara adat.</p>",
+      "kesimpulan": "Batik menjadi warisan budaya yang terus dilestarikan, sekaligus simbol identitas bangsa yang kaya akan kearifan lokal dan keindahan seni tekstil."
+    },
+    {
+      "id": "kain-ulas-sumatera",
+      "title": "Kain Ulas Sumatera: Pakaian Tradisional yang Menyimpan Nilai Budaya",
+      "category": "Pakaian Adat",
+      "description": "Kain Ulas adalah simbol kemegahan dan estetika pakaian adat masyarakat Sumatera dengan corak khasnya.",
+      "author": "Rini Chairani",
+      "date": "18 Juni 2025",
+      "imgSrc": "/src/assets/images/kain-ulas-sumatera.png",
+      "content": "<h1>Kain Ulas, Simbol Tradisi</h1><p>Kain ulas memiliki motif yang kaya dan digunakan dalam upacara adat penting.</p><h2>Pewarnaan Tradisional</h2><p>Pewarna alami dan teknik tenun khas menjadikan kain ini bernilai seni tinggi.</p>",
+      "kesimpulan": "Kain Ulas bukan hanya pakaian tapi identitas budaya yang mempersatukan masyarakat Sumatera dan melestarikan tradisi leluhur."
+    },
+    {
+      "id": "tari-kecak-bali",
+      "title": "Tari Kecak Bali: Tarian Tradisional dengan Harmoni Suara Mantra",
+      "category": "Tarian Tradisional",
+      "description": "Tari Kecak menghadirkan pertunjukan unik dengan suara vokal massal yang mengiringi cerita Ramayana.",
+      "author": "I Wayan Suryadi",
+      "date": "10 Juli 2025",
+      "imgSrc": "/src/assets/images/tari-kecak-bali.png",
+      "content": "<h1>Tari Kecak, Suara dan Gerak</h1><p>Tari Kecak dikenal dengan suara teriakan 'cak' yang berirama dalam harmoni bersama.</p><h2>Asal Usul dan Makna</h2><p>Berakar dari ritual Hindu, tarian ini menceritakan kisah epik Ramayana.</p>",
+      "kesimpulan": "Tari Kecak Bali menjadi simbol seni pertunjukan yang menggabungkan unsur spiritual dan hiburan rakyat yang mendalam."
+    },
+    {
+      "id": "tari-pendet",
+      "title": "Tari Pendet: Sambutan Suci dalam Tradisi Bali",
+      "category": "Tarian Tradisional",
+      "description": "Tari Pendet melambangkan penyambutan suci kepada para tamu dan dewa dalam budaya Bali.",
+      "author": "Ni Kadek Ayu",
+      "date": "3 Agustus 2025",
+      "imgSrc": "/src/assets/images/tari-pendet.png",
+      "content": "<h1>Tari Pendet, Simbol Penyambutan</h1><p>Tarian ini menggambarkan doa dan harapan akan kedamaian dan kesejahteraan.</p><h2>Peran dalam Upacara</h2><p>Biasanya ditarikan sebelum ritual utama sebagai pembuka prosesi suci.</p>",
+      "kesimpulan": "Tari Pendet adalah ekspresi budaya yang membawa pesan kedamaian dan penghormatan kepada leluhur dan alam."
+    },
+    {
+      "id": "tari-topeng-cirebon",
+      "title": "Tari Topeng Cirebon: Seni Pertunjukan Berwajah Tradisi",
+      "category": "Tarian Tradisional",
+      "description": "Tari Topeng Cirebon menampilkan kombinasi gerak dan ekspresi wajah melalui topeng yang artistik.",
+      "author": "H. Sutaryo",
+      "date": "25 September 2025",
+      "imgSrc": "/src/assets/images/tari-topeng-cirebon.png",
+      "content": "<h1>Tari Topeng, Wajah dan Gerak</h1><p>Topeng digunakan untuk mendramatisasi karakter dalam cerita rakyat Cirebon.</p><h2>Keunikan dan Filosofi</h2><p>Masing-masing topeng mewakili watak dan pesan moral tertentu.</p>",
+      "kesimpulan": "Tari Topeng Cirebon memperkaya khazanah seni pertunjukan tradisional yang sarat nilai budaya dan estetika."
+    },
+    {
+      "id": "tari-saman",
+      "title": "Tari Saman: Energi Kolektif dari Aceh",
+      "category": "Tarian Tradisional",
+      "description": "Tari Saman dikenal dengan gerak cepat dan harmonisasi sempurna yang mencerminkan kebersamaan.",
+      "author": "Zulkifli Hasan",
+      "date": "15 Oktober 2025",
+      "imgSrc": "/src/assets/images/tari-saman.png",
+      "content": "<h1>Tari Saman, Harmoni Gerak</h1><p>Tari ini memadukan gerak tangan dan tepukan yang serempak dalam irama cepat.</p><h2>Makna Sosial</h2><p>Mewakili solidaritas dan persatuan dalam masyarakat Aceh.</p>",
+      "kesimpulan": "Tari Saman adalah simbol kekuatan kolektif dan budaya gotong royong yang hidup di tengah masyarakat Aceh."
+    }
+  ],
+  "permainan": [
+    {
+      "id": "engklek",
+      "imgSrc": "/src/assets/images/engklek.png",
+      "title": "Engklek",
+      "description": "Permainan lompat kotak sederhana yang melatih keseimbangan, fokus, dan konsentrasi.",
+      "definition": "Temukan artikel inspiratif seputar seni, tradisi, dan kearifan lokal Nusantara yang tidak hanya menceritakan masa lalu, tetapi juga menghadirkan makna yang relevan dengan kehidupan modern. Dari musik tradisional hingga kuliner khas, setiap cerita membawa nilai yang bisa kita pelajari, lestarikan, dan teruskan untuk generasi mendatang.",
+      "steps": [
+        {
+          "step": 1,
+          "title": "Gambar Pola Kotak",
+          "description": "Buat pola engklek di tanah atau lantai menggunakan kapur atau batu. Umumnya terdiri dari 8–10 kotak yang tersusun memanjang dengan cabang di beberapa bagian. Pola ini jadi arena permainan utama yang akan dilompati.",
+          "imgSrc": "/src/assets/images/engklek-step1.png"
+        },
+        {
+          "step": 2,
+          "title": "Lempar Gacuk",
+          "description": "Gunakan gacuk (batu kecil) sebagai penanda. Lempar gacuk ke kotak pertama tanpa mengenai garis. Lemparan harus tepat agar permainan bisa dilanjutkan. Jika meleset, giliran berpindah ke pemain berikutnya.",
+          "imgSrc": "/src/assets/images/engklek-step2.png"
+        },
+        {
+          "step": 3,
+          "title": "Melompat dengan Satu Kaki",
+          "description": "Mulailah melompat dari kotak ke kotak dengan satu kaki, melewati kotak yang berisi gacuk. Saat kembali, ambil gacuk tanpa kehilangan keseimbangan. Tantangannya ada pada konsentrasi dan ketepatan gerakan.",
+          "imgSrc": "/src/assets/images/engklek-step3.png"
+        },
+        {
+          "step": 4,
+          "title": "Lanjutkan Hingga Selesai",
+          "description": "Setelah berhasil di kotak pertama, lempar gacuk ke kotak berikutnya dan ulangi langkah yang sama. Permainan berlanjut hingga semua kotak selesai. Pemain yang bisa menyelesaikan seluruh kotak tanpa kesalahan dianggap pemenang.",
+          "imgSrc": "/src/assets/images/engklek-step4.png"
+        }
+      ]
+    },
+    {
+      "id": "congklak",
+      "imgSrc": "/src/assets/images/congklak.png",
+      "title": "Congklak",
+      "description": "Permainan papan klasik yang mengasah strategi dan ketelitian.",
+      "definition": "Congklak adalah permainan tradisional Nusantara yang menggunakan papan berlubang dan biji-bijian, biasanya dimainkan oleh dua orang. Selain melatih strategi dan ketelitian, congklak menanamkan nilai kesabaran dan sportivitas dalam bermain bersama.",
+      "steps": [
+        {
+          "step": 1,
+          "title": "Siapkan Papan dan Biji-Bijian",
+          "description": "Ambil papan congklak dengan 14 lubang kecil dan 2 lubang besar (induk). Isi setiap lubang kecil dengan 7 biji-bijian seperti kerang atau plastik kecil.",
+          "imgSrc": "/src/assets/images/congklak-step1.png"
+        },
+        {
+          "step": 2,
+          "title": "Mulai Memutar Biji",
+          "description": "Pemain mengambil semua biji dari satu lubang miliknya kemudian menyebar satu persatu ke lubang berikutnya searah jarum jam. Jika biji terakhir jatuh di lubang berisi biji lain, ambil semua biji dari lubang tersebut dan lanjutkan menyebar.",
+          "imgSrc": "/src/assets/images/congklak-step2.png"
+        },
+        {
+          "step": 3,
+          "title": "Mainkan hingga Lubang Kosong",
+          "description": "Jika biji terakhir jatuh di lubang kosong, giliran pemain berganti. Permainan berlanjut hingga semua biji masuk ke lubang induk.",
+          "imgSrc": "/src/assets/images/congklak-step3.png"
+        },
+        {
+          "step": 4,
+          "title": "Tentukan Pemenang",
+          "description": "Pemenang adalah pemain dengan koleksi biji terbanyak di lubang besar (induk) miliknya setelah seluruh putaran selesai.",
+          "imgSrc": "/src/assets/images/congklak-step4.png"
+        }
+      ]
+    },
+    {
+      "id": "egrang",
+      "imgSrc": "/src/assets/images/egrang.png",
+      "title": "Egrang",
+      "description": "Permainan bambu yang melatih keberanian, keseimbangan, dan ketangkasan.",
+      "definition": "Egrang adalah permainan tradisional khas Indonesia dengan menggunakan sepasang bambu panjang yang telah diberi pijakan. Permainan ini menguji kemampuan berjalan dan berlari di atas bambu dengan menjaga keseimbangan.",
+      "steps": [
+        {
+          "step": 1,
+          "title": "Siapkan Egrang",
+          "description": "Pilih dua batang bambu dengan diameter sedang, buat pijakan kaki di masing-masing bambu dengan jarak 30-40 cm dari ujung bawah.",
+          "imgSrc": "/src/assets/images/egrang-step1.png"
+        },
+        {
+          "step": 2,
+          "title": "Belajar Rangkulan dan Berdiri",
+          "description": "Pegang bambu egrang secara erat, letakkan kedua kaki pada pijakan, dan berdiri dengan hati-hati. Mintalah bantuan teman saat pertama belajar.",
+          "imgSrc": "/src/assets/images/egrang-step2.png"
+        },
+        {
+          "step": 3,
+          "title": "Mulai Melangkah",
+          "description": "Angkat egrang sedikit demi sedikit dengan satu kaki terlebih dahulu, lalu seimbangkan tubuh dan mulai berjalan selangkah demi selangkah.",
+          "imgSrc": "/src/assets/images/egrang-step3.png"
+        },
+        {
+          "step": 4,
+          "title": "Berlomba atau Bermain Bebas",
+          "description": "Setelah mahir berjalan, pemain bisa berlomba cepat atau bertanding mencapai garis finis tanpa jatuh dari egrang.",
+          "imgSrc": "/src/assets/images/egrang-step4.png"
+        }
+      ]
+    }
+  ]
+}

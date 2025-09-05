@@ -1,51 +1,57 @@
 import { createSignal } from "solid-js";
 
-export default function SignUpPage() {
+export default function SignInPage() {
   const [showPassword, setShowPassword] = createSignal(false);
   const [email, setEmail] = createSignal("");
   const [password, setPassword] = createSignal("");
+  const [loading, setLoading] = createSignal(false);
 
-  const handleSignIn = (e) => {
+  const handleSignIn = async (e) => {
     e.preventDefault();
 
-    let users = JSON.parse(localStorage.getItem("users")) || [];
+    try {
+      setLoading(true);
+      const res = await fetch("http://127.0.0.1:8080/users/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          login: email().trim(),
+          password: password(),
+        }),
+      });
 
-    if (users.length === 0) {
-      alert("Belum ada akun. Silakan daftar dulu.");
-      window.location.href = "/signup";
-      return;
-    }
+      const data = await res.json();
+      if (!res.ok) {
+        alert(data || "Login gagal.");
+        return;
+      }
 
-    const user = users.find(
-      (u) => u.email === email() && u.password === password()
-    );
+      // simpan token + user info ke localStorage
+      localStorage.setItem("authToken", data.token);
+      localStorage.setItem("currentUser", JSON.stringify(data));
 
-    if (user) {
-      alert(`Selamat datang, ${user.username}!`);
-      localStorage.setItem("currentUser", JSON.stringify(user));
-      window.location.href = "/"; // ganti sesuai page setelah login
-    } else {
-      alert("Email atau password salah!");
+      alert(`Selamat datang, ${data.username}!`);
+      window.location.href = "/"; // arahkan ke halaman utama/dashboard
+    } catch (err) {
+      console.error(err);
+      alert("Terjadi kesalahan jaringan. Coba lagi.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <section class="flex flex-col lg:flex-row min-h-screen bg-white rounded-3xl overflow-hidden">
       {/* Left - Form */}
-      <div class="w-full lg:w-1/2 flex flex-col justify-between p-6 lg:p-12">
-        {/* Logo / Back Home */}
-        <div>
-          <a href="/" class="flex items-center gap-2">
-            <img src="/logo.svg" alt="Logo" class="h-8" />
-            <span class="font-bold text-xl text-black">Ruang Nusantara</span>
-          </a>
-        </div>
+      <div class="w-full lg:w-1/2 flex flex-col justify-between px-2 lg:px-8">
+        <a href="/" class="flex items-center justify-center lg:justify-start">
+          <h1 class="font-semibold text-2xl text-black">RuangNusantara</h1>
+        </a>
 
-        {/* Form Section */}
-        <div class="flex-1 flex flex-col justify-center max-w-md mx-auto w-full">
-          <h1 class="text-3xl font-bold text-center mb-3 text-black">
-            Selamat Datang Kembali di <br /> Ruang Nusantara
-          </h1>
+        <div class="flex-1 flex flex-col justify-center max-w-md mx-auto w-full mt-20 lg:mt-0">
+          <p class="text-3xl font-bold text-center mb-3 text-black">
+            Selamat Datang Kembali di <br /> RuangNusantara
+          </p>
           <p class="text-gray-500 text-center mb-8">
             Masuk untuk melanjutkan perjalananmu menjelajahi seni, musik, dan
             budaya Nusantara.
@@ -55,7 +61,7 @@ export default function SignUpPage() {
             {/* Email */}
             <div class="form-control w-full">
               <label class="label">
-                <span class="label-text text-black">Email</span>
+                <span class="label-text text-black">Email / Username</span>
               </label>
               <div
                 class="flex items-center gap-2 w-full rounded-lg px-3 py-2 bg-white"
@@ -67,8 +73,8 @@ export default function SignUpPage() {
                   class="w-5 h-5"
                 />
                 <input
-                  type="email"
-                  placeholder="Enter your email"
+                  type="text"
+                  placeholder="Masukkan email atau username"
                   class="grow outline-none bg-transparent text-black"
                   required
                   value={email()}
@@ -93,7 +99,7 @@ export default function SignUpPage() {
                 />
                 <input
                   type={showPassword() ? "text" : "password"}
-                  placeholder="Enter your password"
+                  placeholder="Masukkan Password"
                   class="grow outline-none bg-transparent text-black"
                   required
                   value={password()}
@@ -107,11 +113,10 @@ export default function SignUpPage() {
                   }
                   alt="toggle password"
                   class="w-5 h-5 cursor-pointer"
-                  onclick={() => setShowPassword(!showPassword())}
+                  onClick={() => setShowPassword(!showPassword())}
                 />
               </div>
 
-              {/* Ingatkan Saya & Lupa Password */}
               <label class="label flex justify-between mt-3">
                 <div class="flex items-center gap-2">
                   <input type="checkbox" class="checkbox checkbox-sm" />
@@ -123,9 +128,11 @@ export default function SignUpPage() {
               </label>
             </div>
 
-            {/* Button */}
-            <button class="btn w-full bg-[#1E3A40] hover:bg-[#25484f] text-white rounded-xl">
-              Masuk
+            <button
+              class="btn w-full bg-[#1E3A40] hover:bg-[#25484f] text-white rounded-xl"
+              disabled={loading()}
+            >
+              {loading() ? "Memproses..." : "Masuk"}
             </button>
           </form>
 
@@ -144,13 +151,11 @@ export default function SignUpPage() {
           </p>
         </div>
 
-        {/* Footer */}
         <footer class="text-center text-gray-500 text-sm mt-10">
-          © 2025 <span class="font-semibold">Ruang Nusantara</span>
+          © 2025 <span class="font-semibold text-black">Ruang Nusantara</span>
         </footer>
       </div>
 
-      {/* Right - Image */}
       <div class="hidden lg:flex w-1/2">
         <img
           src="/src/assets/images/SignInPict.png"

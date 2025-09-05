@@ -8,61 +8,40 @@ const securityQuestions = [
   "Siapa nama hewan peliharaan Anda?",
 ];
 
-export default function SignUpPage() {
+export default function ForgotPassword() {
   const [showPassword, setShowPassword] = createSignal(false);
-  const [username, setUsername] = createSignal("");
   const [email, setEmail] = createSignal("");
   const [password, setPassword] = createSignal("");
   const [securityQuestion, setSecurityQuestion] = createSignal("");
   const [securityAnswer, setSecurityAnswer] = createSignal("");
-  const [loading, setLoading] = createSignal(false);
 
-  const handleSignUp = async (e) => {
+  const handleForgotPassword = async (e) => {
     e.preventDefault();
 
-    // Validasi ringan (biar feel-nya sama spt project lama)
-    if (
-      !username() ||
-      !email() ||
-      !password() ||
-      !securityQuestion() ||
-      !securityAnswer()
-    ) {
-      alert("Semua kolom wajib diisi.");
-      return;
-    }
-
     try {
-      setLoading(true);
-      const res = await fetch("http://127.0.0.1:8080/users/register", {
+      const res = await fetch("http://127.0.0.1:8080/users/forgot_password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          username: username().trim(),
-          email: email().trim(),
-          password: password(),
+          email: email(),
           security_question: securityQuestion(),
           security_answer: securityAnswer(),
+          password: password(),
         }),
       });
 
-      const text = await res.text();
       if (!res.ok) {
-        // BE kadang balikin string JSON, kadang plain text → coba tampilkan apa adanya
-        alert(text || "Pendaftaran gagal.");
+        const msg = await res.text();
+        alert("Gagal reset password: " + msg);
         return;
       }
 
-      // sukses → simpan email utk halaman OTP
-      localStorage.setItem("pendingEmail", email().trim());
-
-      alert("Registrasi berhasil! OTP telah dikirim ke email kamu.");
-      window.location.href = "/verifikasi";
+      const data = await res.json();
+      alert(data || "Password berhasil direset!");
+      window.location.href = "/signin";
     } catch (err) {
       console.error(err);
-      alert("Terjadi kesalahan jaringan. Coba lagi.");
-    } finally {
-      setLoading(false);
+      alert("Terjadi error koneksi ke server.");
     }
   };
 
@@ -76,39 +55,15 @@ export default function SignUpPage() {
 
         <div class="flex-1 flex flex-col justify-center max-w-md mx-auto w-full mt-20 lg:mt-0">
           <p class="text-3xl font-bold text-center mb-3 text-black">
-            Selamat Datang di <br /> Nusantara
+            Reset Password
           </p>
           <p class="text-gray-500 text-center mb-8">
-            Masuk untuk melanjutkan perjalananmu menjelajahi seni, musik, dan
-            budaya Nusantara.
+            Masukkan email, pilih pertanyaan keamanan, dan masukkan password
+            baru anda.
           </p>
 
-          <form class="space-y-4" onSubmit={handleSignUp}>
-            {/* Username */}
-            <div class="form-control w-full">
-              <label class="label">
-                <span class="label-text text-black">Username</span>
-              </label>
-              <div
-                class="flex items-center gap-2 w-full rounded-lg px-3 py-2 bg-white"
-                style="border: 1px solid #DFE1E6; box-shadow: 0px 1px 2px rgba(13, 13, 18, 0.06);"
-              >
-                <img
-                  src="/src/assets/images/UserCircle.svg"
-                  alt="user icon"
-                  class="w-5 h-5"
-                />
-                <input
-                  type="text"
-                  class="grow outline-none bg-transparent text-black"
-                  required
-                  placeholder="Masukkan Username"
-                  value={username()}
-                  onInput={(e) => setUsername(e.currentTarget.value)}
-                />
-              </div>
-            </div>
-
+          {/* ubah jadi handleForgotPassword */}
+          <form class="space-y-4" onSubmit={handleForgotPassword}>
             {/* Email */}
             <div class="form-control w-full">
               <label class="label">
@@ -129,42 +84,7 @@ export default function SignUpPage() {
                   required
                   placeholder="Masukkan email"
                   value={email()}
-                  onInput={(e) => setEmail(e.currentTarget.value)}
-                />
-              </div>
-            </div>
-
-            {/* Password */}
-            <div class="form-control w-full">
-              <label class="label">
-                <span class="label-text text-black">Password</span>
-              </label>
-              <div
-                class="flex items-center gap-2 w-full rounded-lg px-3 py-2 bg-white"
-                style="border: 1px solid #DFE1E6; box-shadow: 0px 1px 2px rgba(13, 13, 18, 0.06);"
-              >
-                <img
-                  src="/src/assets/images/LockIcon.svg"
-                  alt="lock icon"
-                  class="w-5 h-5"
-                />
-                <input
-                  type={showPassword() ? "text" : "password"}
-                  class="grow outline-none bg-transparent text-black"
-                  required
-                  placeholder="Masukkan Password baru"
-                  value={password()}
-                  onInput={(e) => setPassword(e.currentTarget.value)}
-                />
-                <img
-                  src={
-                    showPassword()
-                      ? "/src/assets/images/EyeIcon.svg"
-                      : "/src/assets/images/EyeSlashIcon.svg"
-                  }
-                  alt="toggle password"
-                  class="w-5 h-5 cursor-pointer"
-                  onClick={() => setShowPassword(!showPassword())}
+                  onInput={(e) => setEmail(e.target.value)}
                 />
               </div>
             </div>
@@ -183,7 +103,7 @@ export default function SignUpPage() {
                   required
                   style="border:none;box-shadow:none;font-size:1rem;"
                   value={securityQuestion()}
-                  onInput={(e) => setSecurityQuestion(e.currentTarget.value)}
+                  onChange={(e) => setSecurityQuestion(e.target.value)}
                 >
                   <option value="" disabled selected style="color:#959595;">
                     Pilih pertanyaan keamanan
@@ -202,7 +122,7 @@ export default function SignUpPage() {
               </div>
             </div>
 
-            {/* Jawaban Keamanan */}
+            {/* Jawab Keamanan */}
             <div class="form-control w-full">
               <label class="label">
                 <span class="label-text text-black">
@@ -219,17 +139,49 @@ export default function SignUpPage() {
                   required
                   placeholder="Masukkan jawaban Anda"
                   value={securityAnswer()}
-                  onInput={(e) => setSecurityAnswer(e.currentTarget.value)}
+                  onInput={(e) => setSecurityAnswer(e.target.value)}
+                />
+              </div>
+            </div>
+
+            {/* Password Baru */}
+            <div class="form-control w-full">
+              <label class="label">
+                <span class="label-text text-black">Password Baru</span>
+              </label>
+              <div
+                class="flex items-center gap-2 w-full rounded-lg px-3 py-2 bg-white"
+                style="border: 1px solid #DFE1E6; box-shadow: 0px 1px 2px rgba(13, 13, 18, 0.06);"
+              >
+                <img
+                  src="/src/assets/images/LockIcon.svg"
+                  alt="lock icon"
+                  class="w-5 h-5"
+                />
+                <input
+                  type={showPassword() ? "text" : "password"}
+                  class="grow outline-none bg-transparent text-black"
+                  required
+                  placeholder="Masukkan Password baru"
+                  value={password()}
+                  onInput={(e) => setPassword(e.target.value)}
+                />
+                <img
+                  src={
+                    showPassword()
+                      ? "/src/assets/images/EyeIcon.svg"
+                      : "/src/assets/images/EyeSlashIcon.svg"
+                  }
+                  alt="toggle password"
+                  class="w-5 h-5 cursor-pointer"
+                  onclick={() => setShowPassword(!showPassword())}
                 />
               </div>
             </div>
 
             {/* Button */}
-            <button
-              class="btn w-full bg-[#1E3A40] hover:bg-[#25484f] text-white rounded-xl"
-              disabled={loading()}
-            >
-              {loading() ? "Memproses..." : "Registrasi"}
+            <button class="btn w-full bg-[#1E3A40] hover:bg-[#25484f] text-white rounded-xl">
+              Simpan
             </button>
           </form>
 
@@ -237,7 +189,7 @@ export default function SignUpPage() {
             class="text-center text-sm mt-6"
             style="color:#959595; font-weight:500"
           >
-            Sudah Punya Akun?{" "}
+            Ingat password Anda?{" "}
             <a
               href="/signin"
               class="font-medium"
@@ -247,12 +199,10 @@ export default function SignUpPage() {
             </a>
           </p>
         </div>
-
         <footer class="text-center text-gray-500 text-sm mt-10">
           © 2025 <span class="font-semibold text-black">Ruang Nusantara</span>
         </footer>
       </div>
-
       {/* Right - Image */}
       <div class="hidden lg:flex w-1/2">
         <img
