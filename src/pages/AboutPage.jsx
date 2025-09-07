@@ -126,7 +126,7 @@ export default function About() {
           <CardPrimary
             imgSrc="/src/assets/images/PaletteIcon_AboutPage.svg"
             title="Interaktif"
-            description="elajahi seni, musik, tarian, hingga kuliner melalui pengalaman digital yang menyenangkan."
+            description="Jelajahi seni, musik, tarian, hingga kuliner melalui pengalaman digital yang menyenangkan."
           />
           <CardPrimary
             imgSrc="/src/assets/images/LaptopIcon_AboutPage.svg"

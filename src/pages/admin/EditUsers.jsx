@@ -11,7 +11,7 @@ import {
 import { FiCheckCircle } from "solid-icons/fi";
 
 export default function EditUsers() {
-  const { id } = useParams(); // ambil ID dari URL
+  const { id } = useParams();
   const navigate = useNavigate();
 
   const [username, setUsername] = createSignal("");
@@ -23,36 +23,38 @@ export default function EditUsers() {
   const [password, setPassword] = createSignal("");
   const [successOpen, setSuccessOpen] = createSignal(false);
 
-  // ✅ Fetch user dari backend
   onMount(async () => {
     try {
       const res = await fetch(`http://127.0.0.1:8080/users/edit/${id}`);
       if (!res.ok) throw new Error("Gagal fetch user");
       const data = await res.json();
 
-      setUsername(data.username);
-      setEmail(data.email);
-      setRole(data.role);
-      setStatus(data.status || "");
-      setSecurityQ(data.security_question);
-      setSecurityA(data.security_answer);
-      setPassword(data.password); // hashed
+      setUsername(data.username ?? "");
+      setEmail(data.email ?? "");
+      setStatus(data.status ?? "");
+      setSecurityQ(data.security_question ?? "");
+      setSecurityA(data.security_answer ?? "");
+      setPassword(data.password ?? "");
+
+      const r = (data.role ?? "User").toString();
+      setRole(r.toLowerCase() === "admin" ? "Admin" : "User");
     } catch (err) {
       console.error("Error fetch user:", err);
     }
   });
 
-  // ✅ Submit perubahan username & role
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch(`http://127.0.0.1:8080/users/edit/${id}`, {
+      const payload = {
+        username: username(),
+        role: role().toLowerCase(),
+      };
+
+      const res = await fetch(`http://localhost:8080/users/edit/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          username: username(),
-          role: role(),
-        }),
+        body: JSON.stringify(payload),
       });
 
       if (!res.ok) throw new Error("Gagal update user");
@@ -75,72 +77,99 @@ export default function EditUsers() {
       <main class="ml-64 pt-22 p-6">
         <p class="text-[20px] font-bold mb-6 text-black">Edit User</p>
 
-        <form onSubmit={handleSubmit} class="max-w-lg space-y-4 bg-white">
+        <form onSubmit={handleSubmit} class="max-w-lg space-y-5 bg-white">
           {/* Username */}
-          <div class="relative">
-            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
-              <BiSolidUserCircle size={20} />
-            </span>
+          <div>
+            <label class="block mb-1 text-sm font-medium text-gray-700">
+              Username
+            </label>
+            <div class="relative">
+              <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+                <BiSolidUserCircle size={20} />
+              </span>
+              <input
+                type="text"
+                value={username()}
+                onInput={(e) => setUsername(e.target.value)}
+                class="pl-10 w-full border border-[#EDEDED] rounded-lg px-3 py-2 text-black"
+                required
+              />
+            </div>
+          </div>
+
+          {/* Email */}
+          <div>
+            <label class="block mb-1 text-sm font-medium text-gray-700">
+              Email
+            </label>
+            <div class="relative">
+              <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+                <BiSolidEnvelope size={20} />
+              </span>
+              <input
+                type="email"
+                value={email()}
+                disabled
+                class="pl-10 w-full border border-[#EDEDED] bg-gray-100 rounded-lg px-3 py-2 text-black"
+              />
+            </div>
+          </div>
+
+          {/* Status */}
+          <div>
+            <label class="block mb-1 text-sm font-medium text-gray-700">
+              Status
+            </label>
             <input
               type="text"
-              value={username()}
-              onInput={(e) => setUsername(e.target.value)}
-              class="pl-10 w-full border border-[#EDEDED] rounded-lg px-3 py-2 text-black"
-              required
+              value={status()}
+              disabled
+              class="w-full border border-[#EDEDED] bg-gray-100 rounded-lg px-3 py-2 text-black"
             />
           </div>
 
-          {/* Email (read-only) */}
-          <div class="relative">
-            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
-              <BiSolidEnvelope size={20} />
-            </span>
+          {/* Security Question */}
+          <div>
+            <label class="block mb-1 text-sm font-medium text-gray-700">
+              Security Question
+            </label>
             <input
-              type="email"
-              value={email()}
+              type="text"
+              value={securityQ()}
               disabled
-              class="pl-10 w-full border border-[#EDEDED] bg-gray-100 rounded-lg px-3 py-2 text-black"
+              class="w-full border border-[#EDEDED] bg-gray-100 rounded-lg px-3 py-2 text-black"
             />
           </div>
 
-          {/* Status (read-only) */}
-          <input
-            type="text"
-            value={status()}
-            disabled
-            class="w-full border border-[#EDEDED] bg-gray-100 rounded-lg px-3 py-2 text-black"
-            placeholder="Status"
-          />
-
-          {/* Security Question (read-only) */}
-          <input
-            type="text"
-            value={securityQ()}
-            disabled
-            class="w-full border border-[#EDEDED] bg-gray-100 rounded-lg px-3 py-2 text-black"
-            placeholder="Security Question"
-          />
-
-          {/* Security Answer (read-only) */}
-          <input
-            type="text"
-            value={securityA()}
-            disabled
-            class="w-full border border-[#EDEDED] bg-gray-100 rounded-lg px-3 py-2 text-black"
-            placeholder="Security Answer"
-          />
-
-          {/* Password (hashed, read-only) */}
-          <div class="relative">
-            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
-              <BiSolidLockAlt size={20} />
-            </span>
+          {/* Security Answer */}
+          <div>
+            <label class="block mb-1 text-sm font-medium text-gray-700">
+              Security Answer
+            </label>
             <input
               type="text"
-              value={password()}
+              value={securityA()}
               disabled
-              class="pl-10 w-full border border-[#EDEDED] bg-gray-100 rounded-lg px-3 py-2 text-black"
+              class="w-full border border-[#EDEDED] bg-gray-100 rounded-lg px-3 py-2 text-black"
             />
+          </div>
+
+          {/* Password */}
+          <div>
+            <label class="block mb-1 text-sm font-medium text-gray-700">
+              Password (hashed)
+            </label>
+            <div class="relative">
+              <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+                <BiSolidLockAlt size={20} />
+              </span>
+              <input
+                type="text"
+                value={password()}
+                disabled
+                class="pl-10 w-full border border-[#EDEDED] bg-gray-100 rounded-lg px-3 py-2 text-black"
+              />
+            </div>
           </div>
 
           {/* Role */}
@@ -177,7 +206,7 @@ export default function EditUsers() {
         </form>
       </main>
 
-      {/* ✅ Success Popup */}
+      {/* Popup sukses */}
       {successOpen() && (
         <div class="fixed inset-0 z-[60] flex items-center justify-center bg-black/40">
           <div class="bg-white rounded-xl shadow-lg p-6 w-80 text-center">

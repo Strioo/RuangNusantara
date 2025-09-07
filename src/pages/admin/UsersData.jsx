@@ -83,11 +83,36 @@ export default function UsersData() {
     { headerName: "ID", field: "id" },
     { headerName: "Username", field: "username" },
     { headerName: "Email", field: "email" },
-    { headerName: "Role", field: "role" },
-    { headerName: "Status", field: "status" },
-    { headerName: "Security Question", field: "security_question" },
-    { headerName: "Security Answer", field: "security_answer" },
-    { headerName: "Password (hashed)", field: "password" }, // opsional, kalau mau liat hash
+    {
+      headerName: "Role",
+      field: "role",
+      valueGetter: (p) => p.data?.role ?? "-",
+    },
+    {
+      headerName: "Status",
+      field: "status",
+      valueGetter: (p) => p.data?.status ?? "-",
+    },
+    {
+      headerName: "Security Question",
+      field: "security_question",
+      valueGetter: (p) => p.data?.security_question ?? "-",
+    },
+    {
+      headerName: "Security Answer",
+      field: "security_answer",
+      valueGetter: (p) => p.data?.security_answer ?? "-",
+    },
+    {
+      headerName: "Password (hashed)",
+      field: "password",
+      valueGetter: (p) => {
+        const h = p.data?.password;
+        if (!h) return "-";
+        // tampilkan 8 awal + … + 6 akhir biar ringkas
+        return h.length > 20 ? `${h.slice(0, 8)}…${h.slice(-6)}` : h;
+      },
+    },
     {
       headerName: "Actions",
       cellRenderer: (params) => {

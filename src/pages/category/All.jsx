@@ -1,31 +1,49 @@
+// src/pages/user/All.jsx
 import { createSignal, createResource, For, Show } from "solid-js";
 import CardArtikel from "../../components/CardArtikel";
 
 const fetchArticles = async () => {
-  const res = await fetch("http://localhost:4000/artikel");
+  const res = await fetch("http://127.0.0.1:8080/articles/data");
   if (!res.ok) throw new Error("Gagal memuat artikel");
-  return await res.json();
+  const data = await res.json();
+
+  // Ambil hanya yang published, urut terbaru
+  const published = data
+    .filter((a) => String(a.status || "").toLowerCase() === "published")
+    .sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+
+  // Mapping supaya cocok dengan props CardArtikel
+  return published.map((a) => ({
+    id: a.id,
+    imgSrc: a.image || "",
+    title: a.title || "",
+    description: a.description || "",
+    author: a.author || "",
+    date: a.date ? String(a.date).slice(0, 10) : "", // yyyy-mm-dd
+  }));
 };
 
 export default function All() {
   const [articles] = createResource(fetchArticles);
   const [index, setIndex] = createSignal(0);
 
-  const cardWidth = 340; // lebar kartu (w-[340px])
-  const gapWidth = 80; // jarak antar kartu (80px)
+  // Slider config
+  const cardWidth = 340;
+  const gapWidth = 80;
   const stepWidth = cardWidth + gapWidth;
-  const maxShow = 1;
+  const maxShow = 1; // jumlah kartu yang “terlihat” untuk hitung batas geser
 
-  const maxIndex = () => Math.max(0, (articles()?.length ?? 0) - maxShow);
+  const count = () => articles()?.length ?? 0;
+  const maxIndex = () => Math.max(0, count() - maxShow);
 
   const prev = () => setIndex((i) => Math.max(i - 1, 0));
   const next = () => setIndex((i) => Math.min(maxIndex(), i + 1));
 
-  // Hitung lebar wrapper berdasarkan seluruh jumlah artikel
   const containerWidth = () => {
-    const count = articles()?.length ?? 0;
-    if (count === 0) return 0;
-    return count * cardWidth + (count - 1) * gapWidth;
+    const c = count();
+    if (c <= 0) return 0;
+    return c * cardWidth + (c - 1) * gapWidth;
+    // total = kartu*N + gap*(N-1)
   };
 
   return (
@@ -37,28 +55,42 @@ export default function All() {
           transform: `translateX(-${index() * stepWidth}px)`,
         }}
       >
-        <Show when={articles()} fallback={<div>Memuat artikel...</div>}>
-          <For each={articles()}>
-            {(artikel, idx) => (
-              <div
-                class="flex-shrink-0"
-                style={{
-                  width: `${cardWidth}px`,
-                  marginRight:
-                    idx() === articles().length - 1 ? "0px" : `${gapWidth}px`,
-                }}
-              >
-                <CardArtikel
-                  id={artikel.id}
-                  imgSrc={artikel.imgSrc}
-                  title={artikel.title}
-                  description={artikel.description}
-                  author={artikel.author}
-                  date={artikel.date}
-                />
+        <Show
+          when={!articles.loading}
+          fallback={
+            <div class="px-4 py-6 text-gray-600">Memuat artikel...</div>
+          }
+        >
+          <Show
+            when={count() > 0}
+            fallback={
+              <div class="px-4 py-6 text-gray-600 italic">
+                Belum ada artikel.
               </div>
-            )}
-          </For>
+            }
+          >
+            <For each={articles()}>
+              {(artikel, idx) => (
+                <div
+                  class="flex-shrink-0"
+                  style={{
+                    width: `${cardWidth}px`,
+                    marginRight:
+                      idx() === count() - 1 ? "0px" : `${gapWidth}px`,
+                  }}
+                >
+                  <CardArtikel
+                    id={artikel.id}
+                    imgSrc={artikel.imgSrc}
+                    title={artikel.title}
+                    description={artikel.description}
+                    author={artikel.author}
+                    date={artikel.date}
+                  />
+                </div>
+              )}
+            </For>
+          </Show>
         </Show>
       </div>
 
@@ -78,7 +110,7 @@ export default function All() {
         <button
           class="btn btn-circle btn-outline"
           onClick={next}
-          disabled={index() === maxIndex()}
+          disabled={index() === maxIndex() || count() <= maxShow}
           aria-label="Next"
         >
           <img src="/src/assets/images/ArrowRight.png" class="w-6 h-6" alt="" />

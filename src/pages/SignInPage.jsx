@@ -1,10 +1,49 @@
-import { createSignal } from "solid-js";
+import { createSignal, Show } from "solid-js";
+import { FiAlertCircle, FiCheckCircle } from "solid-icons/fi";
 
 export default function SignInPage() {
   const [showPassword, setShowPassword] = createSignal(false);
   const [email, setEmail] = createSignal("");
   const [password, setPassword] = createSignal("");
   const [loading, setLoading] = createSignal(false);
+
+  // ===== POPUP STATE =====
+  const [popupOpen, setPopupOpen] = createSignal(false);
+  const [popupType, setPopupType] = createSignal("info"); // "success" | "error" | "info"
+  const [popupTitle, setPopupTitle] = createSignal("");
+  const [popupMsg, setPopupMsg] = createSignal("");
+  const [popupPrimaryText, setPopupPrimaryText] = createSignal("OK");
+  const [popupSecondaryText, setPopupSecondaryText] = createSignal("");
+  let popupPrimaryAction = () => setPopupOpen(false);
+  let popupSecondaryAction = () => setPopupOpen(false);
+
+  const openPopup = ({
+    type = "info",
+    title = "",
+    msg = "",
+    primaryText = "OK",
+    onPrimary = () => setPopupOpen(false),
+    secondaryText = "",
+    onSecondary = () => setPopupOpen(false),
+  }) => {
+    setPopupType(type);
+    setPopupTitle(title);
+    setPopupMsg(msg);
+    setPopupPrimaryText(primaryText);
+    setPopupSecondaryText(secondaryText);
+    popupPrimaryAction = onPrimary;
+    popupSecondaryAction = onSecondary;
+    setPopupOpen(true);
+  };
+
+  const IconByType = () =>
+    popupType() === "success" ? (
+      <FiCheckCircle size={60} class="text-green-500 mb-3" />
+    ) : popupType() === "error" ? (
+      <FiAlertCircle size={60} class="text-red-500 mb-3" />
+    ) : (
+      <FiAlertCircle size={60} class="text-[#264653] mb-3" />
+    );
 
   const handleSignIn = async (e) => {
     e.preventDefault();
@@ -20,21 +59,93 @@ export default function SignInPage() {
         }),
       });
 
-      const data = await res.json();
-      if (!res.ok) {
-        alert(data || "Login gagal.");
+      let payload;
+      try {
+        payload = await res.json();
+      } catch {
+        payload = await res.text();
+      }
+
+      // === khusus email belum terverifikasi ===
+      if (res.status === 403) {
+        const msg =
+          (typeof payload === "string" ? payload : "") ||
+          (payload?.message ?? "Email belum terverifikasi.");
+        openPopup({
+          type: "error",
+          title: "Email Belum Terverifikasi",
+          msg,
+          primaryText: "Verifikasi Sekarang",
+          onPrimary: () => {
+            if (typeof payload !== "string" && payload?.email) {
+              localStorage.setItem("pendingEmail", payload.email);
+            } else if (email()) {
+              localStorage.setItem("pendingEmail", email().trim());
+            }
+            setPopupOpen(false);
+            window.location.href = "/verifikasi";
+          },
+          secondaryText: "Tutup",
+          onSecondary: () => setPopupOpen(false),
+        });
         return;
       }
 
-      // simpan token + user info ke localStorage
+      if (!res.ok) {
+        const msg =
+          (typeof payload === "string" ? payload : "") ||
+          (payload?.message ?? "Login gagal.");
+        openPopup({
+          type: "error",
+          title: "Login Gagal",
+          msg,
+          primaryText: "Tutup",
+        });
+        return;
+      }
+
+      // === sukses login ===
+      const data = typeof payload === "string" ? JSON.parse(payload) : payload; // { token, user_id, username, email }
       localStorage.setItem("authToken", data.token);
       localStorage.setItem("currentUser", JSON.stringify(data));
 
-      alert(`Selamat datang, ${data.username}!`);
-      window.location.href = "/"; // arahkan ke halaman utama/dashboard
+      // Ambil role, simpan, dan tentukan redirect
+      let nextHref = "/";
+      try {
+        const meRes = await fetch("http://127.0.0.1:8080/users/me", {
+          headers: { Authorization: `Bearer ${data.token}` },
+        });
+        if (meRes.ok) {
+          const me = await meRes.json(); // { id, username, email, role }
+          const role = (me.role || "").toLowerCase();
+          localStorage.setItem(
+            "currentUser",
+            JSON.stringify({ ...data, role })
+          );
+          if (role === "admin") nextHref = "/usersmanagement";
+        }
+      } catch {
+        /* biarkan fallback ke "/" */
+      }
+
+      openPopup({
+        type: "success",
+        title: "Berhasil Masuk",
+        msg: `Selamat datang, ${data.username}!`,
+        primaryText: "Lanjut",
+        onPrimary: () => {
+          setPopupOpen(false);
+          window.location.href = nextHref;
+        },
+      });
     } catch (err) {
       console.error(err);
-      alert("Terjadi kesalahan jaringan. Coba lagi.");
+      openPopup({
+        type: "error",
+        title: "Kesalahan Jaringan",
+        msg: "Tidak dapat terhubung ke server. Periksa koneksi internet kamu lalu coba lagi.",
+        primaryText: "Tutup",
+      });
     } finally {
       setLoading(false);
     }
@@ -58,7 +169,7 @@ export default function SignInPage() {
           </p>
 
           <form class="space-y-4" onSubmit={handleSignIn}>
-            {/* Email */}
+            {/* Email / Username */}
             <div class="form-control w-full">
               <label class="label">
                 <span class="label-text text-black">Email / Username</span>
@@ -78,7 +189,7 @@ export default function SignInPage() {
                   class="grow outline-none bg-transparent text-black"
                   required
                   value={email()}
-                  onInput={(e) => setEmail(e.target.value)}
+                  onInput={(e) => setEmail(e.currentTarget.value)}
                 />
               </div>
             </div>
@@ -103,7 +214,7 @@ export default function SignInPage() {
                   class="grow outline-none bg-transparent text-black"
                   required
                   value={password()}
-                  onInput={(e) => setPassword(e.target.value)}
+                  onInput={(e) => setPassword(e.currentTarget.value)}
                 />
                 <img
                   src={
@@ -163,6 +274,39 @@ export default function SignInPage() {
           class="object-cover w-full h-full"
         />
       </div>
+
+      {/* ===== POPUP ===== */}
+      <Show when={popupOpen()}>
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div class="bg-white rounded-lg shadow-xl p-6 w-96">
+            <div class="flex flex-col items-center text-center">
+              <IconByType />
+              <h2 class="text-lg font-semibold text-gray-800 mb-2">
+                {popupTitle()}
+              </h2>
+              <p class="text-sm text-gray-600 mb-6">{popupMsg()}</p>
+
+              <div class="flex gap-4">
+                <button
+                  onClick={() => popupPrimaryAction()}
+                  class="px-4 py-2 bg-[#264653] text-white rounded-lg hover:bg-[#516B75] transition"
+                >
+                  {popupPrimaryText()}
+                </button>
+
+                <Show when={popupSecondaryText()}>
+                  <button
+                    onClick={() => popupSecondaryAction()}
+                    class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition"
+                  >
+                    {popupSecondaryText()}
+                  </button>
+                </Show>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Show>
     </section>
   );
 }

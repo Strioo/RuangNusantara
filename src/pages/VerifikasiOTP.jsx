@@ -1,15 +1,145 @@
-import { createSignal, onMount } from "solid-js";
+import { createSignal, onMount, onCleanup, Show } from "solid-js";
+import { FiAlertCircle, FiCheckCircle } from "solid-icons/fi";
 
 export default function VerifikasiOTP() {
   const [otp, setOtp] = createSignal(["", "", "", "", "", ""]);
   const [email, setEmail] = createSignal("");
   const [loading, setLoading] = createSignal(false);
 
-  // ambil email yg disimpan saat register
+  // --- resend state ---
+  const [resendLoading, setResendLoading] = createSignal(false);
+  const [resendMsg, setResendMsg] = createSignal({ type: "", text: "" }); // 'success' | 'error'
+  const [cooldown, setCooldown] = createSignal(0); // detik
+  let timerId;
+
+  // ===== POPUP STATE =====
+  // type: "success" | "error" | "info"
+  const [popupOpen, setPopupOpen] = createSignal(false);
+  const [popupType, setPopupType] = createSignal("info");
+  const [popupTitle, setPopupTitle] = createSignal("");
+  const [popupMsg, setPopupMsg] = createSignal("");
+  const [popupPrimaryText, setPopupPrimaryText] = createSignal("OK");
+  const [popupSecondaryText, setPopupSecondaryText] = createSignal("");
+  let popupPrimaryAction = () => setPopupOpen(false);
+  let popupSecondaryAction = () => setPopupOpen(false);
+
+  const openPopup = ({
+    type = "info",
+    title = "",
+    msg = "",
+    primaryText = "OK",
+    onPrimary = () => setPopupOpen(false),
+    secondaryText = "",
+    onSecondary = () => setPopupOpen(false),
+  }) => {
+    setPopupType(type);
+    setPopupTitle(title);
+    setPopupMsg(msg);
+    setPopupPrimaryText(primaryText);
+    setPopupSecondaryText(secondaryText);
+    popupPrimaryAction = onPrimary;
+    popupSecondaryAction = onSecondary;
+    setPopupOpen(true);
+  };
+  const closePopup = () => setPopupOpen(false);
+
+  const IconByType = () =>
+    popupType() === "success" ? (
+      <FiCheckCircle size={60} class="text-green-500 mb-3" />
+    ) : popupType() === "error" ? (
+      <FiAlertCircle size={60} class="text-red-500 mb-3" />
+    ) : (
+      <FiAlertCircle size={60} class="text-[#264653] mb-3" />
+    );
+
+  // ambil email yg disimpan saat register + fokus input pertama
   onMount(() => {
     const pending = localStorage.getItem("pendingEmail");
     if (pending) setEmail(pending);
+    const el = document.getElementById("otp-0");
+    if (el) el.focus();
   });
+
+  // ESC untuk nutup popup
+  const onKeyDownGlobal = (e) => {
+    if (e.key === "Escape" && popupOpen()) closePopup();
+  };
+  onMount(() => window.addEventListener("keydown", onKeyDownGlobal));
+  onCleanup(() => {
+    window.removeEventListener("keydown", onKeyDownGlobal);
+    if (timerId) clearInterval(timerId);
+  });
+
+  const startCooldown = (seconds = 30) => {
+    setCooldown(seconds);
+    if (timerId) clearInterval(timerId);
+    timerId = setInterval(() => {
+      setCooldown((c) => {
+        if (c <= 1) {
+          clearInterval(timerId);
+          return 0;
+        }
+        return c - 1;
+      });
+    }, 1000);
+  };
+
+  const handleResend = async () => {
+    if (!email()) {
+      setResendMsg({
+        type: "error",
+        text: "Email tidak ditemukan. Ulangi proses registrasi.",
+      });
+      return;
+    }
+    if (cooldown() > 0 || resendLoading()) return;
+
+    setResendLoading(true);
+    setResendMsg({ type: "", text: "" });
+
+    try {
+      const res = await fetch("http://127.0.0.1:8080/users/resend_otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email().trim() }),
+      });
+
+      let ok = res.ok;
+      let payload;
+      try {
+        payload = await res.json();
+      } catch {
+        payload = { message: await res.text() };
+      }
+
+      if (!ok) {
+        setResendMsg({
+          type: "error",
+          text: payload?.message || "Gagal mengirim ulang OTP.",
+        });
+        return;
+      }
+
+      setResendMsg({
+        type: payload?.sent ? "success" : "error",
+        text:
+          payload?.message ||
+          (payload?.sent
+            ? "OTP telah dikirim ulang."
+            : "OTP dibuat ulang, namun email gagal dikirim."),
+      });
+
+      startCooldown(30);
+    } catch (e) {
+      console.error(e);
+      setResendMsg({
+        type: "error",
+        text: "Kesalahan jaringan saat mengirim ulang OTP.",
+      });
+    } finally {
+      setResendLoading(false);
+    }
+  };
 
   const handleOtpInput = (index, e) => {
     const value = e.target.value.replace(/[^0-9]/g, "");
@@ -30,7 +160,12 @@ export default function VerifikasiOTP() {
   const handleVerify = async () => {
     const code = otp().join("").trim();
     if (!email() || code.length !== 6) {
-      alert("Email atau kode OTP belum lengkap.");
+      openPopup({
+        type: "error",
+        title: "Data Belum Lengkap",
+        msg: "Email atau kode OTP belum lengkap. Pastikan 6 digit OTP terisi.",
+        primaryText: "Tutup",
+      });
       return;
     }
 
@@ -44,17 +179,37 @@ export default function VerifikasiOTP() {
 
       const text = await res.text();
       if (!res.ok) {
-        alert(text || "Verifikasi gagal.");
+        openPopup({
+          type: "error",
+          title: "Verifikasi Gagal",
+          msg: text || "Kode OTP tidak valid atau sudah kadaluarsa.",
+          primaryText: "Tutup",
+        });
         return;
       }
 
       // sukses
       localStorage.removeItem("pendingEmail");
-      alert("Verifikasi berhasil. Silakan login.");
-      window.location.href = "/signin";
+      openPopup({
+        type: "success",
+        title: "Verifikasi Berhasil",
+        msg: "Akun kamu sudah terverifikasi. Silakan login untuk melanjutkan.",
+        primaryText: "Masuk Sekarang",
+        onPrimary: () => {
+          setPopupOpen(false);
+          window.location.href = "/signin";
+        },
+        secondaryText: "Nanti Saja",
+        onSecondary: () => setPopupOpen(false),
+      });
     } catch (err) {
       console.error(err);
-      alert("Terjadi kesalahan jaringan.");
+      openPopup({
+        type: "error",
+        title: "Kesalahan Jaringan",
+        msg: "Tidak dapat terhubung ke server. Periksa koneksi internet kamu lalu coba lagi.",
+        primaryText: "Tutup",
+      });
     } finally {
       setLoading(false);
     }
@@ -111,13 +266,38 @@ export default function VerifikasiOTP() {
           <p class="text-center text-sm mt-6 text-gray-500 font-medium">
             Masukkan 6 digit kode OTP yang baru saja kami kirimkan.
           </p>
-          <button
-            class="btn btn-link text-[#264653] underline mt-1"
-            type="button"
-            style="padding:0;"
-          >
-            Kirim Ulang Kode
-          </button>
+
+          <div class="flex items-center justify-center mt-1">
+            <button
+              class="btn btn-link text-[#264653] underline p-0"
+              type="button"
+              disabled={resendLoading() || cooldown() > 0}
+              onClick={handleResend}
+              title={
+                cooldown() > 0
+                  ? `Tunggu ${cooldown()}s`
+                  : "Kirim ulang kode ke email"
+              }
+            >
+              {resendLoading()
+                ? "Mengirim ulang…"
+                : cooldown() > 0
+                ? `Kirim Ulang Kode (${cooldown()}s)`
+                : "Kirim Ulang Kode"}
+            </button>
+
+            {resendMsg().text && (
+              <span
+                class={`text-sm ${
+                  resendMsg().type === "success"
+                    ? "text-green-600"
+                    : "text-red-600"
+                }`}
+              >
+                {resendMsg().text}
+              </span>
+            )}
+          </div>
         </div>
 
         <footer class="text-center text-gray-500 text-sm mt-10">
@@ -132,6 +312,39 @@ export default function VerifikasiOTP() {
           class="object-cover w-full h-full"
         />
       </div>
+
+      {/* ===== POPUP ===== */}
+      <Show when={popupOpen()}>
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div class="bg-white rounded-lg shadow-xl p-6 w-96">
+            <div class="flex flex-col items-center text-center">
+              <IconByType />
+              <h2 class="text-lg font-semibold text-gray-800 mb-2">
+                {popupTitle()}
+              </h2>
+              <p class="text-sm text-gray-600 mb-6">{popupMsg()}</p>
+
+              <div class="flex gap-4">
+                <button
+                  onClick={() => popupPrimaryAction()}
+                  class="px-4 py-2 bg-[#264653] text-white rounded-lg hover:bg-[#516B75] transition"
+                >
+                  {popupPrimaryText()}
+                </button>
+
+                <Show when={popupSecondaryText()}>
+                  <button
+                    onClick={() => popupSecondaryAction()}
+                    class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition"
+                  >
+                    {popupSecondaryText()}
+                  </button>
+                </Show>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Show>
     </section>
   );
 }

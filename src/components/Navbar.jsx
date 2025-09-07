@@ -1,5 +1,6 @@
-import { createSignal, onMount } from "solid-js";
+import { createSignal, onMount, Show } from "solid-js";
 import { A, useLocation } from "@solidjs/router";
+import { FiAlertCircle, FiCheckCircle } from "solid-icons/fi";
 
 const navItems = [
   { name: "Beranda", href: "/" },
@@ -12,42 +13,138 @@ export default function Navbar() {
   const location = useLocation();
   const [menuOpen, setMenuOpen] = createSignal(false);
   const [currentUser, setCurrentUser] = createSignal(null);
+  const [loggingOut, setLoggingOut] = createSignal(false);
 
-  // cek localStorage saat load
+  // ==== POPUP STATE ====
+  const [popupOpen, setPopupOpen] = createSignal(false);
+  const [popupType, setPopupType] = createSignal("info"); // success | error | info
+  const [popupTitle, setPopupTitle] = createSignal("");
+  const [popupMsg, setPopupMsg] = createSignal("");
+  const [popupPrimaryText, setPopupPrimaryText] = createSignal("OK");
+  const [popupSecondaryText, setPopupSecondaryText] = createSignal("");
+  let popupPrimaryAction = () => setPopupOpen(false);
+  let popupSecondaryAction = () => setPopupOpen(false);
+
+  const openPopup = ({
+    type,
+    title,
+    msg,
+    primaryText = "OK",
+    onPrimary,
+    secondaryText = "",
+    onSecondary,
+  }) => {
+    setPopupType(type);
+    setPopupTitle(title);
+    setPopupMsg(msg);
+    setPopupPrimaryText(primaryText);
+    setPopupSecondaryText(secondaryText);
+    popupPrimaryAction = onPrimary || (() => setPopupOpen(false));
+    popupSecondaryAction = onSecondary || (() => setPopupOpen(false));
+    setPopupOpen(true);
+  };
+
+  const IconByType = () =>
+    popupType() === "success" ? (
+      <FiCheckCircle size={60} class="text-green-500 mb-3" />
+    ) : popupType() === "error" ? (
+      <FiAlertCircle size={60} class="text-red-500 mb-3" />
+    ) : (
+      <FiAlertCircle size={60} class="text-[#264653] mb-3" />
+    );
+
   onMount(() => {
     const user = localStorage.getItem("currentUser");
-    if (user) {
-      setCurrentUser(JSON.parse(user));
-    }
+    if (user) setCurrentUser(JSON.parse(user));
   });
 
-  const handleLogout = async () => {
-    const token = localStorage.getItem("authToken");
-
-    try {
-      const res = await fetch("http://127.0.0.1:8080/logout", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (!res.ok) {
-        const msg = await res.text();
-        alert(msg || "Logout gagal");
-      } else {
-        alert("Anda berhasil logout");
-      }
-    } catch (err) {
-      console.error(err);
-      alert("Error jaringan saat logout");
-    }
-
-    // clear localStorage
+  const finishLogoutFE = () => {
     localStorage.removeItem("authToken");
     localStorage.removeItem("currentUser");
     setCurrentUser(null);
-    window.location.href = "/";
+  };
+
+  // 1) Tampilkan konfirmasi dulu
+  const confirmLogout = () => {
+    if (loggingOut()) return;
+    openPopup({
+      type: "info",
+      title: "Konfirmasi Logout",
+      msg: "Yakin ingin keluar dari akun?",
+      primaryText: "Ya, Logout",
+      onPrimary: () => {
+        setPopupOpen(false);
+        doLogout();
+      },
+      secondaryText: "Batal",
+      onSecondary: () => setPopupOpen(false),
+    });
+  };
+
+  // 2) Eksekusi logout → tampilkan popup hasil
+  const doLogout = async () => {
+    setLoggingOut(true);
+    const token = localStorage.getItem("authToken");
+
+    try {
+      if (token) {
+        const res = await fetch("http://127.0.0.1:8080/logout", {
+          method: "POST",
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        let payload;
+        try {
+          payload = await res.json();
+        } catch {
+          payload = await res.text();
+        }
+
+        if (!res.ok) {
+          finishLogoutFE();
+          openPopup({
+            type: "error",
+            title: "Logout Gagal di Server",
+            msg:
+              (typeof payload === "string" ? payload : payload?.message) ||
+              "Terjadi kesalahan saat logout di server. Sesi lokal telah dihapus.",
+            primaryText: "Kembali ke Beranda",
+            onPrimary: () => {
+              setPopupOpen(false);
+              window.location.href = "/";
+            },
+          });
+          return;
+        }
+      }
+
+      finishLogoutFE();
+      openPopup({
+        type: "success",
+        title: "Logout Berhasil",
+        msg: "Anda telah keluar dari akun.",
+        primaryText: "Kembali ke Beranda",
+        onPrimary: () => {
+          setPopupOpen(false);
+          window.location.href = "/";
+        },
+      });
+    } catch (err) {
+      console.error(err);
+      finishLogoutFE();
+      openPopup({
+        type: "error",
+        title: "Kesalahan Jaringan",
+        msg: "Tidak dapat terhubung ke server. Sesi lokal telah dihapus.",
+        primaryText: "Kembali ke Beranda",
+        onPrimary: () => {
+          setPopupOpen(false);
+          window.location.href = "/";
+        },
+      });
+    } finally {
+      setLoggingOut(false);
+    }
   };
 
   return (
@@ -85,10 +182,13 @@ export default function Navbar() {
                 👋 {currentUser().username}
               </span>
               <button
-                onClick={handleLogout}
-                class="bg-[#264653] text-white px-4 py-2 rounded-md font-semibold hover:bg-[#516B75] transition text-center"
+                onClick={confirmLogout}
+                disabled={loggingOut()}
+                class={`${
+                  loggingOut() ? "opacity-60 cursor-not-allowed" : ""
+                } bg-[#264653] text-white px-4 py-2 rounded-md font-semibold hover:bg-[#516B75] transition text-center`}
               >
-                Logout
+                {loggingOut() ? "Logging out..." : "Logout"}
               </button>
             </>
           ) : (
@@ -171,12 +271,15 @@ export default function Navbar() {
               </span>
               <button
                 onClick={() => {
-                  handleLogout();
+                  confirmLogout();
                   setMenuOpen(false);
                 }}
-                class="bg-[#264653] text-white px-4 py-2 rounded-md font-semibold hover:bg-[#516B75] transition text-center"
+                disabled={loggingOut()}
+                class={`${
+                  loggingOut() ? "opacity-60 cursor-not-allowed" : ""
+                } bg-[#264653] text-white px-4 py-2 rounded-md font-semibold hover:bg-[#516B75] transition text-center`}
               >
-                Logout
+                {loggingOut() ? "Logging out..." : "Logout"}
               </button>
             </>
           ) : (
@@ -199,6 +302,38 @@ export default function Navbar() {
           )}
         </nav>
       </aside>
+
+      {/* ===== POPUP ===== */}
+      <Show when={popupOpen()}>
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div class="bg-white rounded-lg shadow-xl p-6 w-96">
+            <div class="flex flex-col items-center text-center">
+              <IconByType />
+              <h2 class="text-lg font-semibold text-gray-800 mb-2">
+                {popupTitle()}
+              </h2>
+              <p class="text-sm text-gray-600 mb-6">{popupMsg()}</p>
+
+              <div class="flex gap-4">
+                <button
+                  onClick={() => popupPrimaryAction()}
+                  class="px-4 py-2 bg-[#264653] text-white rounded-lg hover:bg-[#516B75] transition"
+                >
+                  {popupPrimaryText()}
+                </button>
+                <Show when={popupSecondaryText()}>
+                  <button
+                    onClick={() => popupSecondaryAction()}
+                    class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition"
+                  >
+                    {popupSecondaryText()}
+                  </button>
+                </Show>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Show>
     </>
   );
 }

@@ -7,10 +7,12 @@
     "start": "vite",
     "dev": "vite",
     "build": "vite build",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "server": "json-server --watch data.json --port 4000"
   },
   "license": "MIT",
   "devDependencies": {
+    "json-server": "^1.0.0-beta.3",
     "vite": "^6.0.0",
     "vite-plugin-solid": "^2.11.6"
   },

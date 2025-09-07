@@ -1,5 +1,5 @@
 // src/pages/admin/ArticlePage.jsx
-import { createSignal, onMount, createMemo } from "solid-js"; // ⬅️ tambahin createMemo
+import { createSignal, onMount, createMemo } from "solid-js";
 import { useNavigate } from "@solidjs/router";
 import AgGridSolid from "solid-ag-grid";
 import "ag-grid-community/styles/ag-grid.css";
@@ -9,48 +9,65 @@ import NavAdmin from "../../components/NavAdmin";
 import { BiSolidSearch, BiSolidPlusCircle } from "solid-icons/bi";
 import { FiAlertCircle } from "solid-icons/fi";
 
+const API = "http://127.0.0.1:8080";
+
 export default function ArticlePage() {
   const [articles, setArticles] = createSignal([]);
   const [filteredArticles, setFilteredArticles] = createSignal([]);
   const [searchTerm, setSearchTerm] = createSignal("");
+  const [loading, setLoading] = createSignal(false);
   const [showDeletePopup, setShowDeletePopup] = createSignal(false);
   const [articleToDelete, setArticleToDelete] = createSignal(null);
   const navigate = useNavigate();
 
-  onMount(() => {
-    loadArticles();
-    window.addEventListener("storage", loadArticles);
-  });
+  const mapFromBE = (arr) =>
+    arr.map((a) => ({
+      id: a.id,
+      title: a.title,
+      status: a.status,
+      author: a.author,
+      category: a.category,
+      date: a.date ? String(a.date).slice(0, 10) : "",
+      image: a.image || "",
+      description: a.description || "",
+      content: a.content || "",
+      conclusion: a.conclusion || "",
+      // views dihapus
+    }));
 
-  const loadArticles = () => {
-    const saved = localStorage.getItem("articles");
-    if (saved) {
-      const parsed = JSON.parse(saved);
-      setArticles(parsed);
-      setFilteredArticles(parsed);
+  const loadArticles = async () => {
+    try {
+      setLoading(true);
+      const res = await fetch(`${API}/articles/data`);
+      if (!res.ok) throw new Error(await res.text());
+      const data = await res.json();
+      const mapped = mapFromBE(data);
+      setArticles(mapped);
+      setFilteredArticles(mapped);
+    } catch (e) {
+      console.error("Load articles error:", e);
+      setArticles([]);
+      setFilteredArticles([]);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const updateArticles = (newData) => {
-    setArticles(newData);
-    setFilteredArticles(newData);
-    localStorage.setItem("articles", JSON.stringify(newData));
-    window.dispatchEvent(new Event("storage"));
-  };
+  onMount(loadArticles);
 
   const handleSearch = (e) => {
     const term = e.target.value;
     setSearchTerm(term);
-    if (term === "") {
-      setFilteredArticles(articles());
-    } else {
-      const filtered = articles().filter((a) =>
-        Object.values(a).some((val) =>
-          String(val).toLowerCase().includes(term.toLowerCase())
-        )
-      );
-      setFilteredArticles(filtered);
-    }
+    if (!term) return setFilteredArticles(articles());
+    const t = term.toLowerCase();
+    setFilteredArticles(
+      articles().filter((a) =>
+        [a.title, a.status, a.author, a.category, a.description, a.date]
+          .join(" ")
+          .toLowerCase()
+          .includes(t)
+      )
+    );
   };
 
   const confirmDelete = (article) => {
@@ -58,12 +75,27 @@ export default function ArticlePage() {
     setShowDeletePopup(true);
   };
 
-  const deleteArticle = () => {
+  const deleteArticle = async () => {
     const target = articleToDelete();
-    if (target) {
+    if (!target) return;
+    try {
+      const res = await fetch(`${API}/articles/delete/${target.id}`, {
+        method: "DELETE",
+      });
+      if (!res.ok) throw new Error(await res.text());
       const updated = articles().filter((a) => a.id !== target.id);
-      updateArticles(updated);
+      setArticles(updated);
+      setFilteredArticles(
+        updated.filter((a) =>
+          JSON.stringify(a).toLowerCase().includes(searchTerm().toLowerCase())
+        )
+      );
+    } catch (e) {
+      console.error("Delete error:", e);
+      // pakai popup kalau kamu sudah punya util popup global; sementara biarkan console
+    } finally {
       setShowDeletePopup(false);
+      setArticleToDelete(null);
     }
   };
 
@@ -72,31 +104,28 @@ export default function ArticlePage() {
     setArticleToDelete(null);
   };
 
-  // 📊 Overview stats pakai createMemo
+  // 📊 Overview stats (tanpa views)
   const totalArticles = createMemo(() => articles().length);
-
   const publishedArticles = createMemo(
     () =>
       articles().filter((a) => (a.status || "").toLowerCase() === "published")
         .length
   );
-
   const draftArticles = createMemo(
     () =>
       articles().filter((a) => (a.status || "").toLowerCase() === "draft")
         .length
   );
 
-  const totalViews = createMemo(() =>
-    articles().reduce((acc, curr) => acc + (parseInt(curr.views) || 0), 0)
-  );
-
   const columnDefs = [
     { headerName: "Title", field: "title" },
-    { headerName: "Status", field: "status" },
-    { headerName: "Views", field: "views" },
+    { headerName: "Category", field: "category", width: 160 },
+    { headerName: "Status", field: "status", width: 120 },
+    { headerName: "Date", field: "date", width: 140 },
+    // Views column dihapus
     {
       headerName: "Actions",
+      width: 200,
       cellRenderer: (params) => {
         const container = document.createElement("div");
         container.className = "flex items-center justify-start gap-2 h-full";
@@ -124,7 +153,7 @@ export default function ArticlePage() {
 
   const defaultColDef = {
     flex: 1,
-    minWidth: 150,
+    minWidth: 120,
     sortable: true,
     filter: true,
     resizable: true,
@@ -138,8 +167,8 @@ export default function ArticlePage() {
       <main class="ml-64 pt-22 p-6">
         <p class="text-[18px] font-bold mb-6 text-black">Articles Management</p>
 
-        {/* 🔹 Overview Cards */}
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        {/* Overview Cards (tanpa Total Views) */}
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
           <div class="bg-white shadow rounded-lg p-4 border border-[#EDEDED]">
             <p class="text-sm text-gray-500">Total Articles</p>
             <p class="text-2xl font-bold text-black">{totalArticles()}</p>
@@ -154,13 +183,9 @@ export default function ArticlePage() {
             <p class="text-sm text-gray-500">Drafts</p>
             <p class="text-2xl font-bold text-yellow-600">{draftArticles()}</p>
           </div>
-          <div class="bg-white shadow rounded-lg p-4 border border-[#EDEDED]">
-            <p class="text-sm text-gray-500">Total Views</p>
-            <p class="text-2xl font-bold text-blue-600">{totalViews()}</p>
-          </div>
         </div>
 
-        {/* Toolbar: Search + Add Article */}
+        {/* Toolbar */}
         <div class="mb-4 flex items-center justify-between">
           <div class="relative w-full max-w-sm">
             <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -195,7 +220,9 @@ export default function ArticlePage() {
             "--ag-header-column-separator-color": "#EDEDED",
           }}
         >
-          {filteredArticles().length > 0 ? (
+          {loading() ? (
+            <p class="p-4 text-gray-500">Loading...</p>
+          ) : filteredArticles().length > 0 ? (
             <AgGridSolid
               columnDefs={columnDefs}
               rowData={filteredArticles()}
@@ -209,7 +236,7 @@ export default function ArticlePage() {
         </div>
       </main>
 
-      {/* Delete Confirmation Popup */}
+      {/* Delete Confirmation */}
       {showDeletePopup() && (
         <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
           <div class="bg-white rounded-lg shadow-xl p-6 w-96">

@@ -1,5 +1,5 @@
 // src/pages/admin/EditArticle.jsx
-import { createSignal, onMount } from "solid-js";
+import { createSignal, onMount, createEffect, onCleanup } from "solid-js";
 import { useParams, useNavigate } from "@solidjs/router";
 import Sidebar from "../../components/Sidebar";
 import NavAdmin from "../../components/NavAdmin";
@@ -7,39 +7,37 @@ import { FiCheckCircle } from "solid-icons/fi";
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
 
+const API = "http://127.0.0.1:8080";
+
 export default function EditArticle() {
-  const { id } = useParams(); // id dari URL
+  const { id } = useParams();
   const navigate = useNavigate();
 
+  const [loading, setLoading] = createSignal(true);
+  const [saving, setSaving] = createSignal(false);
+  const [error, setError] = createSignal("");
+
   const [title, setTitle] = createSignal("");
+  const [author, setAuthor] = createSignal("");
+  const [date, setDate] = createSignal(""); // display only
   const [category, setCategory] = createSignal("Seni & Musik");
   const [status, setStatus] = createSignal("draft");
-  const [image, setImage] = createSignal("");
-  const [content, setContent] = createSignal("");
-  const [views, setViews] = createSignal(0); // pertahankan view lama
+  const [image, setImage] = createSignal(""); // URL
+  const [description, setDescription] = createSignal("");
+  const [content, setContent] = createSignal(""); // HTML dari Quill
+  const [conclusion, setConclusion] = createSignal("");
+  const [views, setViews] = createSignal(0); // tidak dikirim saat update
+
   const [successOpen, setSuccessOpen] = createSignal(false);
   const [editor, setEditor] = createSignal(null);
 
-  onMount(() => {
-    // Ambil artikel lama
-    let initialHtml = "";
-    const saved = localStorage.getItem("articles");
-    if (saved) {
-      const articles = JSON.parse(saved);
-      const article = articles.find((a) => a.id === Number(id));
-      if (article) {
-        setTitle(article.title || "");
-        setCategory(article.category || "Seni & Musik");
-        setStatus(article.status || "draft");
-        setImage(article.image || "");
-        setViews(article.views || 0);
-        initialHtml = article.content || "";
-        setContent(initialHtml);
-      }
-    }
+  // DOM node untuk Quill (hindari querySelector by id)
+  let editorHost;
 
-    // Inisialisasi Quill
-    const quill = new Quill("#editor", {
+  const initQuill = (initialHtml = "") => {
+    if (!editorHost || editor()) return; // guard: node belum ada / sudah pernah init
+
+    const q = new Quill(editorHost, {
       theme: "snow",
       placeholder: "Edit artikel di sini...",
       modules: {
@@ -54,48 +52,98 @@ export default function EditArticle() {
       },
     });
 
-    // Isi editor dengan konten awal
-    if (initialHtml) quill.clipboard.dangerouslyPasteHTML(initialHtml);
-    quill.on("text-change", () => setContent(quill.root.innerHTML));
-    setEditor(quill);
-  });
-
-  const handleFileUpload = (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onloadend = () => setImage(reader.result); // simpan base64
-    reader.readAsDataURL(file);
+    if (initialHtml) q.clipboard.dangerouslyPasteHTML(initialHtml);
+    q.on("text-change", () => setContent(q.root.innerHTML));
+    setEditor(q);
   };
 
-  const clearImage = () => setImage("");
+  const loadArticle = async () => {
+    try {
+      setLoading(true);
+      setError("");
 
-  const handleSubmit = (e) => {
+      const res = await fetch(`${API}/articles/data/${id}`);
+      if (res.status === 404) {
+        setError("Artikel tidak ditemukan.");
+        return;
+      }
+      if (!res.ok) throw new Error(await res.text());
+
+      const a = await res.json();
+      setTitle(a.title || "");
+      setAuthor(a.author || "");
+      setDate(a.date ? String(a.date).slice(0, 10) : "");
+      setCategory(a.category || "Seni & Musik");
+      setStatus(a.status || "draft");
+      setImage(a.image || "");
+      setDescription(a.description || "");
+      setConclusion(a.conclusion || "");
+      setViews(a.views ?? 0);
+
+      const initialHtml = a.content || "";
+      setContent(initialHtml);
+      // ❌ JANGAN init Quill di sini (DOM editor belum pasti ada)
+    } catch (e) {
+      console.error(e);
+      setError("Gagal memuat artikel.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  onMount(loadArticle);
+
+  // Inisialisasi Quill setelah:
+  // (1) loading selesai (form + <div ref> sudah ter-render)
+  // (2) kita punya content awal
+  createEffect(() => {
+    if (!loading() && editorHost && !editor()) {
+      // Tunggu microtask supaya node benar-benar terpasang
+      queueMicrotask(() => initQuill(content() || ""));
+    }
+  });
+
+  // Bersihkan listener saat unmount / HMR ganti route
+  onCleanup(() => {
+    const q = editor();
+    if (q) {
+      q.off("text-change");
+      setEditor(null);
+    }
+  });
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    if (saving()) return;
 
     const html = editor()?.root?.innerHTML ?? content();
 
-    // Update ke localStorage
-    const saved = localStorage.getItem("articles");
-    if (saved) {
-      const articles = JSON.parse(saved);
-      const updated = articles.map((a) =>
-        a.id === Number(id)
-          ? {
-              ...a,
-              title: title().trim(),
-              category: category(),
-              status: status(), // "draft" | "published"
-              image: image(),
-              content: html,
-              views: views(), // pertahankan
-            }
-          : a
-      );
-      localStorage.setItem("articles", JSON.stringify(updated));
-    }
+    const payload = {
+      title: title().trim(),
+      author: author().trim(),
+      description: description().trim(),
+      category: category(),
+      status: status(), // "draft" | "published"
+      image: image().trim() || null, // kosong => NULL
+      content: html || "",
+      conclusion: conclusion().trim() || null,
+    };
 
-    setSuccessOpen(true);
+    try {
+      setSaving(true);
+      const res = await fetch(`${API}/articles/edit/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error(await res.text());
+      setSuccessOpen(true);
+    } catch (e) {
+      console.error(e);
+      alert("Gagal menyimpan perubahan.");
+    } finally {
+      setSaving(false);
+    }
   };
 
   const closeSuccess = () => {
@@ -128,147 +176,207 @@ export default function EditArticle() {
       `}</style>
 
       <main class="ml-64 pt-22 p-6">
-        {/* Header + hint */}
         <div class="flex items-center justify-between mb-4">
           <h1 class="text-[22px] font-bold text-black">Edit Article</h1>
         </div>
-        <p class="text-sm text-[#5B6B8A] mb-6">
-          Perbarui informasi artikel di bawah. Gunakan editor untuk memformat
-          teks (bold, italic, list, dll).
-        </p>
 
-        {/* FORM */}
-        <form onSubmit={handleSubmit} class="space-y-8">
-          {/* Informasi Dasar */}
-          <section>
-            <h2 class="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-3">
-              Informasi Dasar
-            </h2>
-            <div class="space-y-4">
-              <div>
-                <label class="block mb-2 text-sm font-medium text-gray-700">
-                  Judul Artikel
-                </label>
-                <input
-                  type="text"
-                  value={title()}
-                  onInput={(e) => setTitle(e.target.value)}
-                  placeholder="Masukkan judul artikel"
-                  class="w-full border border-[#EDEDED] rounded-lg px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-[#264653]/30"
-                  required
-                />
-              </div>
-
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label class="block mb-2 text-sm font-medium text-gray-700">
-                    Kategori
-                  </label>
-                  <select
-                    value={category()}
-                    onChange={(e) => setCategory(e.target.value)}
-                    class="w-full border border-[#EDEDED] rounded-lg px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-[#264653]/30"
-                  >
-                    <option value="Seni & Musik">Seni & Musik</option>
-                    <option value="Pakaian Adat">Pakaian Adat</option>
-                    <option value="Tarian Tradisional">
-                      Tarian Tradisional
-                    </option>
-                  </select>
-                </div>
-
-                <div>
-                  <label class="block mb-2 text-sm font-medium text-gray-700">
-                    Status
-                  </label>
-                  <select
-                    value={status()}
-                    onChange={(e) => setStatus(e.target.value)}
-                    class="w-full border border-[#EDEDED] rounded-lg px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-[#264653]/30"
-                  >
-                    <option value="draft">Draft</option>
-                    <option value="published">Published</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          {/* Gambar */}
-          <section>
-            <h2 class="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-3">
-              Gambar
-            </h2>
-            <div class="space-y-3">
-              <div class="flex flex-col md:flex-row gap-3">
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleFileUpload}
-                  class="w-full text-sm text-gray-600 file:mr-3 file:px-3 file:py-2 file:border-0 file:rounded-md file:bg-[#264653] file:text-white hover:file:bg-[#1B323B] transition"
-                />
-                <input
-                  type="url"
-                  placeholder="atau masukkan link gambar"
-                  value={image()}
-                  onInput={(e) => setImage(e.target.value)}
-                  class="w-full border border-[#EDEDED] rounded-lg px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-[#264653]/30"
-                />
-              </div>
-
-              {image() && (
-                <div class="mt-2">
-                  <div class="flex items-center justify-between mb-2">
-                    <p class="text-sm text-gray-600">Preview</p>
-                    <button
-                      type="button"
-                      onClick={clearImage}
-                      class="text-sm px-3 py-1 rounded-md bg-red-50 text-red-600 hover:bg-red-100"
-                    >
-                      Hapus Gambar
-                    </button>
-                  </div>
-                  <img
-                    src={image()}
-                    alt="Preview"
-                    class="w-full max-w-3xl aspect-video object-cover border rounded-lg"
-                  />
-                </div>
-              )}
-            </div>
-          </section>
-
-          {/* Konten */}
-          <section>
-            <h2 class="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-3">
-              Konten
-            </h2>
-            <div
-              id="editor"
-              class="bg-white text-black rounded-b-lg overflow-hidden ring-1 ring-[#EDEDED]"
-            />
-            <p class="text-xs text-gray-500 mt-1">
-              Tip: gunakan toolbar untuk heading, list, dan format lainnya.
+        {loading() ? (
+          <p class="text-sm text-gray-600">Memuat artikel...</p>
+        ) : error() ? (
+          <p class="text-sm text-red-600">{error()}</p>
+        ) : (
+          <>
+            <p class="text-sm text-[#5B6B8A] mb-6">
+              Perbarui informasi artikel di bawah. Gunakan editor untuk
+              memformat teks.
             </p>
-          </section>
 
-          {/* Actions */}
-          <div class="flex justify-end gap-3 pt-2">
-            <button
-              type="button"
-              onClick={() => navigate("/articlemanagement")}
-              class="px-4 py-2 bg-gray-100 text-gray-800 rounded-lg hover:bg-gray-200 transition"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              class="px-5 py-2.5 bg-[#264653] text-white rounded-lg hover:bg-[#1B323B] transition"
-            >
-              Update
-            </button>
-          </div>
-        </form>
+            <form onSubmit={handleSubmit} class="space-y-8">
+              {/* Informasi Dasar */}
+              <section>
+                <h2 class="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-3">
+                  Informasi Dasar
+                </h2>
+                <div class="space-y-4">
+                  {/* Title */}
+                  <div>
+                    <label class="block mb-2 text-sm font-medium text-gray-700">
+                      Judul Artikel
+                    </label>
+                    <input
+                      type="text"
+                      value={title()}
+                      onInput={(e) => setTitle(e.target.value)}
+                      placeholder="Masukkan judul artikel"
+                      class="w-full border border-[#EDEDED] rounded-lg px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-[#264653]/30"
+                      required
+                    />
+                  </div>
+
+                  {/* Author & Date (date hanya display) */}
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label class="block mb-2 text-sm font-medium text-gray-700">
+                        Author
+                      </label>
+                      <input
+                        type="text"
+                        value={author()}
+                        onInput={(e) => setAuthor(e.target.value)}
+                        placeholder="Nama penulis"
+                        class="w-full border border-[#EDEDED] rounded-lg px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-[#264653]/30"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label class="block mb-2 text-sm font-medium text-gray-700">
+                        Tanggal (read-only)
+                      </label>
+                      <input
+                        type="date"
+                        value={date()}
+                        disabled
+                        class="w-full border border-[#EDEDED] rounded-lg px-3 py-2 text-black bg-gray-50"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Category & Status */}
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label class="block mb-2 text-sm font-medium text-gray-700">
+                        Kategori
+                      </label>
+                      <select
+                        value={category()}
+                        onChange={(e) => setCategory(e.target.value)}
+                        class="w-full border border-[#EDEDED] rounded-lg px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-[#264653]/30"
+                      >
+                        <option value="Seni & Musik">Seni & Musik</option>
+                        <option value="Pakaian Adat">Pakaian Adat</option>
+                        <option value="Tarian Tradisional">
+                          Tarian Tradisional
+                        </option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label class="block mb-2 text-sm font-medium text-gray-700">
+                        Status
+                      </label>
+                      <select
+                        value={status()}
+                        onChange={(e) => setStatus(e.target.value)}
+                        class="w-full border border-[#EDEDED] rounded-lg px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-[#264653]/30"
+                      >
+                        <option value="draft">Draft</option>
+                        <option value="published">Published</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              {/* Gambar (URL only) */}
+              <section>
+                <h2 class="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-3">
+                  Gambar (Link)
+                </h2>
+                <div class="space-y-3">
+                  <input
+                    type="url"
+                    placeholder="Masukkan link (URL) gambar"
+                    value={image()}
+                    onInput={(e) => setImage(e.target.value)}
+                    class="w-full border border-[#EDEDED] rounded-lg px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-[#264653]/30"
+                  />
+                  {image() && (
+                    <div class="mt-1">
+                      <div class="flex items-center justify-between mb-2">
+                        <p class="text-sm text-gray-600">Preview</p>
+                        <button
+                          type="button"
+                          onClick={() => setImage("")}
+                          class="text-sm px-3 py-1 rounded-md bg-red-50 text-red-600 hover:bg-red-100"
+                        >
+                          Hapus Link
+                        </button>
+                      </div>
+                      <img
+                        src={image()}
+                        alt="Preview"
+                        class="w-full max-w-3xl aspect-video object-cover border rounded-lg"
+                        onError={(e) =>
+                          (e.currentTarget.style.display = "none")
+                        }
+                      />
+                    </div>
+                  )}
+                </div>
+              </section>
+
+              {/* Konten (Quill) */}
+              <section>
+                <h2 class="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-3">
+                  Konten
+                </h2>
+                <div
+                  id="editor"
+                  ref={(el) => (editorHost = el)}
+                  class="bg-white text-black rounded-b-lg overflow-hidden ring-1 ring-[#EDEDED]"
+                />
+                <p class="text-xs text-gray-500 mt-1">
+                  Tip: gunakan toolbar untuk heading, list, dan format lainnya.
+                </p>
+              </section>
+
+              {/* Deskripsi */}
+              <section>
+                <h2 class="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-3">
+                  Deskripsi Singkat
+                </h2>
+                <textarea
+                  value={description()}
+                  onInput={(e) => setDescription(e.target.value)}
+                  placeholder="Tulis ringkasan/abstrak artikel (opsional)"
+                  class="w-full border border-[#EDEDED] rounded-lg px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-[#264653]/30 min-h-[100px]"
+                />
+              </section>
+
+              {/* Kesimpulan */}
+              <section>
+                <h2 class="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-3">
+                  Kesimpulan
+                </h2>
+                <textarea
+                  value={conclusion()}
+                  onInput={(e) => setConclusion(e.target.value)}
+                  placeholder="Tulis kesimpulan (opsional)"
+                  class="w-full border border-[#EDEDED] rounded-lg px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-[#264653]/30 min-h-[100px]"
+                />
+              </section>
+
+              {/* Actions */}
+              <div class="flex justify-end gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => navigate("/articlemanagement")}
+                  class="px-4 py-2 bg-gray-100 text-gray-800 rounded-lg hover:bg-gray-200 transition"
+                  disabled={saving()}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  class="px-5 py-2.5 bg-[#264653] text-white rounded-lg hover:bg-[#1B323B] transition disabled:opacity-60"
+                  disabled={saving()}
+                >
+                  {saving() ? "Saving..." : "Update"}
+                </button>
+              </div>
+            </form>
+          </>
+        )}
       </main>
 
       {/* Popup Sukses */}

@@ -1,22 +1,96 @@
 import { createSignal, onMount, onCleanup } from "solid-js";
-import {BiSolidChevronDown} from "solid-icons/bi";
+import { BiSolidChevronDown } from "solid-icons/bi";
 
 export default function NavAdmin() {
-  const [username, setUsername] = createSignal("Adhara Faliya");
+  const [username, setUsername] = createSignal("Adhara Faliya"); // default
+  const [loadingName, setLoadingName] = createSignal(true);
 
-  const updateUsername = () => {
-    const name = localStorage.getItem("user_name");
-    if (name) setUsername(name);
+  const loadFromLocal = () => {
+    // Navbar kamu menyimpan "currentUser" & "authToken"
+    const raw = localStorage.getItem("currentUser");
+    if (!raw) return false;
+    try {
+      const u = JSON.parse(raw);
+      if (u?.username) {
+        setUsername(u.username);
+        return true;
+      }
+    } catch {}
+    return false;
+  };
+
+  const fetchMe = async () => {
+    const token = localStorage.getItem("authToken");
+    if (!token) return false;
+
+    try {
+      const res = await fetch("http://127.0.0.1:8080/users/me", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!res.ok) {
+        // token invalid/expired → biarin fallback local
+        return false;
+      }
+
+      const me = await res.json();
+      if (me?.username) {
+        setUsername(me.username);
+        // sinkronkan ke localStorage biar konsisten sama Navbar
+        const raw = localStorage.getItem("currentUser");
+        const curr = raw ? JSON.parse(raw) : {};
+        localStorage.setItem(
+          "currentUser",
+          JSON.stringify({
+            ...curr,
+            username: me.username,
+            email: me.email,
+            user_id: me.id,
+            role: me.role,
+          })
+        );
+        return true;
+      }
+    } catch (e) {
+      console.error("fetch /users/me error:", e);
+    }
+    return false;
+  };
+
+  const updateUsername = async () => {
+    // Urutan: coba BE → fallback localStorage
+    const ok = await fetchMe();
+    if (!ok) {
+      const usedLocal = loadFromLocal();
+      if (!usedLocal) {
+        // fallback terakhir: biarkan default
+      }
+    }
+    setLoadingName(false);
   };
 
   onMount(() => {
     updateUsername();
+
+    // sinkron bila tab lain mengubah currentUser/authToken
     const handleStorageChange = (event) => {
-      if (event.key === "user_name") updateUsername();
+      if (event.key === "currentUser" || event.key === "authToken") {
+        updateUsername();
+      }
     };
     window.addEventListener("storage", handleStorageChange);
     onCleanup(() => window.removeEventListener("storage", handleStorageChange));
   });
+
+  // tampilkan first name jika ada spasi
+  const firstName = () => {
+    const n = username() || "";
+    const parts = n.trim().split(/\s+/);
+    return parts[0] || n;
+  };
 
   return (
     <nav
@@ -27,7 +101,7 @@ export default function NavAdmin() {
         {/* Left: Greeting */}
         <div class="leading-tight">
           <p class="text-[22px] md:text-2xl font-semibold text-black">
-            Welcome, {username().split(" ")[0]}!
+            {loadingName() ? "Loading…" : `Welcome, ${firstName()}!`}
           </p>
           <p class="text-sm text-[#5B6B8A] mt-0.5">
             Berikut adalah rincian informasi tentang RuangNusantara
@@ -36,7 +110,6 @@ export default function NavAdmin() {
 
         {/* Right */}
         <div class="flex items-center gap-3 md:gap-4">
-          {/* Avatar + name */}
           <div class="flex items-center gap-2">
             <div class="avatar">
               <div class="w-9 md:w-10 rounded-full ring ring-[#B477D9] ring-offset-2 overflow-hidden">

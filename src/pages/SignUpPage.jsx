@@ -1,4 +1,5 @@
-import { createSignal } from "solid-js";
+import { createSignal, Show, onMount, onCleanup } from "solid-js";
+import { FiAlertCircle, FiCheckCircle } from "solid-icons/fi";
 
 const securityQuestions = [
   "Siapa nama ibu kandung Anda?",
@@ -17,18 +18,62 @@ export default function SignUpPage() {
   const [securityAnswer, setSecurityAnswer] = createSignal("");
   const [loading, setLoading] = createSignal(false);
 
+  // ===== Popup State =====
+  // type: "success" | "error" | "info"
+  const [popupOpen, setPopupOpen] = createSignal(false);
+  const [popupType, setPopupType] = createSignal("info");
+  const [popupTitle, setPopupTitle] = createSignal("");
+  const [popupMsg, setPopupMsg] = createSignal("");
+  const [popupPrimaryText, setPopupPrimaryText] = createSignal("OK");
+  const [popupSecondaryText, setPopupSecondaryText] = createSignal("");
+  let popupPrimaryAction = () => setPopupOpen(false); // default
+  let popupSecondaryAction = () => setPopupOpen(false);
+
+  const openPopup = ({
+    type = "info",
+    title = "",
+    msg = "",
+    primaryText = "OK",
+    onPrimary = () => setPopupOpen(false),
+    secondaryText = "",
+    onSecondary = () => setPopupOpen(false),
+  }) => {
+    setPopupType(type);
+    setPopupTitle(title);
+    setPopupMsg(msg);
+    setPopupPrimaryText(primaryText);
+    setPopupSecondaryText(secondaryText);
+    popupPrimaryAction = onPrimary;
+    popupSecondaryAction = onSecondary;
+    setPopupOpen(true);
+  };
+
+  const closePopup = () => setPopupOpen(false);
+
+  // ESC to close
+  const onKeyDown = (e) => {
+    if (e.key === "Escape" && popupOpen()) closePopup();
+  };
+  onMount(() => window.addEventListener("keydown", onKeyDown));
+  onCleanup(() => window.removeEventListener("keydown", onKeyDown));
+
   const handleSignUp = async (e) => {
     e.preventDefault();
 
-    // Validasi ringan (biar feel-nya sama spt project lama)
+    // Validasi ringan
     if (
-      !username() ||
-      !email() ||
+      !username().trim() ||
+      !email().trim() ||
       !password() ||
       !securityQuestion() ||
-      !securityAnswer()
+      !securityAnswer().trim()
     ) {
-      alert("Semua kolom wajib diisi.");
+      openPopup({
+        type: "error",
+        title: "Form Belum Lengkap",
+        msg: "Semua kolom wajib diisi. Silakan lengkapi data pendaftaran.",
+        primaryText: "Tutup",
+      });
       return;
     }
 
@@ -48,23 +93,53 @@ export default function SignUpPage() {
 
       const text = await res.text();
       if (!res.ok) {
-        // BE kadang balikin string JSON, kadang plain text → coba tampilkan apa adanya
-        alert(text || "Pendaftaran gagal.");
+        // tampilkan apa adanya dari BE
+        openPopup({
+          type: "error",
+          title: "Registrasi Gagal",
+          msg: text || "Terjadi kesalahan saat mendaftar. Coba lagi.",
+          primaryText: "Tutup",
+        });
         return;
       }
 
       // sukses → simpan email utk halaman OTP
       localStorage.setItem("pendingEmail", email().trim());
 
-      alert("Registrasi berhasil! OTP telah dikirim ke email kamu.");
-      window.location.href = "/verifikasi";
+      openPopup({
+        type: "success",
+        title: "Registrasi Berhasil",
+        msg: "OTP telah dikirim ke email kamu. Lanjutkan ke halaman verifikasi untuk menyelesaikan pendaftaran.",
+        primaryText: "Lanjut Verifikasi",
+        onPrimary: () => {
+          setPopupOpen(false);
+          window.location.href = "/verifikasi";
+        },
+        secondaryText: "Tutup",
+        onSecondary: () => setPopupOpen(false),
+      });
     } catch (err) {
       console.error(err);
-      alert("Terjadi kesalahan jaringan. Coba lagi.");
+      openPopup({
+        type: "error",
+        title: "Kesalahan Jaringan",
+        msg: "Tidak dapat terhubung ke server. Periksa koneksi internet kamu lalu coba lagi.",
+        primaryText: "Tutup",
+      });
     } finally {
       setLoading(false);
     }
   };
+
+  // ===== UI =====
+  const IconByType = () =>
+    popupType() === "success" ? (
+      <FiCheckCircle size={60} class="text-green-500 mb-3" />
+    ) : popupType() === "error" ? (
+      <FiAlertCircle size={60} class="text-red-500 mb-3" />
+    ) : (
+      <FiAlertCircle size={60} class="text-[#264653] mb-3" />
+    );
 
   return (
     <section class="flex flex-col lg:flex-row min-h-screen bg-white rounded-3xl overflow-hidden">
@@ -261,6 +336,41 @@ export default function SignUpPage() {
           class="object-cover w-full h-full"
         />
       </div>
+
+      {/* ===== POPUP ===== */}
+      <Show when={popupOpen()}>
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div class="bg-white rounded-lg shadow-xl p-6 w-96">
+            <div class="flex flex-col items-center text-center">
+              <IconByType />
+              <h2 class="text-lg font-semibold text-gray-800 mb-2">
+                {popupTitle()}
+              </h2>
+              <p class="text-sm text-gray-600 mb-6">{popupMsg()}</p>
+
+              <div class="flex gap-4">
+                {/* Primary */}
+                <button
+                  onClick={() => popupPrimaryAction()}
+                  class="px-4 py-2 bg-[#264653] text-white rounded-lg hover:bg-[#516B75] transition"
+                >
+                  {popupPrimaryText()}
+                </button>
+
+                {/* Secondary (opsional) */}
+                <Show when={popupSecondaryText()}>
+                  <button
+                    onClick={() => popupSecondaryAction()}
+                    class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition"
+                  >
+                    {popupSecondaryText()}
+                  </button>
+                </Show>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Show>
     </section>
   );
 }

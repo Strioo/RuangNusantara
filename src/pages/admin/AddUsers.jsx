@@ -16,33 +16,44 @@ export default function AddUsers() {
   const [username, setUsername] = createSignal("");
   const [email, setEmail] = createSignal("");
   const [password, setPassword] = createSignal("");
+  const [securityQ, setSecurityQ] = createSignal("");
+  const [securityA, setSecurityA] = createSignal("");
+  const [role, setRole] = createSignal("User");
   const [showPassword, setShowPassword] = createSignal(false);
   const [successOpen, setSuccessOpen] = createSignal(false);
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const newUser = {
       username: username().trim(),
       email: email().trim(),
       password: password(),
-      role: "User",
+      security_question: securityQ(),
+      security_answer: securityA(),
+      role: role(),
     };
 
-    // simpan ke localStorage
-    const savedData = localStorage.getItem("users");
-    let users = savedData ? JSON.parse(savedData) : [];
-    users.push(newUser);
-    localStorage.setItem("users", JSON.stringify(users));
+    try {
+      const res = await fetch("http://127.0.0.1:8080/users/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newUser),
+      });
+      if (!res.ok) throw new Error("Failed to add user");
 
-    // reset form
-    setUsername("");
-    setEmail("");
-    setPassword("");
-
-    // buka popup sukses
-    setSuccessOpen(true);
+      setSuccessOpen(true);
+      setUsername("");
+      setEmail("");
+      setPassword("");
+      setSecurityQ("");
+      setSecurityA("");
+      setRole("User");
+    } catch (err) {
+      console.error("Error add user:", err);
+      alert("Gagal menambahkan user!");
+    }
   };
 
   const closeSuccess = () => {
@@ -60,62 +71,142 @@ export default function AddUsers() {
 
         <form
           onSubmit={handleSubmit}
-          class="max-w-lg space-y-4 bg-white rounded-xl"
+          class="max-w-lg space-y-5 bg-white rounded-xl"
         >
           {/* Username */}
-          <div class="relative">
-            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
-              <BiSolidUserCircle size={20} />
-            </span>
-            <input
-              type="text"
-              placeholder="Username"
-              value={username()}
-              onInput={(e) => setUsername(e.target.value)}
-              class="pl-10 w-full border border-[#EDEDED] rounded-lg px-3 py-2 text-sm text-black focus:outline-none focus:ring-1 focus:ring-[#EDEDED]"
-              required
-            />
+          <div>
+            <label class="block mb-1 text-sm font-medium text-gray-700">
+              Username
+            </label>
+            <div class="relative">
+              <BiSolidUserCircle
+                size={18}
+                class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+              />
+              <input
+                type="text"
+                value={username()}
+                onInput={(e) => setUsername(e.target.value)}
+                required
+                placeholder="Masukkan username"
+                class="pl-10 w-full border border-[#EDEDED] rounded-lg px-3 py-2 text-sm text-black"
+              />
+            </div>
           </div>
 
           {/* Email */}
-          <div class="relative">
-            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
-              <BiSolidEnvelope size={20} />
-            </span>
-            <input
-              type="email"
-              placeholder="Email"
-              value={email()}
-              onInput={(e) => setEmail(e.target.value)}
-              class="pl-10 w-full border border-[#EDEDED] rounded-lg px-3 py-2 text-sm text-black focus:outline-none focus:ring-1 focus:ring-[#EDEDED]"
-              required
-            />
+          <div>
+            <label class="block mb-1 text-sm font-medium text-gray-700">
+              Email
+            </label>
+            <div class="relative">
+              <BiSolidEnvelope
+                size={18}
+                class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+              />
+              <input
+                type="email"
+                value={email()}
+                onInput={(e) => setEmail(e.target.value)}
+                required
+                placeholder="Masukkan email"
+                class="pl-10 w-full border border-[#EDEDED] rounded-lg px-3 py-2 text-sm text-black"
+              />
+            </div>
           </div>
 
           {/* Password */}
-          <div class="relative">
-            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
-              <BiSolidLockAlt size={20} />
-            </span>
-            <input
-              type={showPassword() ? "text" : "password"}
-              placeholder="Password"
-              value={password()}
-              onInput={(e) => setPassword(e.target.value)}
-              class="pl-10 pr-10 w-full border border-[#EDEDED] rounded-lg px-3 py-2 text-sm text-black focus:outline-none focus:ring-1 focus:ring-[#EDEDED]"
+          <div>
+            <label class="block mb-1 text-sm font-medium text-gray-700">
+              Password
+            </label>
+            <div class="relative">
+              <BiSolidLockAlt
+                size={18}
+                class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+              />
+              <input
+                type={showPassword() ? "text" : "password"}
+                value={password()}
+                onInput={(e) => setPassword(e.target.value)}
+                required
+                placeholder="Masukkan password"
+                class="pl-10 pr-10 w-full border border-[#EDEDED] rounded-lg px-3 py-2 text-sm text-black"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword())}
+                class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
+              >
+                {showPassword() ? (
+                  <BiSolidHide size={18} />
+                ) : (
+                  <BiSolidShow size={18} />
+                )}
+              </button>
+            </div>
+          </div>
+
+          {/* Security Question */}
+          <div>
+            <label class="block mb-1 text-sm font-medium text-gray-700">
+              Security Question
+            </label>
+            <select
+              value={securityQ()}
+              onChange={(e) => setSecurityQ(e.target.value)}
               required
-            />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword())}
-              class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700"
+              class="w-full border border-[#EDEDED] rounded-lg px-3 py-2 text-sm text-black"
             >
-              {showPassword() ? (
-                <BiSolidHide size={20} />
-              ) : (
-                <BiSolidShow size={20} />
-              )}
-            </button>
+              <option value="" disabled selected>
+                Pilih pertanyaan keamanan
+              </option>
+              <option value="Siapa nama ibu kandung Anda?">
+                Siapa nama ibu kandung Anda?
+              </option>
+              <option value="Apa nama sekolah dasar Anda?">
+                Apa nama sekolah dasar Anda?
+              </option>
+              <option value="Di kota mana Anda lahir?">
+                Di kota mana Anda lahir?
+              </option>
+              <option value="Apa makanan favorit Anda?">
+                Apa makanan favorit Anda?
+              </option>
+              <option value="Siapa nama hewan peliharaan Anda?">
+                Siapa nama hewan peliharaan Anda?
+              </option>
+            </select>
+          </div>
+
+          {/* Security Answer */}
+          <div>
+            <label class="block mb-1 text-sm font-medium text-gray-700">
+              Security Answer
+            </label>
+            <input
+              type="text"
+              placeholder="Jawaban keamanan"
+              value={securityA()}
+              onInput={(e) => setSecurityA(e.target.value)}
+              required
+              class="w-full border border-[#EDEDED] rounded-lg px-3 py-2 text-sm text-black"
+            />
+          </div>
+
+          {/* Role */}
+          <div>
+            <label class="block mb-1 text-sm font-medium text-gray-700">
+              Role
+            </label>
+            <select
+              value={role()}
+              onChange={(e) => setRole(e.target.value)}
+              class="w-full border border-[#EDEDED] rounded-lg px-3 py-2 text-sm text-black"
+            >
+              <option value="User">User</option>
+              <option value="Admin">Admin</option>
+            </select>
           </div>
 
           {/* Actions */}
@@ -137,16 +228,12 @@ export default function AddUsers() {
         </form>
       </main>
 
-      {/* ✅ Success Popup */}
       {successOpen() && (
         <div class="fixed inset-0 z-[60] flex items-center justify-center bg-black/40">
           <div class="bg-white rounded-xl shadow-lg p-6 w-80 text-center">
             <FiCheckCircle size={56} class="text-green-500 mx-auto mb-3" />
             <p class="text-base font-semibold text-gray-800">
               User berhasil ditambahkan!
-            </p>
-            <p class="text-sm text-gray-600 mb-5">
-              Data user baru telah disimpan.
             </p>
             <button
               onClick={closeSuccess}

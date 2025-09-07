@@ -2,29 +2,37 @@ import { createResource, Show, For } from "solid-js";
 import ListCardArtikel from "../../components/ListCardArtikel";
 import MainCardArtikel from "../../components/MainCardArtikel";
 
-const fetchData = async () => {
-  const res = await fetch("http://localhost:4000/artikel/");
+const fetchArticles = async () => {
+  const res = await fetch("http://127.0.0.1:8080/articles/data");
   if (!res.ok) throw new Error("Gagal memuat data");
-  const jsonData = await res.json();
-  return jsonData;
+  const data = await res.json();
+
+  const published = data.filter(
+    (a) => String(a.status || "").toLowerCase() === "published"
+  );
+
+  const seni = published
+    .filter((a) => a.category === "Seni & Musik")
+    .sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+
+  return seni.map((a) => ({
+    id: a.id,
+    imgSrc: a.image || "",
+    title: a.title || "",
+    description: a.description || "",
+    author: a.author || "",
+    date: a.date ? String(a.date).slice(0, 10) : "",
+  }));
 };
 
 export default function SeniMusik() {
-  const [artikel] = createResource(fetchData);
+  const [artikel] = createResource(fetchArticles);
 
-  // Filter hanya kategori Seni & Musik
-  const seniMusikList = () =>
-    artikel() ? artikel().filter((a) => a.category === "Seni & Musik") : [];
-
-  // Bagian section pertama: main card + max 3 list cards setelahnya
-  const firstMainArticle = () =>
-    seniMusikList().length > 0 ? seniMusikList()[0] : null;
+  const firstMainArticle = () => (artikel()?.length ? artikel()[0] : null);
   const firstListArticles = () =>
-    seniMusikList().length > 1 ? seniMusikList().slice(1, 4) : [];
-
-  // Section kedua: artikel mulai index 4 sampai 6 max 3
+    artikel()?.length > 1 ? artikel().slice(1, 4) : [];
   const secondSectionArticles = () =>
-    seniMusikList().length > 4 ? seniMusikList().slice(4, 7) : [];
+    artikel()?.length > 4 ? artikel().slice(4, 7) : [];
 
   return (
     <div>

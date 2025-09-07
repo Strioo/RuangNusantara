@@ -2,31 +2,37 @@ import { createResource, Show, For } from "solid-js";
 import ListCardArtikel from "../../components/ListCardArtikel";
 import MainCardArtikel from "../../components/MainCardArtikel";
 
-const fetchData = async () => {
-  const res = await fetch("http://localhost:4000/artikel/");
+const fetchArticles = async () => {
+  const res = await fetch("http://127.0.0.1:8080/articles/data");
   if (!res.ok) throw new Error("Gagal memuat data");
-  const jsonData = await res.json();
-  return jsonData;
+  const data = await res.json();
+
+  const published = data.filter(
+    (a) => String(a.status || "").toLowerCase() === "published"
+  );
+
+  const tarian = published
+    .filter((a) => a.category === "Tarian Tradisional")
+    .sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+
+  return tarian.map((a) => ({
+    id: a.id,
+    imgSrc: a.image || "",
+    title: a.title || "",
+    description: a.description || "",
+    author: a.author || "",
+    date: a.date ? String(a.date).slice(0, 10) : "",
+  }));
 };
 
 export default function TarianTradisional() {
-  const [artikel] = createResource(fetchData);
+  const [artikel] = createResource(fetchArticles);
 
-  // Filter kategori "Tarian Tradisional"
-  const tarianList = () =>
-    artikel()
-      ? artikel().filter((a) => a.category === "Tarian Tradisional")
-      : [];
-
-  // Section pertama: main card + list cards slice 1..3 (3 item max)
-  const firstMainArticle = () =>
-    tarianList().length > 0 ? tarianList()[0] : null;
+  const firstMainArticle = () => (artikel()?.length ? artikel()[0] : null);
   const firstListArticles = () =>
-    tarianList().length > 1 ? tarianList().slice(1, 4) : [];
-
-  // Section kedua: list cards dari index 4..6 (maksimal 3)
+    artikel()?.length > 1 ? artikel().slice(1, 4) : [];
   const secondSectionArticles = () =>
-    tarianList().length > 4 ? tarianList().slice(4, 7) : [];
+    artikel()?.length > 4 ? artikel().slice(4, 7) : [];
 
   return (
     <div>
