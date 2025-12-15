@@ -44,7 +44,7 @@ export default function Artikel() {
 
   return (
     <div>
-      <section class="relative flex flex-col p-5 items-center justify-between h-auto min-h-[865px] bg-[url('/src/assets/images/backgrounds/hero-bg-artikel.png')] bg-cover bg-center rounded-3xl">
+      <section class="relative flex flex-col p-5 items-center justify-between h-auto min-h-[865px] bg-[url('/images/backgrounds/hero-bg-artikel.png')] bg-cover bg-center rounded-3xl">
         <Navbar />
         <div data-aos="fade-up">
           <h1 class="text-4xl sm:text-6xl md:text-7xl lg:text-8xl mt-8 md:mt-16 font-bold text-center mb-5 md:mb-5 drop-shadow-lg">

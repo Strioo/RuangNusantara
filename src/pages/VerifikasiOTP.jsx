@@ -83,7 +83,7 @@ export default function VerifikasiOTP() {
       {/* Right - Image */}
       <div data-aos="fade-left" class="hidden lg:flex w-1/2">
         <img
-          src="/src/assets/images/auth/VerifikasiOtpPict.png"
+          src="/images/auth/VerifikasiOtpPict.png"
           alt="Tarian Nusantara"
           class="object-cover w-full h-full"
         />

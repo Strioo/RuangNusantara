@@ -8,7 +8,7 @@ export const artikelData = [
     description: "Gamelan bukan hanya alat musik, tapi juga identitas budaya yang sudah dikenal hingga mancanegara. Dari panggung tradisional hingga konser internasional, gamelan terus hidup dan beradaptasi.",
     author: "Tim Nusantara",
     date: "12 Maret 2025",
-    imgSrc: "/src/assets/images/articles/gamelan-jawa.png",
+    imgSrc: "/images/articles/gamelan-jawa.png",
     content: `
       <h1>Gamelan: Simfoni Perunggu yang Menggetarkan Jiwa</h1>
       
@@ -63,7 +63,7 @@ export const artikelData = [
     description: "Kolintang jadi simbol kebersamaan masyarakat Sulawesi Utara yang terus dimainkan lintas generasi.",
     author: "Tim Minahasa",
     date: "20 Mei 2025",
-    imgSrc: "/src/assets/images/articles/kolintang-minahasa.png",
+    imgSrc: "/images/articles/kolintang-minahasa.png",
     content: `
       <h1>Kolintang: Melodi Kayu dari Tanah Minahasa</h1>
       

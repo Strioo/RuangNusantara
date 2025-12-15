@@ -13,7 +13,7 @@ export default function About() {
   return (
     <div>
       {/* HERO SECTION */}
-      <section class="relative flex flex-col p-5 items-center h-auto min-h-[865px] bg-bottom bg-[url('/src/assets/images/backgrounds/HeroBackground_AboutPage.svg')] bg-cover rounded-3xl">
+      <section class="relative flex flex-col p-5 items-center h-auto min-h-[865px] bg-bottom bg-[url('/images/backgrounds/HeroBackground_AboutPage.svg')] bg-cover rounded-3xl">
         <Navbar />
 
         {/* Bungkus teks dengan div di bawah */}
@@ -54,7 +54,7 @@ export default function About() {
             {/* Item 1 */}
             <div class="bg-[#1b323b] rounded-xl p-6">
               <div class="w-14 h-14 flex items-center justify-center bg-[#264653] rounded-full mb-4">
-                <img src="/src/assets/images/about/EarthIcon_AboutPage.svg" alt="" />
+                <img src="/images/about/EarthIcon_AboutPage.svg" alt="" />
               </div>
               <p class="font-semibold text-lg mb-2">Akses Mudah</p>
               <p class="text-sm text-gray-300">
@@ -65,7 +65,7 @@ export default function About() {
             {/* Item 2 */}
             <div class="bg-[#1b323b] rounded-xl p-6">
               <div class="w-14 h-14 flex items-center justify-center bg-[#264653] rounded-full mb-4">
-                <img src="/src/assets/images/about/BookIcon_AboutPage.svg" alt="" />
+                <img src="/images/about/BookIcon_AboutPage.svg" alt="" />
               </div>
               <p class="font-semibold text-lg mb-2">Belajar Interaktif</p>
               <p class="text-sm text-gray-300">
@@ -76,7 +76,7 @@ export default function About() {
             {/* Item 3 */}
             <div class="bg-[#1b323b] rounded-xl p-6">
               <div class="w-14 h-14 flex items-center justify-center bg-[#264653] rounded-full mb-4">
-                <img src="/src/assets/images/about/LampIcon_AboutPage.svg" alt="" />
+                <img src="/images/about/LampIcon_AboutPage.svg" alt="" />
               </div>
               <p class="font-semibold text-lg mb-2">Tradisi x Teknologi</p>
               <p class="text-sm text-gray-300">
@@ -94,7 +94,7 @@ export default function About() {
         <div class="w-full md:w-1/2">
           <h2 class="text-3xl font-bold mb-6 text-black">Cerita Kami</h2>
           <img
-            src="/src/assets/images/backgrounds/OurStory_AboutPage.svg"
+            src="/images/backgrounds/OurStory_AboutPage.svg"
             alt="Traditional Craft"
             class="w-120 h-64 object-cover rounded-xl shadow-lg"
           />
@@ -134,17 +134,17 @@ export default function About() {
         {/* Grid fitur 1 kolom mobile, 3 kolom sm ke atas */}
         <div class="w-full grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-7 md:gap-8">
           <CardPrimary
-            imgSrc="/src/assets/images/about/PaletteIcon_AboutPage.svg"
+            imgSrc="/images/about/PaletteIcon_AboutPage.svg"
             title="Interaktif"
             description="elajahi seni, musik, tarian, hingga kuliner melalui pengalaman digital yang menyenangkan."
           />
           <CardPrimary
-            imgSrc="/src/assets/images/about/LaptopIcon_AboutPage.svg"
+            imgSrc="/images/about/LaptopIcon_AboutPage.svg"
             title="Digitalisasi"
             description="Mengangkat tradisi ke platform modern agar tetap hidup dan mudah diakses."
           />
           <CardPrimary
-            imgSrc="/src/assets/images/about/HandsIcon_AboutPage.svg"
+            imgSrc="/images/about/HandsIcon_AboutPage.svg"
             title="Relevansi Modern"
             description="Menyatukan pecinta budaya dari berbagai daerah untuk saling berbagi dan melestarikan."
           />
@@ -152,7 +152,7 @@ export default function About() {
       </section>
 
       {/* CTA */}
-      <section data-aos="fade-up" class="-mx-5 mt-[160px] px-15 bg-cover bg-[url('/src/assets/images/backgrounds/LastSection_AboutPage.svg')] h-[690px] flex flex-col justify-end">
+      <section data-aos="fade-up" class="-mx-5 mt-[160px] px-15 bg-cover bg-[url('/images/backgrounds/LastSection_AboutPage.svg')] h-[690px] flex flex-col justify-end">
         <span class="block w-max mx-auto lg:m-0 px-5 py-2 italic rounded-full border border-white text-white text-xs sm:text-sm font-medium backdrop-blur bg-transparent">
           Warisan Jadi Inspirasi
         </span>

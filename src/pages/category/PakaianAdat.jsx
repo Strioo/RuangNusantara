@@ -160,13 +160,13 @@ export default function PakaianAdat() {
         <div data-aos="fade-up" class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
           <img
             data-aos="fade-right"
-            src="/src/assets/images/categories/pakaianadat-1.png"
+            src="/images/categories/pakaianadat-1.png"
             alt="Tradisi Jawa"
             class="w-full h-[220px] md:h-[350px] object-cover rounded-2xl"
           />
           <img
             data-aos="fade-left"
-            src="/src/assets/images/categories/pakaianadat-2.png"
+            src="/images/categories/pakaianadat-2.png"
             alt="Alat Musik Tradisional"
             class="w-full h-[220px] md:h-[350px] object-cover rounded-2xl"
           />
@@ -176,19 +176,19 @@ export default function PakaianAdat() {
         <div data-aos="fade-up" class="grid grid-cols-1 md:grid-cols-3 gap-5">
           <img
             data-aos="fade-up"
-            src="/src/assets/images/categories/pakaianadat-3.png"
+            src="/images/categories/pakaianadat-3.png"
             alt="Pakaian Adat"
             class="w-full h-[220px] md:h-[350px] object-cover rounded-2xl"
           />
           <img
             data-aos="fade-up"
-            src="/src/assets/images/categories/pakaianadat-4.png"
+            src="/images/categories/pakaianadat-4.png"
             alt="Tarian Daerah"
             class="w-full h-[220px] md:h-[350px] object-cover rounded-2xl"
           />
           <img
             data-aos="fade-up"
-            src="/src/assets/images/categories/pakaianadat-5.png"
+            src="/images/categories/pakaianadat-5.png"
             alt="Festival Budaya"
             class="w-full h-[220px] md:h-[350px] object-cover rounded-2xl"
           />

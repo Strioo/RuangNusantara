@@ -65,7 +65,7 @@ export default function SignUpPage() {
                 style="border: 1px solid #DFE1E6; box-shadow: 0px 1px 2px rgba(13, 13, 18, 0.06);"
               >
                 <img
-                  src="/src/assets/images/icons/EmailIcon.svg"
+                  src="/images/icons/EmailIcon.svg"
                   alt="email icon"
                   class="w-5 h-5"
                 />
@@ -90,7 +90,7 @@ export default function SignUpPage() {
                 style="border: 1px solid #DFE1E6; box-shadow: 0px 1px 2px rgba(13, 13, 18, 0.06);"
               >
                 <img
-                  src="/src/assets/images/icons/LockIcon.svg"
+                  src="/images/icons/LockIcon.svg"
                   alt="lock icon"
                   class="w-5 h-5"
                 />
@@ -105,8 +105,8 @@ export default function SignUpPage() {
                 <img
                   src={
                     showPassword()
-                      ? "/src/assets/images/icons/EyeIcon.svg"
-                      : "/src/assets/images/icons/EyeSlashIcon.svg"
+                      ? "/images/icons/EyeIcon.svg"
+                      : "/images/icons/EyeSlashIcon.svg"
                   }
                   alt="toggle password"
                   class="w-5 h-5 cursor-pointer"
@@ -156,7 +156,7 @@ export default function SignUpPage() {
       {/* Right - Image */}
       <div data-aos="fade-left" class="hidden lg:flex w-1/2">
         <img
-          src="/src/assets/images/auth/SignInPict.png"
+          src="/images/auth/SignInPict.png"
           alt="Tarian Nusantara"
           class="object-cover w-full h-full"
         />

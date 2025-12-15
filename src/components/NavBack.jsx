@@ -25,7 +25,7 @@ export default function NavBack() {
           aria-label="Kembali"
           onClick={() => history.back()}
         >
-          <img src="/src/assets/images/icons/ArrowRight.png" class="h-5 rotate-180" alt="" />
+          <img src="/images/icons/ArrowRight.png" class="h-5 rotate-180" alt="" />
         </button>
 
         {/* Nav desktop */}

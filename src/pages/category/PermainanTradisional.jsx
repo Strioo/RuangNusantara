@@ -31,7 +31,7 @@ export default function PermainanTradisional() {
             </h2>
             <img
               data-aos="fade-up"
-              src="/src/assets/images/games/permainan-anak.png"
+              src="/images/games/permainan-anak.png"
               alt="Permainan Anak"
               class="w-full max-w-full h-[300px] md:h-[210px] rounded-2xl object-cover"
             />
@@ -120,7 +120,7 @@ export default function PermainanTradisional() {
           <div class="h-full">
             <div class="bg-[#F5F5F5] flex flex-col rounded-2xl p-7 gap-5 text-white group transition duration-500 h-full hover:scale-[1.03]">
               <div class="text-blue-900 bg-[#1B323B] w-12 h-12 flex items-center justify-center rounded-full text-2xl group-hover:bg-[#1B323B] transition duration-500">
-                <img src="/src/assets/images/icons/UserFour.svg" alt="" />
+                <img src="/images/icons/UserFour.svg" alt="" />
               </div>
               <div>
                 <p class="font-medium text-2xl mb-1 text-black">Main Bersama</p>
@@ -134,7 +134,7 @@ export default function PermainanTradisional() {
           <div class="h-full">
             <div class="bg-[#F5F5F5] flex flex-col rounded-2xl p-7 gap-5 text-white group transition duration-500 h-full hover:scale-[1.03]">
               <div class="text-blue-900 bg-[#1B323B] w-12 h-12 flex items-center justify-center rounded-full text-2xl group-hover:bg-[#1B323B] transition duration-500">
-                <img src="/src/assets/images/icons/PersonRun.svg" alt="" />
+                <img src="/images/icons/PersonRun.svg" alt="" />
               </div>
               <div>
                 <p class="font-medium text-2xl mb-1 text-black">
@@ -150,7 +150,7 @@ export default function PermainanTradisional() {
           <div class="h-full">
             <div class="bg-[#F5F5F5] flex flex-col rounded-2xl p-7 gap-5 text-white group transition duration-500 h-full hover:scale-[1.03]">
               <div class="text-blue-900 bg-[#1B323B] w-12 h-12 flex items-center justify-center rounded-full text-2xl group-hover:bg-[#1B323B] transition duration-500">
-                <img src="/src/assets/images/icons/HandShake.svg" alt="" />
+                <img src="/images/icons/HandShake.svg" alt="" />
               </div>
               <div>
                 <p class="font-medium text-2xl mb-1 text-black">

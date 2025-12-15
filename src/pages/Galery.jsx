@@ -11,7 +11,7 @@ export default function Galery() {
 
   return (
     <div>
-      <section class="relative flex flex-col p-5 items-center h-auto min-h-[865px] bg-bottom bg-[url('/src/assets/images/backgrounds/hero-bg-galery.png')] bg-cover rounded-3xl">
+      <section class="relative flex flex-col p-5 items-center h-auto min-h-[865px] bg-bottom bg-[url('/images/backgrounds/hero-bg-galery.png')] bg-cover rounded-3xl">
         <Navbar />
 
         <div data-aos="fade-up" class="flex flex-col items-center mt-auto mb-10">
@@ -61,19 +61,19 @@ export default function Galery() {
           <div class="flex flex-col gap-4">
             {/* Kiri atas */}
             <img
-              src="/src/assets/images/gallery/galery-1.png"
+              src="/images/gallery/galery-1.png"
               alt=""
               class="w-full h-[350px] sm:h-[550px] md:h-[870px] object-cover md:rounded-tl-[60px] rounded-2xl"
             />
             {/* Tengah kiri */}
             <img
-              src="/src/assets/images/gallery/galery-2.png"
+              src="/images/gallery/galery-2.png"
               alt=""
               class="w-full h-[180px] sm:h-[300px] md:h-[411px] object-cover rounded-2xl"
             />
             {/* Bawah kiri */}
             <img
-              src="/src/assets/images/gallery/galery-3.png"
+              src="/images/gallery/galery-3.png"
               alt=""
               class="w-full h-[180px] sm:h-[300px] md:h-[411px] object-cover md:rounded-bl-[60px] rounded-2xl"
             />
@@ -83,19 +83,19 @@ export default function Galery() {
           <div class="flex flex-col gap-4">
             {/* Kanan atas */}
             <img
-              src="/src/assets/images/gallery/galery-4.png"
+              src="/images/gallery/galery-4.png"
               alt=""
               class="w-full h-[180px] sm:h-[300px] md:h-[449px] object-cover md:rounded-tr-[60px] rounded-2xl"
             />
             {/* Kanan tengah */}
             <img
-              src="/src/assets/images/gallery/galery-5.png"
+              src="/images/gallery/galery-5.png"
               alt=""
               class="w-full h-[350px] sm:h-[650px] md:h-[908px] object-cover rounded-2xl"
             />
             {/* Kanan bawah */}
             <img
-              src="/src/assets/images/gallery/galery-6.png"
+              src="/images/gallery/galery-6.png"
               alt=""
               class="w-full h-[140px] sm:h-[250px] md:h-[335px] object-cover md:rounded-br-[60px] rounded-2xl"
             />

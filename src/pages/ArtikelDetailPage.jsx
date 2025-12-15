@@ -54,7 +54,7 @@ export default function ArtikelDetailPage() {
                 <div class="bg-[#264653] text-white mt-10 rounded-xl p-6">
                   <div class="flex max-w-fit justify-center items-center rounded-full px-4 py-2 bg-white gap-2 mb-2 font-semibold">
                     <img
-                      src="/src/assets/images/icons/PushPin.svg"
+                      src="/images/icons/PushPin.svg"
                       class="h-[14px]"
                       alt=""
                     />

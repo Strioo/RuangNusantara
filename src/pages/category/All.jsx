@@ -76,7 +76,7 @@ export default function All() {
           aria-label="Previous"
         >
           <img
-            src="/src/assets/images/icons/ArrowRight.png"
+            src="/images/icons/ArrowRight.png"
             class="rotate-180 w-6 h-6"
             alt=""
           />
@@ -87,7 +87,7 @@ export default function All() {
           disabled={index() === maxIndex()}
           aria-label="Next"
         >
-          <img src="/src/assets/images/icons/ArrowRight.png" class="w-6 h-6" alt="" />
+          <img src="/images/icons/ArrowRight.png" class="w-6 h-6" alt="" />
         </button>
       </div>
     </div>

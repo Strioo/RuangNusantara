@@ -107,7 +107,7 @@ export default function SlideLangkahPermainan() {
                     onClick={handlePrev}
                   >
                     <img
-                      src="/src/assets/images/icons/ArrowRight.png"
+                      src="/images/icons/ArrowRight.png"
                       class="rotate-180 w-6 h-6"
                       alt=""
                     />
@@ -133,7 +133,7 @@ export default function SlideLangkahPermainan() {
                     onClick={handleNext}
                   >
                     <img
-                      src="/src/assets/images/icons/ArrowRight.png"
+                      src="/images/icons/ArrowRight.png"
                       class="w-6 h-6"
                       alt=""
                     />
