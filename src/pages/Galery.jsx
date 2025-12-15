@@ -1,14 +1,21 @@
+import AOS from "aos";
+import { onMount } from "solid-js";
+import "aos/dist/aos.css";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 
 export default function Galery() {
+  onMount(() => {
+    AOS.init({ once: true });
+  });
+
   return (
     <div>
-      <section class="relative flex flex-col p-5 items-center h-auto min-h-[865px] bg-bottom bg-[url('/src/assets/images/hero-bg-galery.png')] bg-cover rounded-3xl">
+      <section class="relative flex flex-col p-5 items-center h-auto min-h-[865px] bg-bottom bg-[url('/src/assets/images/backgrounds/hero-bg-galery.png')] bg-cover rounded-3xl">
         <Navbar />
 
-        {/* Bungkus teks dengan div di bawah */}
-        <div class="flex flex-col items-center mt-auto mb-10">
+        <div data-aos="fade-up" class="flex flex-col items-center mt-auto mb-10">
+          {/* Hero content... */}
           <h1 class="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-center mb-5 md:mb-7 drop-shadow-lg">
             Galeri Budaya Nusantara
           </h1>
@@ -20,7 +27,7 @@ export default function Galery() {
         </div>
       </section>
 
-      <section class="w-full mx-auto p-4 mt-20 text-center">
+      <section data-aos="fade-up" class="w-full mx-auto p-4 mt-20 text-center">
         <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-[78px] font-medium leading-snug sm:leading-snug md:leading-normal lg:leading-snug text-gray-900">
           Budaya bukan hanya untuk dibaca, tapi juga untuk dilihat dan
           dirasakan. Lewat galeri ini, kamu bisa menjelajahi keindahan warisan
@@ -28,7 +35,7 @@ export default function Galery() {
         </h2>
       </section>
 
-      <section class="mt-20 px-4 sm:px-8">
+      <section data-aos="fade-up" class="mt-20 px-4 sm:px-8">
         <div class="w-full flex flex-col md:flex-row gap-6 md:gap-8 mt-5 bg-white rounded-lg">
           {/* Kiri: Label dan Judul */}
           <div class="md:w-[65%] w-full flex flex-col">
@@ -48,25 +55,25 @@ export default function Galery() {
         </div>
       </section>
 
-      <section class="w-full px-0 mt-14 mb-20 mx-auto">
+      <section data-aos="fade-up" class="w-full px-0 mt-14 mb-20 mx-auto">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* KIRI */}
           <div class="flex flex-col gap-4">
             {/* Kiri atas */}
             <img
-              src="/src/assets/images/galery-1.png"
+              src="/src/assets/images/gallery/galery-1.png"
               alt=""
               class="w-full h-[350px] sm:h-[550px] md:h-[870px] object-cover md:rounded-tl-[60px] rounded-2xl"
             />
             {/* Tengah kiri */}
             <img
-              src="/src/assets/images/galery-2.png"
+              src="/src/assets/images/gallery/galery-2.png"
               alt=""
               class="w-full h-[180px] sm:h-[300px] md:h-[411px] object-cover rounded-2xl"
             />
             {/* Bawah kiri */}
             <img
-              src="/src/assets/images/galery-3.png"
+              src="/src/assets/images/gallery/galery-3.png"
               alt=""
               class="w-full h-[180px] sm:h-[300px] md:h-[411px] object-cover md:rounded-bl-[60px] rounded-2xl"
             />
@@ -76,19 +83,19 @@ export default function Galery() {
           <div class="flex flex-col gap-4">
             {/* Kanan atas */}
             <img
-              src="/src/assets/images/galery-4.png"
+              src="/src/assets/images/gallery/galery-4.png"
               alt=""
               class="w-full h-[180px] sm:h-[300px] md:h-[449px] object-cover md:rounded-tr-[60px] rounded-2xl"
             />
             {/* Kanan tengah */}
             <img
-              src="/src/assets/images/galery-5.png"
+              src="/src/assets/images/gallery/galery-5.png"
               alt=""
               class="w-full h-[350px] sm:h-[650px] md:h-[908px] object-cover rounded-2xl"
             />
             {/* Kanan bawah */}
             <img
-              src="/src/assets/images/galery-6.png"
+              src="/src/assets/images/gallery/galery-6.png"
               alt=""
               class="w-full h-[140px] sm:h-[250px] md:h-[335px] object-cover md:rounded-br-[60px] rounded-2xl"
             />

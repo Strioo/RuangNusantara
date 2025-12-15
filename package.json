@@ -20,6 +20,7 @@
     "ag-grid-community": "^34.1.2",
     "ag-grid-react": "^34.1.2",
     "ag-grid-solid": "^31.1.1",
+    "aos": "^2.3.4",
     "daisyui": "^5.0.51",
     "quill": "^2.0.3",
     "solid-ag-grid": "^0.0.230",

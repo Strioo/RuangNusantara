@@ -1,24 +1,27 @@
 import CardPermainan from "../../components/CardPermainan";
-import { createResource } from "solid-js";
+import AOS from "aos";
+import { onMount } from "solid-js";
 import { useNavigate } from "@solidjs/router";
-
-const fetchPermainanList = async () => {
-  const res = await fetch("/data/data.json");
-  if (!res.ok) throw new Error("Failed to fetch data");
-  const data = await res.json();
-  return data.permainan;
-};
+import "aos/dist/aos.css";
+import { permainanData } from "../../data/staticData";
 
 export default function PermainanTradisional() {
   const navigate = useNavigate();
-  const [permainanList] = createResource(fetchPermainanList);
+  const permainanList = () => permainanData;
+
+  onMount(() => {
+    AOS.init({ once: true });
+  });
 
   return (
     <div>
-      <section class="w-full px-2 py-10">
+      <section data-aos="fade-up" class="w-full px-2 py-10">
         <div class="flex flex-col md:flex-row gap-8">
           {/* Kiri */}
-          <div class="flex flex-col gap-4 flex-1 md:items-start items-center">
+          <div
+            data-aos="fade-right"
+            class="flex flex-col gap-4 flex-1 md:items-start items-center"
+          >
             <h2 class="font-serif text-5xl md:text-6xl font-medium text-gray-900 text-center md:text-left leading-tight">
               Jejak Sejarah
               <br class="hidden md:block" />
@@ -27,13 +30,14 @@ export default function PermainanTradisional() {
               Permainan
             </h2>
             <img
-              src="/src/assets/images/permainan-anak.png"
+              data-aos="fade-up"
+              src="/src/assets/images/games/permainan-anak.png"
               alt="Permainan Anak"
               class="w-full max-w-full h-[300px] md:h-[210px] rounded-2xl object-cover"
             />
           </div>
           {/* Kanan */}
-          <div class="flex-1">
+          <div data-aos="fade-left" class="flex-1">
             <p class="text-xl lg:text-[28px]  md:text-2xl  text-black leading-relaxed">
               Permainan tradisional telah ada sejak berabad-abad lalu, dimainkan
               anak-anak hingga orang dewasa sebagai hiburan sekaligus sarana
@@ -47,7 +51,10 @@ export default function PermainanTradisional() {
         </div>
       </section>
 
-      <section class="bg-[#264653] min-h-screen px-4 sm:px-8 py-10 sm:py-12 rounded-[24px] mt-[160px] text-white">
+      <section
+        data-aos="fade-up"
+        class="bg-[#264653] min-h-screen px-4 sm:px-8 py-10 sm:py-12 rounded-[24px] mt-[160px] text-white"
+      >
         {/* Label */}
         <span class="block w-max mx-auto lg:m-0 px-5 py-2 italic rounded-full border border-white text-white text-xs sm:text-sm font-medium backdrop-blur bg-transparent">
           Budaya, Jembatan ke Depan
@@ -72,13 +79,15 @@ export default function PermainanTradisional() {
           {permainanList.error && <div>Error loading data</div>}
           {permainanList() &&
             permainanList().map((item) => (
-              <CardPermainan
-                key={item.id}
-                imgSrc={item.imgSrc}
-                title={item.title}
-                description={item.description}
-                onButtonClick={() => navigate(`/permainan/${item.id}`)}
-              />
+              <div data-aos="fade-up">
+                <CardPermainan
+                  key={item.id}
+                  imgSrc={item.imgSrc}
+                  title={item.title}
+                  description={item.description}
+                  onButtonClick={() => navigate(`/permainan/${item.id}`)}
+                />
+              </div>
             ))}
         </div>
       </section>
@@ -111,7 +120,7 @@ export default function PermainanTradisional() {
           <div class="h-full">
             <div class="bg-[#F5F5F5] flex flex-col rounded-2xl p-7 gap-5 text-white group transition duration-500 h-full hover:scale-[1.03]">
               <div class="text-blue-900 bg-[#1B323B] w-12 h-12 flex items-center justify-center rounded-full text-2xl group-hover:bg-[#1B323B] transition duration-500">
-                <img src="/src/assets/images/UserFour.svg" alt="" />
+                <img src="/src/assets/images/icons/UserFour.svg" alt="" />
               </div>
               <div>
                 <p class="font-medium text-2xl mb-1 text-black">Main Bersama</p>
@@ -125,7 +134,7 @@ export default function PermainanTradisional() {
           <div class="h-full">
             <div class="bg-[#F5F5F5] flex flex-col rounded-2xl p-7 gap-5 text-white group transition duration-500 h-full hover:scale-[1.03]">
               <div class="text-blue-900 bg-[#1B323B] w-12 h-12 flex items-center justify-center rounded-full text-2xl group-hover:bg-[#1B323B] transition duration-500">
-                <img src="/src/assets/images/PersonRun.svg" alt="" />
+                <img src="/src/assets/images/icons/PersonRun.svg" alt="" />
               </div>
               <div>
                 <p class="font-medium text-2xl mb-1 text-black">
@@ -141,7 +150,7 @@ export default function PermainanTradisional() {
           <div class="h-full">
             <div class="bg-[#F5F5F5] flex flex-col rounded-2xl p-7 gap-5 text-white group transition duration-500 h-full hover:scale-[1.03]">
               <div class="text-blue-900 bg-[#1B323B] w-12 h-12 flex items-center justify-center rounded-full text-2xl group-hover:bg-[#1B323B] transition duration-500">
-                <img src="/src/assets/images/HandShake.svg" alt="" />
+                <img src="/src/assets/images/icons/HandShake.svg" alt="" />
               </div>
               <div>
                 <p class="font-medium text-2xl mb-1 text-black">

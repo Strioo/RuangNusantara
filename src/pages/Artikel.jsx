@@ -1,4 +1,7 @@
-import { createSignal } from "solid-js";
+import AOS from "aos";
+import { createSignal, onMount } from "solid-js";
+import "aos/dist/aos.css";
+
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import NavKategori from "../components/NavKategori";
@@ -35,29 +38,37 @@ export default function Artikel() {
     }
   };
 
+  onMount(() => {
+    AOS.init({ once: true });
+  });
+
   return (
     <div>
-      <section class="relative flex flex-col p-5 items-center justify-between h-auto min-h-[865px] bg-[url('/src/assets/images/hero-bg-artikel.png')] bg-cover bg-center rounded-3xl">
+      <section class="relative flex flex-col p-5 items-center justify-between h-auto min-h-[865px] bg-[url('/src/assets/images/backgrounds/hero-bg-artikel.png')] bg-cover bg-center rounded-3xl">
         <Navbar />
-        <div>
+        <div data-aos="fade-up">
           <h1 class="text-4xl sm:text-6xl md:text-7xl lg:text-8xl mt-8 md:mt-16 font-bold text-center mb-5 md:mb-5 drop-shadow-lg">
             Cerita Budaya, Dari Masa
             <br />
             Lalu Hingga Hari Ini
           </h1>
-          <p class="text-base sm:text-xl text-gray-300 text-center max-w-xl md:max-w-4xl mx-auto mb-6 md:mb-5">
+          <p data-aos="fade-up" class="text-base sm:text-xl text-gray-300 text-center max-w-xl md:max-w-4xl mx-auto mb-6 md:mb-5">
             Temukan artikel inspiratif seputar seni, tradisi, dan kearifan lokal
             Nusantara yang tidak hanya menceritakan masa lalu, tetapi juga
             menghadirkan makna yang relevan dengan kehidupan modern.
           </p>
-          <NavKategori
-            activeCategory={activeCategory} // signal getter (tanpa ())
-            setActiveCategory={setActiveCategory}
-          />
+          <div data-aos="fade-up">
+            <NavKategori
+              activeCategory={activeCategory}
+              setActiveCategory={setActiveCategory}
+            />
+          </div>
         </div>
       </section>
 
-      {renderCategoryContent()}
+      <div data-aos="fade-up">
+        {renderCategoryContent()}
+      </div>
 
       <Footer />
     </div>

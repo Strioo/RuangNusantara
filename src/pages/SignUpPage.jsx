@@ -1,4 +1,6 @@
-import { createSignal } from "solid-js";
+import AOS from "aos";
+import { createSignal, onMount } from "solid-js";
+import "aos/dist/aos.css";
 
 const securityQuestions = [
   "Siapa nama ibu kandung Anda?",
@@ -9,6 +11,10 @@ const securityQuestions = [
 ];
 
 export default function SignUpPage() {
+  onMount(() => {
+    AOS.init({ once: true });
+  });
+
   const [showPassword, setShowPassword] = createSignal(false);
   const [username, setUsername] = createSignal("");
   const [email, setEmail] = createSignal("");
@@ -42,21 +48,21 @@ export default function SignUpPage() {
   return (
     <section class="flex flex-col lg:flex-row min-h-screen bg-white rounded-3xl overflow-hidden">
       {/* Left - Form */}
-      <div class="w-full lg:w-1/2 flex flex-col justify-between px-2 lg:px-8">
+      <div data-aos="fade-right" class="w-full lg:w-1/2 flex flex-col justify-between px-2 lg:px-8">
         <a href="/" class="flex items-center justify-center lg:justify-start">
           <h1 class="font-semibold text-2xl text-black">RuangNusantara</h1>
         </a>
 
         <div class="flex-1 flex flex-col justify-center max-w-md mx-auto w-full mt-20 lg:mt-0">
-          <p class="text-3xl font-bold text-center mb-3 text-black">
+          <p data-aos="fade-up" class="text-3xl font-bold text-center mb-3 text-black">
             Selamat Datang di <br /> Nusantara
           </p>
-          <p class="text-gray-500 text-center mb-8">
+          <p data-aos="fade-up" class="text-gray-500 text-center mb-8">
             Masuk untuk melanjutkan perjalananmu menjelajahi seni, musik, dan
             budaya Nusantara.
           </p>
 
-          <form class="space-y-4" onSubmit={handleSignUp}>
+          <form data-aos="fade-up" class="space-y-4" onSubmit={handleSignUp}>
             {/* Username */}
             <div class="form-control w-full">
               <label class="label">
@@ -67,7 +73,7 @@ export default function SignUpPage() {
                 style="border: 1px solid #DFE1E6; box-shadow: 0px 1px 2px rgba(13, 13, 18, 0.06);"
               >
                 <img
-                  src="/src/assets/images/UserCircle.svg"
+                  src="/src/assets/images/icons/UserCircle.svg"
                   alt="user icon"
                   class="w-5 h-5"
                 />
@@ -91,7 +97,7 @@ export default function SignUpPage() {
                 style="border: 1px solid #DFE1E6; box-shadow: 0px 1px 2px rgba(13, 13, 18, 0.06);"
               >
                 <img
-                  src="/src/assets/images/EmailIcon.svg"
+                  src="/src/assets/images/icons/EmailIcon.svg"
                   alt="email icon"
                   class="w-5 h-5"
                 />
@@ -116,7 +122,7 @@ export default function SignUpPage() {
                 style="border: 1px solid #DFE1E6; box-shadow: 0px 1px 2px rgba(13, 13, 18, 0.06);"
               >
                 <img
-                  src="/src/assets/images/LockIcon.svg"
+                  src="/src/assets/images/icons/LockIcon.svg"
                   alt="lock icon"
                   class="w-5 h-5"
                 />
@@ -131,8 +137,8 @@ export default function SignUpPage() {
                 <img
                   src={
                     showPassword()
-                      ? "/src/assets/images/EyeIcon.svg"
-                      : "/src/assets/images/EyeSlashIcon.svg"
+                      ? "/src/assets/images/icons/EyeIcon.svg"
+                      : "/src/assets/images/icons/EyeSlashIcon.svg"
                   }
                   alt="toggle password"
                   class="w-5 h-5 cursor-pointer"
@@ -167,7 +173,7 @@ export default function SignUpPage() {
                   ))}
                 </select>
                 <img
-                  src="/src/assets/images/DropdownIcon.svg"
+                  src="/src/assets/images/icons/DropdownIcon.svg"
                   alt="dropdown arrow"
                   class="w-4 h-4"
                 />
@@ -229,9 +235,9 @@ export default function SignUpPage() {
         </footer>
       </div>
       {/* Right - Image */}
-      <div class="hidden lg:flex w-1/2">
+      <div data-aos="fade-left" class="hidden lg:flex w-1/2">
         <img
-          src="/src/assets/images/SignUpPict.png"
+          src="/src/assets/images/auth/SignUpPict.png"
           alt="Tarian Nusantara"
           class="object-cover w-full h-full"
         />

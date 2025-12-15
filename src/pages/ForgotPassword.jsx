@@ -1,4 +1,6 @@
-import { createSignal } from "solid-js";
+import AOS from "aos";
+import { createSignal, onMount } from "solid-js";
+import "aos/dist/aos.css";
 
 const securityQuestions = [
   "Siapa nama ibu kandung Anda?",
@@ -9,6 +11,10 @@ const securityQuestions = [
 ];
 
 export default function ForgotPassword() {
+  onMount(() => {
+    AOS.init({ once: true });
+  });
+
   const [showPassword, setShowPassword] = createSignal(false);
   const [email, setEmail] = createSignal("");
   const [password, setPassword] = createSignal("");
@@ -40,7 +46,10 @@ export default function ForgotPassword() {
   return (
     <section class="flex flex-col lg:flex-row min-h-screen bg-white rounded-3xl overflow-hidden">
       {/* Left - Form */}
-      <div class="w-full lg:w-1/2 flex flex-col justify-between px-2 lg:px-8">
+      <div
+        data-aos="fade-right"
+        class="w-full lg:w-1/2 flex flex-col justify-between px-2 lg:px-8"
+      >
         <a href="/" class="flex items-center justify-center lg:justify-start">
           <h1 class="font-semibold text-2xl text-black">RuangNusantara</h1>
         </a>
@@ -50,7 +59,8 @@ export default function ForgotPassword() {
             Reset Password
           </p>
           <p class="text-gray-500 text-center mb-8">
-            Masukkan email, pilih pertanyaan keamanan, dan masukkan password baru anda.
+            Masukkan email, pilih pertanyaan keamanan, dan masukkan password baru
+            anda.
           </p>
 
           <form class="space-y-4" onSubmit={handleSignUp}>
@@ -64,7 +74,7 @@ export default function ForgotPassword() {
                 style="border: 1px solid #DFE1E6; box-shadow: 0px 1px 2px rgba(13, 13, 18, 0.06);"
               >
                 <img
-                  src="/src/assets/images/EmailIcon.svg"
+                  src="/src/assets/images/icons/EmailIcon.svg"
                   alt="email icon"
                   class="w-5 h-5"
                 />
@@ -99,13 +109,16 @@ export default function ForgotPassword() {
                     Pilih pertanyaan keamanan
                   </option>
                   {securityQuestions.map((q) => (
-                    <option value={q} style="color:#111827;background:white;">
+                    <option
+                      value={q}
+                      style="color:#111827;background:white;"
+                    >
                       {q}
                     </option>
                   ))}
                 </select>
                 <img
-                  src="/src/assets/images/DropdownIcon.svg"
+                  src="/src/assets/images/icons/DropdownIcon.svg"
                   alt="dropdown arrow"
                   class="w-4 h-4"
                 />
@@ -144,7 +157,7 @@ export default function ForgotPassword() {
                 style="border: 1px solid #DFE1E6; box-shadow: 0px 1px 2px rgba(13, 13, 18, 0.06);"
               >
                 <img
-                  src="/src/assets/images/LockIcon.svg"
+                  src="/src/assets/images/icons/LockIcon.svg"
                   alt="lock icon"
                   class="w-5 h-5"
                 />
@@ -176,13 +189,14 @@ export default function ForgotPassword() {
           </form>
         </div>
         <footer class="text-center text-gray-500 text-sm mt-10">
-          © 2025 <span class="font-semibold text-black">Ruang Nusantara</span>
+          © 2025{" "}
+          <span class="font-semibold text-black">Ruang Nusantara</span>
         </footer>
       </div>
       {/* Right - Image */}
-      <div class="hidden lg:flex w-1/2">
+      <div data-aos="fade-left" class="hidden lg:flex w-1/2">
         <img
-          src="/src/assets/images/SignUpPict.png"
+          src="/src/assets/images/auth/SignUpPict.png"
           alt="Tarian Nusantara"
           class="object-cover w-full h-full"
         />

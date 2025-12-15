@@ -1,20 +1,20 @@
 import { useParams } from "@solidjs/router";
-import { createSignal, createResource, Show } from "solid-js";
+import { createSignal, Show, onMount } from "solid-js";
 import NavBack from "../components/NavBack";
-
-const fetchPermainan = async (id) => {
-  if (!id) return null;
-  const res = await fetch("http://localhost:4000/permainan/" + id);
-  if (!res.ok) throw new Error("Gagal memuat data permainan");
-  const data = await res.json();
-  if (!data || Object.keys(data).length === 0 || !data.title) return null;
-  return data;
-};
+import AOS from "aos";
+import "aos/dist/aos.css";
+import { getPermainanById } from "../data/staticData";
 
 export default function SlideLangkahPermainan() {
+  onMount(() => {
+    AOS.init({ once: true });
+  });
+
   const params = useParams();
   const [activeStep, setActiveStep] = createSignal(0);
-  const [permainan] = createResource(() => params.id, fetchPermainan);
+  
+  // Get permainan directly from static data
+  const permainan = () => getPermainanById(params.id);
 
   const getTotalSteps = () =>
     permainan()?.steps?.length ? permainan().steps.length + 1 : 1;
@@ -31,12 +31,15 @@ export default function SlideLangkahPermainan() {
       {() => {
         const game = permainan();
         return (
-          <div class="mx-auto px-4 pt-10 pb-14">
+          <div data-aos="fade-up" class="mx-auto px-4 pt-10 pb-14">
             <div class="flex flex-col md:flex-row gap-8 items-start">
               <div class="w-full flex flex-col">
                 <NavBack />
                 {activeStep() === 0 ? (
-                  <div class="flex flex-col md:flex-row gap-12 items-center">
+                  <div
+                    data-aos="fade-right"
+                    class="flex flex-col md:flex-row gap-12 items-center"
+                  >
                     <div class="md:w-8/12 w-full">
                       <h1 class="text-4xl md:text-5xl font-bold mb-6 text-black">
                         {game.title}
@@ -45,7 +48,10 @@ export default function SlideLangkahPermainan() {
                         {game.definition}
                       </p>
                     </div>
-                    <div class="md:w-4/12 w-full flex justify-center">
+                    <div
+                      data-aos="fade-left"
+                      class="md:w-4/12 w-full flex justify-center"
+                    >
                       {game.imgSrc && (
                         <img
                           src={game.imgSrc}
@@ -56,9 +62,15 @@ export default function SlideLangkahPermainan() {
                     </div>
                   </div>
                 ) : (
-                  <div class="flex flex-col md:flex-row gap-12 items-center">
+                  <div
+                    data-aos="fade-up"
+                    class="flex flex-col md:flex-row gap-12 items-center"
+                  >
                     <div class="md:w-8/12 w-full">
-                      <div class="mb-5">
+                      <div
+                        data-aos="fade-right"
+                        class="mb-5"
+                      >
                         <span class="bg-[#264653] text-white text-xl font-bold rounded-full w-11 h-11 flex items-center justify-center mb-3">
                           {activeStep()}
                         </span>
@@ -70,7 +82,10 @@ export default function SlideLangkahPermainan() {
                         {game.steps[activeStep() - 1]?.description}
                       </p>
                     </div>
-                    <div class="md:w-4/12 w-full flex justify-center">
+                    <div
+                      data-aos="fade-left"
+                      class="md:w-4/12 w-full flex justify-center"
+                    >
                       {game.steps[activeStep() - 1]?.imgSrc && (
                         <img
                           src={game.steps[activeStep() - 1].imgSrc}
@@ -81,7 +96,10 @@ export default function SlideLangkahPermainan() {
                     </div>
                   </div>
                 )}
-                <div class="flex items-center justify-between w-full mt-10">
+                <div
+                  data-aos="fade-up"
+                  class="flex items-center justify-between w-full mt-10"
+                >
                   <button
                     class="w-11 h-11 rounded-full bg-gray-100 cursor-pointer hover:bg-gray-300 transition duration-300 flex items-center justify-center text-2xl"
                     disabled={activeStep() === 0}
@@ -89,7 +107,7 @@ export default function SlideLangkahPermainan() {
                     onClick={handlePrev}
                   >
                     <img
-                      src="/src/assets/images/ArrowRight.png"
+                      src="/src/assets/images/icons/ArrowRight.png"
                       class="rotate-180 w-6 h-6"
                       alt=""
                     />
@@ -115,7 +133,7 @@ export default function SlideLangkahPermainan() {
                     onClick={handleNext}
                   >
                     <img
-                      src="/src/assets/images/ArrowRight.png"
+                      src="/src/assets/images/icons/ArrowRight.png"
                       class="w-6 h-6"
                       alt=""
                     />

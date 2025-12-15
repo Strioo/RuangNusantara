@@ -1,14 +1,15 @@
-import { createSignal, createResource, For, Show } from "solid-js";
+import AOS from "aos";
+import { createSignal, For, Show, onMount } from "solid-js";
+import "aos/dist/aos.css";
 import CardArtikel from "../../components/CardArtikel";
-
-const fetchArticles = async () => {
-  const res = await fetch("http://localhost:4000/artikel");
-  if (!res.ok) throw new Error("Gagal memuat artikel");
-  return await res.json();
-};
+import { artikelData } from "../../data/staticData";
 
 export default function All() {
-  const [articles] = createResource(fetchArticles);
+  onMount(() => {
+    AOS.init({ once: true });
+  });
+
+  const articles = () => artikelData;
   const [index, setIndex] = createSignal(0);
 
   const cardWidth = 340; // lebar kartu (w-[340px])
@@ -29,8 +30,9 @@ export default function All() {
   };
 
   return (
-    <div class="max-w-full mx-auto overflow-hidden my-7">
+    <div data-aos="fade-up" class="max-w-full mx-auto overflow-hidden my-7">
       <div
+        data-aos="fade-right"
         class="flex transition-transform duration-500 gap-20 ease-in-out"
         style={{
           width: `${containerWidth()}px`,
@@ -41,6 +43,7 @@ export default function All() {
           <For each={articles()}>
             {(artikel, idx) => (
               <div
+                data-aos="fade-up"
                 class="flex-shrink-0"
                 style={{
                   width: `${cardWidth}px`,
@@ -62,7 +65,10 @@ export default function All() {
         </Show>
       </div>
 
-      <div class="flex justify-between mt-6 max-w-[1080px] mx-auto px-4">
+      <div
+        data-aos="fade-up"
+        class="flex justify-between mt-6 max-w-[1080px] mx-auto px-4"
+      >
         <button
           class="btn btn-circle btn-outline"
           onClick={prev}
@@ -70,7 +76,7 @@ export default function All() {
           aria-label="Previous"
         >
           <img
-            src="/src/assets/images/ArrowRight.png"
+            src="/src/assets/images/icons/ArrowRight.png"
             class="rotate-180 w-6 h-6"
             alt=""
           />
@@ -81,7 +87,7 @@ export default function All() {
           disabled={index() === maxIndex()}
           aria-label="Next"
         >
-          <img src="/src/assets/images/ArrowRight.png" class="w-6 h-6" alt="" />
+          <img src="/src/assets/images/icons/ArrowRight.png" class="w-6 h-6" alt="" />
         </button>
       </div>
     </div>

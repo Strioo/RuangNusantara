@@ -1,20 +1,20 @@
 import { useParams } from "@solidjs/router";
-import { createResource, Show } from "solid-js";
+import { Show, onMount } from "solid-js";
 import Footer from "../components/Footer";
 import NavBack from "../components/NavBack";
-
-const fetchArtikel = async (id) => {
-  if (!id) return null;
-  const res = await fetch("http://localhost:4000/artikel/" + id);
-  if (!res.ok) throw new Error("Gagal memuat data artikel");
-  return res.json();
-};
+import { getArtikelById } from "../data/staticData";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 export default function ArtikelDetailPage() {
+  onMount(() => {
+    AOS.init({ once: true });
+  });
+
   const params = useParams();
 
-  // createResource menggunakan getter params.id agar reaktif
-  const [artikel] = createResource(() => params.id, fetchArtikel);
+  // Get artikel directly from static data
+  const artikel = () => getArtikelById(params.id);
 
   return (
     <div class="w-full">
@@ -54,7 +54,7 @@ export default function ArtikelDetailPage() {
                 <div class="bg-[#264653] text-white mt-10 rounded-xl p-6">
                   <div class="flex max-w-fit justify-center items-center rounded-full px-4 py-2 bg-white gap-2 mb-2 font-semibold">
                     <img
-                      src="/src/assets/images/PushPin.svg"
+                      src="/src/assets/images/icons/PushPin.svg"
                       class="h-[14px]"
                       alt=""
                     />

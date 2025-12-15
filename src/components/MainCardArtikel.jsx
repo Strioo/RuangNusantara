@@ -13,7 +13,7 @@ export default function MainCardArtikel(props) {
 
   return (
     <div
-      class="relative flex-1 min-h-[350px] lg:min-h-[620px] rounded-2xl overflow-hidden flex bg-cover bg-center cursor-pointer transition-transform duration-300 hover:scale-[1.02]"
+      class="relative flex-1 h-[350px] lg:min-h-[700px] rounded-2xl overflow-hidden flex bg-cover bg-center cursor-pointer transition-transform duration-300 hover:scale-[1.02]"
       style={{ background: `url('${props.imgSrc}')` }}
       onClick={goToDetail}
       role="button"

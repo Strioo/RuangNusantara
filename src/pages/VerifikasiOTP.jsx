@@ -1,6 +1,12 @@
-import { createSignal } from "solid-js";
+import AOS from "aos";
+import { createSignal, onMount } from "solid-js";
+import "aos/dist/aos.css";
 
 export default function VerifikasiOTP() {
+  onMount(() => {
+    AOS.init({ once: true });
+  });
+
   const [otp, setOtp] = createSignal(["", "", "", "", "", ""]);
 
   // Fokus otomatis saat input angka
@@ -26,7 +32,7 @@ export default function VerifikasiOTP() {
   return (
     <section class="flex flex-col lg:flex-row min-h-screen bg-white rounded-3xl overflow-hidden">
       {/* Left - Form */}
-      <div class="w-full lg:w-1/2 flex flex-col justify-between px-2 lg:px-8">
+      <div data-aos="fade-right" class="w-full lg:w-1/2 flex flex-col justify-between px-2 lg:px-8">
         {/* Logo */}
         <div>
           <a href="/" class="flex items-center justify-center lg:justify-start">
@@ -34,16 +40,16 @@ export default function VerifikasiOTP() {
           </a>
         </div>
         <div class="flex-1 flex flex-col justify-center max-w-md mx-auto w-full mt-20 lg:mt-0">
-          <p class="text-3xl font-bold text-center mb-3 text-black">
+          <p data-aos="fade-up" class="text-3xl font-bold text-center mb-3 text-black">
             Verifikasi Kode OTP Anda
           </p>
-          <p class="text-gray-500 text-center mb-8">
+          <p data-aos="fade-up" class="text-gray-500 text-center mb-8">
             Kami telah mengirimkan kode verifikasi ke nomor/email Anda. Masukkan kode untuk melanjutkan.
           </p>
           <label class="block mb-3 text-black font-medium text-base">
             Masukan Kode Otp
           </label>
-          <div class="flex gap-2 justify-center mb-6">
+          <div data-aos="fade-up" class="flex gap-2 justify-center mb-6">
             {[...Array(6)].map((_, idx) => (
               <input
                 id={`otp-${idx}`}
@@ -75,9 +81,9 @@ export default function VerifikasiOTP() {
         </footer>
       </div>
       {/* Right - Image */}
-      <div class="hidden lg:flex w-1/2">
+      <div data-aos="fade-left" class="hidden lg:flex w-1/2">
         <img
-          src="/src/assets/images/VerifikasiOtpPict.png"
+          src="/src/assets/images/auth/VerifikasiOtpPict.png"
           alt="Tarian Nusantara"
           class="object-cover w-full h-full"
         />

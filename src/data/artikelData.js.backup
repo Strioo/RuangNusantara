@@ -1,0 +1,318 @@
+// Data Artikel - Optimized for production
+export const artikelData = [
+  {
+    id: "gamelan-jawa",
+    title: "Gamelan: Irama Abadi dari Jawa yang Mendunia",
+    category: "Seni & Musik",
+    description: "Gamelan bukan hanya alat musik, tapi juga identitas budaya yang sudah dikenal hingga mancanegara. Dari panggung tradisional hingga konser internasional, gamelan terus hidup dan beradaptasi.",
+    author: "Tim Nusantara",
+    date: "12 Maret 2025",
+    imgSrc: "/src/assets/images/articles/gamelan-jawa.png",
+    content: "<h1>Gamelan, Lebih dari Sekadar Musik</h1><p>Gamelan adalah salah satu instrumen musik yang berasal dari Nusantara dan memiliki sejarah panjang.</p><h2>Keunikan Gamelan</h2><p>Gamelan menggabungkan berbagai alat musik yang harmonis, menciptakan irama yang khas.</p>",
+    kesimpulan: "Gamelan adalah identitas, doa, sekaligus harmoni yang tidak lekang oleh waktu. Dari desa kecil di Jawa hingga panggung megah di New York, gamelan terus berkumandang, membawa pesan tentang kebersamaan, keseimbangan, dan kebanggaan akan budaya Nusantara."
+  },
+  {
+    id: "kolintang-minahasa",
+    title: "Kolintang Minahasa: Irama Kayu Pemersatu Generasi",
+    category: "Seni & Musik",
+    description: "Kolintang jadi simbol kebersamaan masyarakat Sulawesi Utara yang terus dimainkan lintas generasi.",
+    author: "Tim Minahasa",
+    date: "20 Mei 2025",
+    imgSrc: "/src/assets/images/articles/kolintang-minahasa.png",
+    content: "<h1>Kolintang, Bunyi Harmoni Sulawesi</h1><p>Alat musik Kolintang terbuat dari kayu yang disusun harmonis, menjadi suara kearifan lokal.</p><h2>Lestarikan Tradisi</h2><p>Generasi muda terus melestarikan kolintang untuk menjaga budaya asli Minahasa.</p>",
+    kesimpulan: "Kolintang Minahasa adalah suara kearifan lokal yang mempersatukan dan menjadi kebanggaan budaya Sulawesi Utara. Generasi muda mampu terus menjaga tradisi kolintang, memperkenalkannya ke dunia melalui kreativitas dan inovasi."
+  },
+  {
+    id: "batik-jawa",
+    title: "Batik Jawa: Warisan Pakaian Adat dengan Motif Kaya Makna",
+    category: "Pakaian Adat",
+    description: "Batik Jawa merupakan kain tradisional yang kaya akan motif dan filosofi mendalam yang diwariskan turun-temurun.",
+    author: "Dewi Sartika",
+    date: "5 April 2025",
+    imgSrc: "/src/assets/images/articles/batik-jawa.png",
+    content: "<h1>Batik, Seni dan Filosofi dalam Kain</h1><p>Batik bukan sekedar kain, melainkan simbol identitas dan budaya Jawa.</p><h2>Motif dan Makna</h2><p>Setiap motif batik menghadirkan cerita dan filosofi tersendiri yang dipakai dalam berbagai acara adat.</p>",
+    kesimpulan: "Batik menjadi warisan budaya yang terus dilestarikan, sekaligus simbol identitas bangsa yang kaya akan kearifan lokal dan keindahan seni tekstil."
+  },
+  {
+    id: "kain-ulas-sumatera",
+    title: "Kain Ulas Sumatera: Pakaian Tradisional yang Menyimpan Nilai Budaya",
+    category: "Pakaian Adat",
+    description: "Kain Ulas adalah simbol kemegahan dan estetika pakaian adat masyarakat Sumatera dengan corak khasnya.",
+    author: "Rini Chairani",
+    date: "18 Juni 2025",
+    imgSrc: "/src/assets/images/articles/kain-ulas-sumatera.png",
+    content: "<h1>Kain Ulas, Simbol Tradisi</h1><p>Kain ulas memiliki motif yang kaya dan digunakan dalam upacara adat penting.</p><h2>Pewarnaan Tradisional</h2><p>Pewarna alami dan teknik tenun khas menjadikan kain ini bernilai seni tinggi.</p>",
+    kesimpulan: "Kain Ulas bukan hanya pakaian tapi identitas budaya yang mempersatukan masyarakat Sumatera dan melestarikan tradisi leluhur."
+  },
+  {
+    id: "tari-kecak-bali",
+    title: "Tari Kecak Bali: Tarian Tradisional dengan Harmoni Suara Mantra",
+    category: "Tarian Tradisional",
+    description: "Tari Kecak menghadirkan pertunjukan unik dengan suara vokal massal yang mengiringi cerita Ramayana.",
+    author: "I Wayan Suryadi",
+    date: "10 Juli 2025",
+    imgSrc: "/src/assets/images/articles/tari-kecak-bali.png",
+    content: "<h1>Tari Kecak, Suara dan Gerak</h1><p>Tari Kecak dikenal dengan suara teriakan 'cak' yang berirama dalam harmoni bersama.</p><h2>Asal Usul dan Makna</h2><p>Berakar dari ritual Hindu, tarian ini menceritakan kisah epik Ramayana.</p>",
+    kesimpulan: "Tari Kecak Bali menjadi simbol seni pertunjukan yang menggabungkan unsur spiritual dan hiburan rakyat yang mendalam."
+  },
+  {
+    id: "tari-topeng-cirebon",
+    title: "Tari Topeng Cirebon: Seni Pertunjukan Berwajah Tradisi",
+    category: "Tarian Tradisional",
+    description: "Tari Topeng Cirebon menampilkan kombinasi gerak dan ekspresi wajah melalui topeng yang artistik.",
+    author: "H. Sutaryo",
+    date: "25 September 2025",
+    imgSrc: "/src/assets/images/articles/tari-topeng-cirebon.png",
+    content: "<h1>Tari Topeng, Wajah dan Gerak</h1><p>Topeng digunakan untuk mendramatisasi karakter dalam cerita rakyat Cirebon.</p><h2>Keunikan dan Filosofi</h2><p>Masing-masing topeng mewakili watak dan pesan moral tertentu.</p>",
+    kesimpulan: "Tari Topeng Cirebon memperkaya khazanah seni pertunjukan tradisional yang sarat nilai budaya dan estetika."
+  },
+  // Seni & Musik - 6 data baru
+  {
+    id: "angklung-jawabarat",
+    title: "Angklung Jawa Barat: Alunan Bambu yang Mendunia",
+    category: "Seni & Musik",
+    description: "Angklung adalah alat musik tradisional Sunda yang terbuat dari bambu dan telah diakui UNESCO sebagai warisan budaya dunia.",
+    author: "Ujang Suryana",
+    date: "15 Januari 2025",
+    imgSrc: "/src/assets/images/articles/angklung-jawabarat.png",
+    content: "<h1>Angklung: Musik Bambu Harmonis</h1><p>Angklung dimainkan dengan cara digoyangkan, menghasilkan nada yang indah dan harmonis.</p><h2>Pengakuan Dunia</h2><p>UNESCO mengakui angklung sebagai Masterpiece of Oral and Intangible Heritage of Humanity pada tahun 2010.</p>",
+    kesimpulan: "Angklung membuktikan bahwa kesederhanaan bambu dapat menciptakan harmoni musik yang memukau dunia. Dari desa di Jawa Barat hingga panggung internasional, angklung terus menjadi kebanggaan Indonesia."
+  },
+  {
+    id: "sasando-ntt",
+    title: "Sasando NTT: Petikan Indah dari Timur Indonesia",
+    category: "Seni & Musik",
+    description: "Sasando adalah alat musik petik khas Nusa Tenggara Timur yang terbuat dari daun lontar dengan suara khas yang merdu.",
+    author: "Maria Fransiska",
+    date: "8 Februari 2025",
+    imgSrc: "/src/assets/images/articles/asando-ntt.png",
+    content: "<h1>Sasando: Musik dari Daun Lontar</h1><p>Sasando memiliki bentuk unik seperti tabung dengan senar yang dipetik menghasilkan alunan merdu.</p><h2>Teknik Pembuatan</h2><p>Proses pembuatan sasando memerlukan keahlian khusus dalam merangkai senar dan membentuk resonator dari daun lontar.</p>",
+    kesimpulan: "Sasando adalah bukti kearifan lokal NTT yang mampu menciptakan musik indah dari bahan alam sederhana. Suara sasando membawa kedamaian dan menceritakan keindahan alam Timor."
+  },
+  {
+    id: "gendang-melayu",
+    title: "Gendang Melayu: Dentuman Semangat Riau dan Sumatra",
+    category: "Seni & Musik",
+    description: "Gendang Melayu adalah alat musik perkusi yang menjadi jiwa musik tradisional Melayu dengan irama khas yang energik.",
+    author: "Raja Hamzah",
+    date: "22 Maret 2025",
+    imgSrc: "/src/assets/images/articles/gendang-jawa.png",
+    content: "<h1>Gendang: Jantung Musik Melayu</h1><p>Gendang dimainkan dalam berbagai upacara adat dan perayaan sebagai pengiring tarian dan lagu tradisional.</p><h2>Teknik Permainan</h2><p>Pemain gendang menggunakan telapak tangan dan jari untuk menghasilkan variasi bunyi yang kompleks dan dinamis.</p>",
+    kesimpulan: "Gendang Melayu bukan hanya alat musik, tetapi simbol semangat dan kegembiraan masyarakat Melayu. Setiap dentuman gendang membawa energi dan kehangatan budaya Nusantara."
+  },
+  {
+    id: "rebab-jawa",
+    title: "Rebab Jawa: Gesek Melodi Mistis Gamelan",
+    category: "Seni & Musik",
+    description: "Rebab adalah alat musik gesek dalam gamelan Jawa yang menghasilkan melodi lembut dan penuh nuansa mistis.",
+    author: "Ki Surono",
+    date: "5 April 2025",
+    imgSrc: "/src/assets/images/articles/gamelan-jawa.png",
+    content: "<h1>Rebab: Jiwa Gamelan</h1><p>Rebab dimainkan dengan cara digesek seperti biola, menghasilkan melodi yang menjadi pemandu dalam orkestra gamelan.</p><h2>Peran dalam Gamelan</h2><p>Rebab sering menjadi pemimpin melodi dalam pertunjukan wayang kulit dan tarian klasik Jawa.</p>",
+    kesimpulan: "Rebab adalah suara jiwa dalam gamelan, membawa pendengar pada perjalanan spiritual melalui melodi yang lembut dan dalam. Instrumen ini melengkapi keharmonisan gamelan Jawa."
+  },
+  {
+    id: "talempong-minang",
+    title: "Talempong Minangkabau: Gong Kecil Berirama Nagari",
+    category: "Seni & Musik",
+    description: "Talempong adalah alat musik pukul khas Minangkabau yang dimainkan dalam ansambel dengan irama khas Sumatera Barat.",
+    author: "Siti Nurhaliza",
+    date: "18 Mei 2025",
+    imgSrc: "/src/assets/images/articles/kolintang-minahasa.png",
+    content: "<h1>Talempong: Bunyi Nagari</h1><p>Talempong berbentuk seperti gong kecil yang disusun dan dimainkan dengan pemukul kayu.</p><h2>Dalam Upacara Adat</h2><p>Talempong selalu hadir dalam upacara adat Minangkabau, dari pernikahan hingga penyambutan tamu kehormatan.</p>",
+    kesimpulan: "Talempong adalah identitas musik Minangkabau yang mengiringi setiap momen penting masyarakat. Iramanya mencerminkan filosofi adat basandi syarak, syarak basandi Kitabullah."
+  },
+  {
+    id: "tifa-papua",
+    title: "Tifa Papua: Gendang Sakral dari Tanah Cenderawasih",
+    category: "Seni & Musik",
+    description: "Tifa adalah alat musik tradisional Papua yang digunakan dalam upacara adat dan ritual sakral dengan motif ukiran khas.",
+    author: "John Wamafma",
+    date: "30 Juni 2025",
+    imgSrc: "/src/assets/images/articles/gendang-jawa.png",
+    content: "<h1>Tifa: Suara Tanah Papua</h1><p>Tifa memiliki bentuk memanjang dengan kulit hewan sebagai membran yang menghasilkan suara khas Papua.</p><h2>Makna Spiritual</h2><p>Dalam budaya Papua, tifa bukan sekadar alat musik, tetapi media komunikasi dengan roh leluhur dan alam.</p>",
+    kesimpulan: "Tifa adalah jembatan spiritual antara manusia Papua dengan alam dan leluhur mereka. Setiap pukulan tifa membawa doa, harapan, dan kekuatan budaya yang tetap lestari."
+  },
+  // Pakaian Adat - 6 data baru
+  {
+    id: "songket-palembang",
+    title: "Songket Palembang: Kemewahan Benang Emas Sumatera Selatan",
+    category: "Pakaian Adat",
+    description: "Songket Palembang adalah kain tradisional dengan tenunan benang emas dan perak yang mencerminkan kemegahan Kesultanan Palembang.",
+    author: "Siti Fatimah",
+    date: "10 Februari 2025",
+    imgSrc: "/src/assets/images/articles/kain-ulas-sumatera.png",
+    content: "<h1>Songket: Kain Emas dari Palembang</h1><p>Songket Palembang ditenun dengan teknik rumit, menambahkan benang emas atau perak pada kain sutra.</p><h2>Motif dan Makna</h2><p>Setiap motif songket memiliki makna filosofis, dari bunga melati hingga naga yang melambangkan kebesaran.</p>",
+    kesimpulan: "Songket Palembang adalah warisan kerajaan yang tetap bersinar hingga kini. Kemewahan benang emas dan keindahan motifnya mencerminkan martabat dan keagungan budaya Melayu Palembang."
+  },
+  {
+    id: "tenun-ikat-ntt",
+    title: "Tenun Ikat NTT: Kain Penuh Cerita dari Nusa Tenggara",
+    category: "Pakaian Adat",
+    description: "Tenun ikat NTT adalah kain tradisional dengan teknik pewarnaan unik yang menghasilkan motif khas penuh makna filosofis.",
+    author: "Elisabeth Maria",
+    date: "25 Maret 2025",
+    imgSrc: "/src/assets/images/articles/kain-ulas-sumatera.png",
+    content: "<h1>Tenun Ikat: Seni Menenun NTT</h1><p>Proses pembuatan tenun ikat memerlukan waktu berbulan-bulan dengan teknik ikat celup yang rumit.</p><h2>Filosofi Motif</h2><p>Motif tenun ikat tidak hanya dekoratif, tetapi menceritakan silsilah keluarga, status sosial, dan nilai-nilai leluhur.</p>",
+    kesimpulan: "Tenun ikat NTT adalah buku sejarah yang tertulis dalam benang. Setiap helai kain menyimpan cerita leluhur dan kearifan lokal yang diwariskan turun-temurun."
+  },
+  {
+    id: "kebaya-jawa",
+    title: "Kebaya Jawa: Elegan Pakaian Wanita Nusantara",
+    category: "Pakaian Adat",
+    description: "Kebaya adalah pakaian tradisional wanita Indonesia yang memadukan keanggunan, kesopanan, dan keindahan dalam setiap jahitannya.",
+    author: "Kartini Wijaya",
+    date: "15 April 2025",
+    imgSrc: "/src/assets/images/articles/batik-jawa.png",
+    content: `
+      <h1>Kebaya: Simbol Keanggunan Wanita Indonesia</h1>
+      
+      <p>Kebaya bukan sekadar pakaian, melainkan identitas keanggunan wanita Indonesia yang telah melampaui berabad-abad. Dari istana keraton hingga acara resmi internasional, kebaya tetap menjadi simbol kebanggaan dan martabat bangsa.</p>
+      
+      <h2>Sejarah dan Perkembangan Kebaya</h2>
+      
+      <p>Kebaya memiliki sejarah panjang yang dimulai dari abad ke-15, dipengaruhi oleh perpaduan budaya Jawa, Melayu, Tionghoa, dan Eropa. Kata "kebaya" sendiri berasal dari bahasa Arab "abaya" yang berarti pakaian. Pada masa Kerajaan Majapahit, kebaya sudah menjadi pakaian resmi kaum bangsawan.</p>
+      
+      <p>Di era kolonial Belanda, kebaya mengalami transformasi dengan penambahan renda dan bordir khas Eropa. Namun, esensi kebaya sebagai pakaian yang menutup aurat dan menampilkan keanggunan tetap dipertahankan.</p>
+      
+      <h2>Jenis-Jenis Kebaya Nusantara</h2>
+      
+      <p><strong>Kebaya Jawa:</strong> Memiliki potongan longgar dengan panjang hingga pinggul, sering dipadukan dengan kain batik dan stagen (ikat pinggang).</p>
+      
+      <p><strong>Kebaya Kartini:</strong> Terinspirasi dari R.A. Kartini, memiliki potongan yang lebih modern dengan kerah tinggi dan bordir halus.</p>
+      
+      <p><strong>Kebaya Encim:</strong> Pengaruh Tionghoa-Betawi dengan warna-warna cerah dan sulaman yang rumit.</p>
+      
+      <p><strong>Kebaya Bali:</strong> Menggunakan kain songket atau endek dengan selendang dan sanggul khas Bali.</p>
+      
+      <h2>Filosofi dalam Setiap Jahitan</h2>
+      
+      <p>Kebaya mengajarkan filosofi kesopanan dan keanggunan dalam berpenampilan. Potongannya yang pas badan namun tidak ketat mencerminkan keseimbangan antara memperlihatkan lekuk tubuh dengan tetap menjaga kesopanan.</p>
+      
+      <p>Setiap detail kebaya memiliki makna: renda melambangkan kehalusan budi, kancing melambangkan keteguhan hati, dan kain penutup melambangkan kesucian. Kebaya mengajarkan bahwa kecantikan sejati adalah ketika penampilan luar mencerminkan keindahan batin.</p>
+      
+      <h2>Kebaya di Era Modern</h2>
+      
+      <p>Desainer modern seperti Anne Avantie, Didiet Maulana, dan Sebastian Gunawan berhasil membawa kebaya ke panggung mode internasional. Kebaya kini tidak hanya dikenakan untuk acara adat, tetapi juga untuk resepsi negara, red carpet, hingga fashion week dunia.</p>
+      
+      <p>Para selebriti dan tokoh nasional kerap mengenakan kebaya sebagai bentuk kebanggaan budaya. Presiden dan First Lady Indonesia selalu tampil dengan kebaya dalam kunjungan kenegaraan, memperkenalkan keindahan kebaya ke mata dunia.</p>
+      
+      <h2>Cara Merawat Kebaya</h2>
+      
+      <p>Kebaya, terutama yang berbahan sutra atau beludru dengan bordir rumit, memerlukan perawatan khusus:</p>
+      
+      <ul>
+        <li>Cuci dengan tangan menggunakan detergen lembut</li>
+        <li>Hindari pemutih dan pemerasan yang keras</li>
+        <li>Jemur dengan cara digantung, hindari sinar matahari langsung</li>
+        <li>Setrika dengan suhu rendah atau gunakan kain pelindung</li>
+        <li>Simpan di lemari dengan hanger yang baik dan beri kamper untuk menghindari ngengat</li>
+      </ul>
+      
+      <h2>Kebaya sebagai Diplomasi Budaya</h2>
+      
+      <p>Kebaya telah menjadi alat diplomasi budaya Indonesia yang efektif. Ketika Ibu Negara Indonesia mengenakan kebaya dalam pertemuan internasional, dunia terpukau dengan keanggunannya. Banyak istri kepala negara dan tokoh internasional yang kemudian mencoba mengenakan kebaya, menunjukkan apresiasi mereka terhadap budaya Indonesia.</p>
+    `,
+    kesimpulan: "Kebaya adalah karya seni yang hidup, terus berkembang tanpa kehilangan jati diri. Dari R.A. Kartini hingga generasi milenial, kebaya tetap menjadi simbol keanggunan, kebanggaan, dan identitas wanita Indonesia. Mari kita lestarikan kebaya bukan hanya sebagai warisan budaya, tetapi sebagai bagian dari gaya hidup yang menghargai nilai-nilai kesopanan dan keindahan."
+  },
+  {
+    id: "ulos-batak",
+    title: "Ulos Batak: Kain Kehangatan dari Tanah Batak",
+    category: "Pakaian Adat",
+    description: "Ulos adalah kain adat Batak yang diberikan sebagai simbol kasih sayang, kehangatan, dan berkat dalam setiap momen penting kehidupan.",
+    author: "Tiurma Simanjorang",
+    date: "8 Mei 2025",
+    imgSrc: "/src/assets/images/articles/kain-ulas-sumatera.png",
+    content: "<h1>Ulos: Lebih dari Sekedar Kain</h1><p>Ulos dalam tradisi Batak bukan hanya pakaian, tetapi representasi kehangatan, perlindungan, dan berkah dari orangtua.</p><h2>Jenis-Jenis Ulos</h2><p>Ada berbagai jenis ulos dengan fungsi berbeda, dari ulos pernikahan, kelahiran, hingga upacara kematian.</p>",
+    kesimpulan: "Ulos adalah pelukan hangat yang tertuang dalam kain. Setiap pemberian ulos membawa doa, harapan, dan kasih sayang yang mendalam dalam tradisi Batak."
+  },
+  {
+    id: "baju-bodo-makassar",
+    title: "Baju Bodo Makassar: Kesederhanaan Penuh Makna Bugis",
+    category: "Pakaian Adat",
+    description: "Baju Bodo adalah pakaian adat wanita Bugis-Makassar yang terkenal dengan kesederhanaannya namun sarat makna status sosial.",
+    author: "Nurhayati Ramli",
+    date: "20 Juni 2025",
+    imgSrc: "/src/assets/images/articles/batik-jawa.png",
+    content: "<h1>Baju Bodo: Sederhana Bermakna</h1><p>Baju Bodo memiliki lengan pendek dan transparan, dengan warna yang menunjukkan usia dan status sosial pemakainya.</p><h2>Makna Warna</h2><p>Warna orange untuk anak-anak, merah untuk remaja, putih untuk wanita tua, hingga ungu untuk bangsawan.</p>",
+    kesimpulan: "Baju Bodo mengajarkan bahwa kesederhanaan bisa sangat bermakna. Setiap warna dan detail menceritakan perjalanan hidup wanita Bugis-Makassar."
+  },
+  {
+    id: "destar-bali",
+    title: "Destar Bali: Ikat Kepala Penuh Filosofi Hindu",
+    category: "Pakaian Adat",
+    description: "Destar atau udeng adalah ikat kepala khas Bali yang digunakan pria dalam upacara keagamaan dengan berbagai makna filosofis.",
+    author: "I Made Suardana",
+    date: "12 Juli 2025",
+    imgSrc: "/src/assets/images/articles/batik-jawa.png",
+    content: "<h1>Destar: Mahkota Pria Bali</h1><p>Destar melambangkan pikiran yang teratur dan kesucian dalam menjalani kehidupan spiritual Hindu.</p><h2>Cara Memakai</h2><p>Ada teknik khusus melipat destar dengan ujung yang menonjol di depan, melambangkan api suci yang menerangi pikiran.</p>",
+    kesimpulan: "Destar Bali adalah mahkota spiritual yang mengingatkan setiap pria Bali untuk menjaga kesucian pikiran dan perbuatan. Lebih dari aksesoris, destar adalah identitas religius."
+  },
+  // Tarian Tradisional - 6 data baru
+  {
+    id: "tari-saman-aceh",
+    title: "Tari Saman Aceh: Seribu Tangan dalam Harmoni Sempurna",
+    category: "Tarian Tradisional",
+    description: "Tari Saman adalah tarian kolosal dari Aceh yang menampilkan gerakan serempak dengan ketukan dan nyanyian yang memukau.",
+    author: "Teuku Ibrahim",
+    date: "5 Januari 2025",
+    imgSrc: "/src/assets/images/articles/tari-kecak-bali.png",
+    content: "<h1>Tari Saman: Keajaiban Kekompakan</h1><p>Tari Saman dimainkan oleh puluhan penari dalam posisi duduk dengan gerakan tangan, badan, dan tepuk yang sinkron.</p><h2>Pengakuan UNESCO</h2><p>UNESCO menetapkan Tari Saman sebagai Representative List of the Intangible Cultural Heritage of Humanity pada 2011.</p>",
+    kesimpulan: "Tari Saman membuktikan bahwa kebersamaan dan kekompakan adalah kekuatan. Tanpa alat musik, hanya suara dan gerakan, tarian ini menciptakan harmoni yang menakjubkan."
+  },
+  {
+    id: "tari-pendet-bali",
+    title: "Tari Pendet Bali: Tarian Penyambutan Penuh Keanggunan",
+    category: "Tarian Tradisional",
+    description: "Tari Pendet adalah tarian penyambutan dari Bali yang menggambarkan turunnya para dewa ke bumi dengan gerakan lembut dan anggun.",
+    author: "Ni Ketut Ayu",
+    date: "14 Februari 2025",
+    imgSrc: "/src/assets/images/articles/tari-kecak-bali.png",
+    content: "<h1>Tari Pendet: Sambutan Surgawi</h1><p>Penari Pendet membawa bokor berisi bunga dan menabur bunga sebagai simbol penyambutan dan penghormatan.</p><h2>Dari Sakral ke Seni</h2><p>Awalnya tarian sakral di pura, kini Tari Pendet juga dipentaskan sebagai tarian penyambutan tamu kehormatan.</p>",
+    kesimpulan: "Tari Pendet adalah keindahan Bali yang tertuang dalam gerakan. Setiap ayunan tangan dan tebar bunga membawa pesan damai dan keramahan khas pulau Dewata."
+  },
+  {
+    id: "tari-jaipong-jawa-barat",
+    title: "Tari Jaipong: Dinamika Modern Sunda yang Menawan",
+    category: "Tarian Tradisional",
+    description: "Tari Jaipong adalah tarian kreasi Sunda yang menggabungkan gerakan tradisional dengan irama modern yang energik dan ekspresif.",
+    author: "Gugum Gumbira Jr.",
+    date: "28 Maret 2025",
+    imgSrc: "/src/assets/images/articles/tari-topeng-cirebon.png",
+    content: "<h1>Jaipong: Revolusi Tari Sunda</h1><p>Diciptakan tahun 1970-an, Tari Jaipong menghidupkan kembali semangat tarian Sunda dengan sentuhan kontemporer.</p><h2>Gerakan Khas</h2><p>Goyang pinggul, gerak kaki yang lincah, dan ekspresi wajah yang playful menjadi ciri khas Jaipong.</p>",
+    kesimpulan: "Tari Jaipong membuktikan bahwa tradisi bisa berinovasi tanpa kehilangan jati diri. Energi dan keceriaan Jaipong menjadi magnet yang menarik generasi muda mencintai budaya."
+  },
+  {
+    id: "tari-piring-minang",
+    title: "Tari Piring Minangkabau: Atraksi Piring di Atas Telapak Tangan",
+    category: "Tarian Tradisional",
+    description: "Tari Piring adalah tarian tradisional Minangkabau yang memukau dengan gerakan memutar piring di telapak tangan dengan lincah.",
+    author: "Siti Rahmah",
+    date: "16 April 2025",
+    imgSrc: "/src/assets/images/articles/tari-topeng-cirebon.png",
+    content: "<h1>Tari Piring: Keseimbangan dan Ketangkasan</h1><p>Penari Tari Piring harus menjaga keseimbangan piring sambil melakukan gerakan tari yang dinamis dan cepat.</p><h2>Klimaks Pertunjukan</h2><p>Di akhir tarian, penari memecahkan piring dan menari di atas pecahan kaca tanpa terluka, menunjukkan keahlian spiritual.</p>",
+    kesimpulan: "Tari Piring adalah kombinasi seni, ketangkasan, dan keberanian. Tarian ini mengajarkan bahwa dengan fokus dan keterampilan, hal yang tampak mustahil bisa diwujudkan."
+  },
+  {
+    id: "tari-serimpi-yogyakarta",
+    title: "Tari Serimpi: Kehalusan Keraton Yogyakarta",
+    category: "Tarian Tradisional",
+    description: "Tari Serimpi adalah tarian klasik Jawa yang menampilkan empat penari putri dengan gerakan lembut penuh filosofi keseimbangan hidup.",
+    author: "R.A. Kusumawati",
+    date: "22 Mei 2025",
+    imgSrc: "/src/assets/images/articles/tari-kecak-bali.png",
+    content: "<h1>Serimpi: Harmoni dalam Gerakan</h1><p>Empat penari melambangkan empat unsur alam: api, air, tanah, dan udara yang harus seimbang dalam kehidupan.</p><h2>Filosofi Jawa</h2><p>Gerakan halus dan lambat mencerminkan nilai Jawa tentang pengendalian diri dan keharmonisan.</p>",
+    kesimpulan: "Tari Serimpi adalah pelajaran filosofi yang dibawakan dalam gerakan. Kehalusan dan keseimbangan dalam tarian ini mencerminkan kebijaksanaan hidup Jawa yang mendalam."
+  },
+  {
+    id: "tari-tor-tor-batak",
+    title: "Tari Tor-Tor: Gerakan Sakral Batak Penuh Kekuatan",
+    category: "Tarian Tradisional",
+    description: "Tari Tor-Tor adalah tarian adat Batak yang ditarikan dalam upacara penting dengan gerakan kuat yang penuh makna spiritual.",
+    author: "Mangasi Situmorang",
+    date: "8 Juni 2025",
+    imgSrc: "/src/assets/images/articles/tari-topeng-cirebon.png",
+    content: "<h1>Tor-Tor: Tarian Pemanggialan Roh</h1><p>Dalam tradisi Batak, Tor-Tor dipercaya dapat memanggil roh leluhur dan memberikan berkah kepada peserta upacara.</p><h2>Gerakan Bermakna</h2><p>Setiap gerakan Tor-Tor memiliki makna, dari gerakan kaki yang menghentak hingga ayunan tangan yang memberkati.</p>",
+    kesimpulan: "Tari Tor-Tor adalah jembatan antara dunia nyata dan spiritual dalam budaya Batak. Kekuatan gerakannya mencerminkan keteguhan dan keberanian masyarakat Batak dalam menghadapi kehidupan."
+  }
+];

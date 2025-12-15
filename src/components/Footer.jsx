@@ -61,7 +61,7 @@ export default function Footer() {
       {/* Kanan: Gambar */}
       <div class="absolute w-full hidden lg:flex justify-end top-5 bottom-0">
         <img
-          src="/src/assets/images/tari-nusantara.png"
+          src="/src/assets/images/home/tari-nusantara.png"
           alt="Tarian Nusantara"
           class="object-contain drop-shadow-lg"
         />

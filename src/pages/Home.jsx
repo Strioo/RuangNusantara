@@ -2,26 +2,32 @@ import CardPrimary from "../components/CardPrimary";
 import Footer from "../components/Footer";
 import LongCard from "../components/LongCard";
 import Navbar from "../components/Navbar";
+import AOS from "aos";
+import { onMount } from "solid-js";
+import "aos/dist/aos.css";
 
 export default function Home() {
+  onMount(() => {
+    AOS.init({ once: true }); // 'once: true' supaya animasi hanya terjadi sekali
+  });
   return (
     <div>
-      <section class="relative flex flex-col p-5 items-center h-auto min-h-[865px] bg-bottom bg-[url('/src/assets/images/hero-bg.png')] bg-cover rounded-3xl">
+      <section  class="relative flex flex-col p-5 items-center h-auto min-h-[865px] bg-bottom bg-[url('/src/assets/images/backgrounds/hero-bg.png')] bg-cover rounded-3xl">
         <Navbar />
-        <h1 class="text-4xl sm:text-6xl md:text-7xl lg:text-8xl mt-8 md:mt-16 font-bold text-center mb-5 md:mb-7 drop-shadow-lg">
+        <h1 data-aos="fade-up" class="text-4xl sm:text-6xl md:text-7xl lg:text-8xl mt-8 md:mt-16 font-bold text-center mb-5 md:mb-7 drop-shadow-lg">
           Budaya Indonesia,
           <br />
           Hidup di Era Digital
         </h1>
-        <p class="text-base sm:text-xl text-gray-300 text-center max-w-xl md:max-w-4xl mx-auto mb-6 md:mb-10">
+        <p data-aos="fade-up" class="text-base sm:text-xl text-gray-300 text-center max-w-xl md:max-w-4xl mx-auto mb-6 md:mb-10">
           Temukan kekayaan seni, musik, pakaian adat, hingga kuliner Nusantara
           dalam satu platform digital yang mendukung interaksi edukatif!
         </p>
       </section>
 
-      <section class="flex flex-col lg:flex-row min-h-[300px] mt-10 lg:mt-20 gap-6 lg:gap-0">
+      <section  class="flex flex-col lg:flex-row min-h-[300px] mt-10 lg:mt-20 gap-6 lg:gap-0">
         {/* Kiri */}
-        <div class="w-full lg:w-2/5 flex items-start justify-center lg:justify-start mb-4 lg:mb-0">
+        <div data-aos="fade-right"  class="w-full lg:w-2/5 flex items-start justify-center lg:justify-start mb-4 lg:mb-0">
           <span class="mt-2 mr-3 hidden lg:inline-block">
             <span class="inline-block w-4 h-4 rounded-full bg-[#264653] align-top"></span>
           </span>
@@ -31,7 +37,7 @@ export default function Home() {
         </div>
 
         {/* Kanan */}
-        <div class="w-full lg:w-3/5 px-0 lg:pl-10 flex flex-col gap-6">
+        <div data-aos="fade-left"  class="w-full lg:w-3/5 px-0 lg:pl-10 flex flex-col gap-6">
           <h1 class="text-2xl sm:text-4xl font-bold text-gray-900 leading-tight mb-2 text-center lg:text-left">
             Dengan inovasi digital, budaya Nusantara dapat terus dikenalkan,
             dipelajari, dan diwariskan kepada generasi muda dengan cara yang
@@ -45,7 +51,7 @@ export default function Home() {
             <button class="btn btn-outline btn-lg rounded-full flex items-center">
               Pelajari Lebih Lanjut&nbsp;
               <img
-                src="/src/assets/images/ArrowRight.png"
+                src="/src/assets/images/icons/ArrowRight.png"
                 alt=""
                 class="h-5 ml-1"
               />
@@ -54,11 +60,11 @@ export default function Home() {
         </div>
       </section>
 
-      <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 justify-center items-stretch mt-20 px-3">
+      <section data-aos="fade-up"  class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 justify-center items-stretch mt-20 px-3">
         {/* CARD 1: Gambar Pakaian Adat */}
         <div class="bg-white rounded-2xl shadow-md overflow-hidden w-full flex-shrink-0">
           <img
-            src="/src/assets/images/pakaian-adat.png"
+            src="/src/assets/images/home/pakaian-adat.png"
             alt="Pakaian Adat"
             class="w-full h-full object-cover"
           />
@@ -79,7 +85,7 @@ export default function Home() {
         {/* CARD 3: Gambar Tarian Daerah */}
         <div class="bg-white rounded-2xl shadow-md overflow-hidden w-full flex-shrink-0">
           <img
-            src="/src/assets/images/tarian-daerah.png"
+            src="/src/assets/images/home/tarian-daerah.png"
             alt="Tarian Daerah"
             class="w-full h-full object-cover"
           />
@@ -98,18 +104,18 @@ export default function Home() {
       </section>
 
       <section class="bg-[#264653] min-h-screen px-4 sm:px-8 py-10 sm:py-12 rounded-[24px] mt-[160px] text-white">
-        <span class="block w-max mx-auto lg:m-0 px-5 py-2 italic rounded-full border border-white text-white text-xs sm:text-sm font-medium backdrop-blur bg-transparent">
+        <span data-aos="fade-right"  class="block w-max mx-auto lg:m-0 px-5 py-2 italic rounded-full border border-white text-white text-xs sm:text-sm font-medium backdrop-blur bg-transparent">
           Fitur Utama
         </span>
 
         {/* Header baris row: Judul dan deskripsi */}
         <div class="flex flex-col lg:flex-row items-center justify-between gap-6 md:gap-10 mt-6 mb-12">
-          <h1 class="text-4xl sm:text-5xl md:text-6xl font-normal leading-tight max-w-full md:max-w-2xl text-center lg:text-left">
+          <h1 data-aos="fade-right"  class="text-4xl sm:text-5xl md:text-6xl font-normal leading-tight max-w-full md:max-w-2xl text-center lg:text-left">
             Melestarikan Budaya
             <br />
             Secara Modern
           </h1>
-          <p class="text-base sm:text-xl font-extralight max-w-full md:max-w-2xl text-center lg:text-left">
+          <p data-aos="fade-left"  class="text-base sm:text-xl font-extralight max-w-full md:max-w-2xl text-center lg:text-left">
             Dengan inovasi digital, kami menghadirkan platform yang membantu
             generasi muda menjelajahi, memahami, dan mencintai budaya Indonesia
             dengan cara yang interaktif dan menyenangkan.
@@ -117,11 +123,11 @@ export default function Home() {
         </div>
 
         {/* Bagian gambar besar dan grid fitur */}
-        <div class="flex flex-col lg:flex-row gap-8 md:gap-12">
+        <div data-aos="fade-up"  class="flex flex-col lg:flex-row gap-8 md:gap-12">
           {/* Gambar kiri */}
           <div class="w-full lg:w-1/3 rounded-2xl overflow-hidden shadow-lg flex-shrink-0">
             <img
-              src="/src/assets/images/budaya-modern.png"
+              src="/src/assets/images/home/budaya-modern.png"
               alt="Budaya Modern"
               class="w-full h-auto max-h-[690px] object-cover rounded-2xl"
             />
@@ -130,22 +136,22 @@ export default function Home() {
           {/* Grid fitur dengan 2 kolom di tablet, full di mobile */}
           <div class="w-full lg:w-2/3 grid grid-cols-1 sm:grid-cols-2 gap-7 auto-rows-fr">
             <CardPrimary
-              imgSrc="/src/assets/images/MusicNotes.svg"
+              imgSrc="/src/assets/images/icons/MusicNotes.svg"
               title="Eksplorasi Seni & Musik"
               description="Dengarkan alat musik tradisional dan temukan cerita di baliknya."
             />
             <CardPrimary
-              imgSrc="/src/assets/images/Tshirt.svg"
+              imgSrc="/src/assets/images/icons/Tshirt.svg"
               title="Galeri Pakaian Adat"
               description="Jelajahi filosofi dan makna di balik busana tradisional dari berbagai daerah."
             />
             <CardPrimary
-              imgSrc="/src/assets/images/HouseLine.svg"
+              imgSrc="/src/assets/images/icons/HouseLine.svg"
               title="Arsitektur Tradisional"
               description="Jelajahi keunikan rumah adat Indonesia dan nilai filosofinya."
             />
             <CardPrimary
-              imgSrc="/src/assets/images/BowlSteam.svg"
+              imgSrc="/src/assets/images/icons/BowlSteam.svg"
               title="Kuliner Nusantara"
               description="emukan resep, cerita, dan sejarah di balik masakan khas Indonesia."
             />
@@ -154,10 +160,10 @@ export default function Home() {
       </section>
 
       <section class="mt-[160px] px-4 sm:px-8">
-        <span class="block w-max mx-auto md:m-0 px-5 py-2 italic rounded-full border border-black text-black text-xs sm:text-sm font-medium backdrop-blur bg-transparent">
+        <span data-aos="fade-right"  class="block w-max mx-auto md:m-0 px-5 py-2 italic rounded-full border border-black text-black text-xs sm:text-sm font-medium backdrop-blur bg-transparent">
           Tradisi Lama, Gaya Baru.
         </span>
-        <div class="w-full flex flex-col md:flex-row gap-6 md:gap-8 mt-5 bg-white rounded-lg">
+        <div data-aos="fade-right"  class="w-full flex flex-col md:flex-row gap-6 md:gap-8 mt-5 bg-white rounded-lg">
           {/* Kiri: Label dan Judul */}
           <div class="md:w-[65%] w-full flex flex-col">
             <h1 class="text-center md:text-left text-3xl sm:text-4xl md:text-5xl font-bold text-black leading-tight mb-4 md:mb-0">
@@ -167,7 +173,7 @@ export default function Home() {
             </h1>
           </div>
           {/* Kanan: Deskripsi */}
-          <div class="md:w-[35%] w-full flex justify-center md:justify-normal">
+          <div  class="md:w-[35%] w-full flex justify-center md:justify-normal">
             <p class="text-center md:text-left sm:text-lg text-black max-w-md font-normal">
               Kami menghadirkan cara baru untuk mengenal dan melestarikan budaya
               Indonesia. Pilih tema yang ingin kamu eksplorasi, mulai dari
@@ -177,27 +183,27 @@ export default function Home() {
         </div>
       </section>
 
-      <section class="w-full bg-white mt-20 px-4 sm:px-8">
+      <section data-aos="fade-up"  class="w-full bg-white mt-20 px-4 sm:px-8">
         <div class="grid grid-cols-1 gap-10 max-w-7xl mx-auto">
           <LongCard
             title="Mainan & Permainan Rakyat"
             description="Dengarkan alat musik tradisional dan temukan cerita di baliknya."
-            imgSrc="/src/assets/images/permainantradisional.png"
+            imgSrc="/src/assets/images/home/permainantradisional.png"
           />
           <LongCard
             title="Ritual & Tradisi Lokal"
             description="Kenali upacara adat dari berbagai daerah, sarat makna dan filosofi hidup."
-            imgSrc="/src/assets/images/ritual-tradisi.png"
+            imgSrc="/src/assets/images/home/ritual-tradisi.png"
           />
           <LongCard
             title="Warisan Sastra Nusantara"
             description="Jelajahi naskah kuno, aksara daerah, hingga pantun dan syair klasik."
-            imgSrc="/src/assets/images/warisan-nusantra.png"
+            imgSrc="/src/assets/images/home/warisan-nusantra.png"
           />
           <LongCard
             title="Nilai & Kearifan Lokal"
             description="Pelajari kearifan tradisional dan filosofi hidup yang diwariskan turun-temurun."
-            imgSrc="/src/assets/images/nilai-kearifan.png"
+            imgSrc="/src/assets/images/home/nilai-kearifan.png"
           />
         </div>
       </section>
@@ -223,30 +229,30 @@ export default function Home() {
         {/* Grid fitur 1 kolom mobile, 3 kolom sm ke atas */}
         <div class="w-full grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-7 md:gap-8">
           <CardPrimary
-            imgSrc="/src/assets/images/globe.svg"
+            imgSrc="/src/assets/images/icons/globe.svg"
             title="Eksplorasi Seni & Musik"
             description="Dengarkan alat musik tradisional dan temukan cerita di baliknya."
           />
           <CardPrimary
-            imgSrc="/src/assets/images/hand-fist.svg"
+            imgSrc="/src/assets/images/icons/hand-fist.svg"
             title="Galeri Pakaian Adat"
             description="Jelajahi filosofi dan makna di balik busana tradisional dari berbagai daerah."
           />
           <CardPrimary
-            imgSrc="/src/assets/images/rocket.svg"
+            imgSrc="/src/assets/images/icons/rocket.svg"
             title="Arsitektur Tradisional"
             description="Jelajahi keunikan rumah adat Indonesia dan nilai filosofinya."
           />
         </div>
 
         <img
-          src="/src/assets/images/budaya-warisan.png"
+          src="/src/assets/images/home/budaya-warisan.png"
           alt=""
           class="w-full mt-8 rounded-3xl object-cover"
         />
       </section>
 
-      <section class="-mx-5 mt-[160px] px-15 bg-cover bg-[url('/src/assets/images/budaya-nusantara.png')] h-[690px] flex flex-col justify-end">
+      <section class="-mx-5 mt-[160px] px-15 bg-cover bg-[url('/src/assets/images/home/budaya-nusantara.png')] h-[690px] flex flex-col justify-end">
         <span class="block w-max mx-auto lg:m-0 px-5 py-2 italic rounded-full border border-white text-white text-xs sm:text-sm font-medium backdrop-blur bg-transparent">
           Warisan Jadi Inspirasi
         </span>
